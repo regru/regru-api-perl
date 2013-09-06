@@ -12,7 +12,7 @@ SYNOPSYS
             say $response->get('user_id');
         }
         else {
-            die "Error code: " . $response->get_error_code . ", Error text: " . $response->get_error_text;
+            die "Error code: " . $response->error_code . ", Error text: " . $response->error_text;
         }
 
 DESCRIPTION
@@ -20,72 +20,75 @@ DESCRIPTION
     category is stored in it's own namespace, and can be accessed through
     $client->$namespace method. For example,
 
-            $client->user->nop
+        $client->user->nop
 
     makes call to user/nop API method
     <https://www.reg.ru/support/help/API-version2#user_nop>
 
     All API methods return Regru::API::Response object.
 
-            my $response = $client->domain->get_premium;
+        my $response = $client->domain->get_premium;
 
-            if ($response->is_success) {
-                    # answer params can be get with C<$response->get($param_name)> method
-                    my $domains = $response->get('domain');
-                    for my $domain_info (@$domains) {
-                            say "Name: " . $domain_info->{ name } . ", price: " . $domain_info->{ price };
-                    }
+        if ($response->is_success) {
+            # answer params can be get with C<$response->get($param_name)> method
+            my $domains = $response->get('domain');
+            for my $domain_info (@$domains) {
+                say "Name: " . $domain_info->{ name } . ", price: " . $domain_info->{ price };
             }
-            else {
-                    ... 
-            }
+        }
+        else {
+            ... 
+        }
 
 SUBROUTINES/METHODS
   new
-            my $client = Regru::API->new(username => 'test', password => 'test');
-            my $response = $client->nop;
-            # another cool code here...
+        my $client = Regru::API->new(username => 'test', password => 'test');
+        my $response = $client->nop;
+        # another cool code here...
 
-            # and without authentication:
-            my $client = Regru::API->new;
+        # and without authentication:
+        my $client = Regru::API->new;
 
-            my $response = $client->user->nop; # user/nop doesn't require authentication
-            say 'ok' if $response->is_success;
+        my $response = $client->user->nop; # user/nop doesn't require authentication
+        say 'ok' if $response->is_success;
 
     Another options for new():
 
     lang
-
-    Sets language for error messages.
+        Sets language for error messages.
 
             my $client = Regru::API->new(username => 'test1', password => 'test', lang => 'ru');
-            print $client->nop->get_error_text; # will print "Ошибка аутентификации по паролю"
+            print $client->nop->error_text; # will print "Ошибка аутентификации по паролю"
 
     io_encoding
+        Sets encoding for input and output data.
 
-    Sets encoding for input and output data.
+            my $client = Regru::API->new(
+                username    => 'test',
+                password    => 'test',
+                io_encoding => 'cp1251'
+            );
+            my $response = $client->user->create(
+                user_login      => 'othertest',
+                user_password   => '111',
+                user_email      => 'test@test.ru',
+                user_first_name => $cp1251_encoded_name
+            );
 
-        my $client = Regru::API->new(
-            username    => 'test',
-            password    => 'test',
-            io_encoding => 'cp1251'
-        );
-        my $response = $client->user->create(
-            user_login      => 'othertest',
-            user_password   => '111',
-            user_email      => 'test@test.ru',
-            user_first_name => $cp1251_encoded_name
-        );
+    debug
+        Debug messages will be printed to STDERR.
+
+            my $client = Regru::API->new(debug => 1);
 
   nop
     Does nothing, for testing purpose. Returns user_id and login for
     authorized_clients.
 
-            my $response = $client->nop;
-            if ($response->is_success) {
-                    my $user_id = $response->get('user_id');
-                    my $login = $response->get('login');
-            }
+        my $response = $client->nop;
+        if ($response->is_success) {
+            my $user_id = $response->get('user_id');
+            my $login = $response->get('login');
+        }
 
 AUTHOR
     Polina Shubina, "<shubina at reg.ru>"

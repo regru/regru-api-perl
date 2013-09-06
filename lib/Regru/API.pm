@@ -31,7 +31,7 @@ our $VERSION = '0.01';
         say $response->get('user_id');
     }
     else {
-        die "Error code: " . $response->get_error_code . ", Error text: " . $response->get_error_text;
+        die "Error code: " . $response->error_code . ", Error text: " . $response->error_text;
     }
 
 
@@ -83,7 +83,7 @@ Another options for new():
 Sets language for error messages.
 
     my $client = Regru::API->new(username => 'test1', password => 'test', lang => 'ru');
-    print $client->nop->get_error_text; # will print "Ошибка аутентификации по паролю"
+    print $client->nop->error_text; # will print "Ошибка аутентификации по паролю"
 
 
 =item io_encoding
@@ -103,11 +103,11 @@ Sets encoding for input and output data.
         user_first_name => $cp1251_encoded_name
     );
 
-=item log
+=item debug
     
-Sets log filehandle or filename for API requests logging. Unnecessary option, actions won't be logged if not provided.
+Debug messages will be printed to STDERR.
     
-    my $client = Regru::API->new(log => $fh);
+    my $client = Regru::API->new(debug => 1);
 
 =back
 

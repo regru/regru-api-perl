@@ -10,13 +10,14 @@ has 'namespace' => ( is => 'ro', isa => 'Str');
 
 =head1 NAME
 
-	Regru::API::Category - parent handler for all categories handlers.
+    Regru::API::Category - parent handler for all categories handlers.
 
 =cut
 
 sub AUTOLOAD {
-	my $self = shift;
-	# сделать зпрос к АПИ
+    my $self = shift;
+    
+    # сделать зпрос к АПИ
 }
 
 

@@ -1,7 +1,9 @@
 package Regru::API::Response;
 use Modern::Perl;
 
-use Moose;
+# use Moose;
+
+use Moo;
 
 has 'success' => ( is => 'ro', isa => 'Bool' );
 has [ 'error_text', 'error_code' ] => ( is => 'ro', isa => 'String' );
