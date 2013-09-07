@@ -2,8 +2,16 @@ package Regru::API::User;
 use Modern::Perl;
 use parent 'Regru::API::Category';
 
+use Moo;
+extends 'Regru::API::Category';
+
+
 my @methods = qw/nop create get_statistics get_balance refill_balance/;
 my $namespace = 'user';
+
+has '+methods' => ( is => 'ro', default => sub { \@methods });
+has '+namespace' => (is => 'ro', default => sub { $namespace } );
+
 
 
 =head1 NAME
@@ -64,14 +72,6 @@ Options:
 =back
 
 =cut
-
-sub new {
-    my $class = shift;
-
-    my $self = $class->SUPER::new(@_, methods => \@methods, namespace => $namespace );
-    return $self;
-}
-
 
 
 1;

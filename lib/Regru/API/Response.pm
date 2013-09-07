@@ -1,13 +1,14 @@
 package Regru::API::Response;
 use Modern::Perl;
-
+use Data::Dumper;
 # use Moose;
 
 use Moo;
 
-has 'success' => ( is => 'ro', isa => 'Bool' );
-has [ 'error_text', 'error_code' ] => ( is => 'ro', isa => 'String' );
-has 'error_params' => ( is => 'ro', isa => 'HashRef' );
+
+has [ 'error_text', 'error_code', 'is_success', 'error_params' ] => ( is => 'rw' );
+has 'raw_content' => (is => 'ro', trigger => \&_parse_answer );
+has 'answer' => ( is => 'rw', default => sub { return {}; });
 
 =head1 NAME 
 
@@ -39,9 +40,7 @@ Params for error text.
 
 =cut
 
-sub new {
-    # get HTTP::Response object, parse data and fill object fields
-}
+
 
 =head2 get
 
@@ -55,6 +54,30 @@ Returns param value from API response, if API call is succeeded.
 =cut
 
 sub get {
+	my $self = shift;
+	my $attr_name = shift;
+
+	my $answer = $self->answer;
+	return $answer->{ $attr_name };
+}
+
+sub _parse_answer {
+	my $self = shift;
+	my $raw_content = shift;
+
+	require JSON;
+	my $decoded = JSON->new->decode($raw_content);
+	my $success = $decoded->{ result } eq 'success';
+	$self->is_success($success);
+	if ($success) {
+		my $answer = $decoded->{ answer };
+		$self->answer($answer);
+	}
+	else {
+		$self->error_code($decoded->{ error_code });
+		$self->error_text($decoded->{ error_text });
+		$self->error_params($decoded->{ error_params });
+	}
 
 }
 

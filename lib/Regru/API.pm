@@ -4,9 +4,14 @@ use 5.006;
 use strict;
 use warnings FATAL => 'all';
 use Modern::Perl;
+use Data::Dumper;
 
+use Moo;
 
-use Regru::API::User;
+extends 'Regru::API::Category';
+
+my @methods = qw/nop reseller_nop get_user_id get_service_id/;
+has '+methods' => (is => 'ro', default => sub { return \@methods });
 
 =head1 NAME
 
@@ -114,8 +119,13 @@ Debug messages will be printed to STDERR.
 
 =cut
 
-sub new {
+sub user {
+    my $self = shift;
+
+    require Regru::API::User;
+    return Regru::API::User->new;
 }
+
 
 =head2 nop
 
@@ -130,17 +140,18 @@ Does nothing, for testing purpose. Returns user_id and login for authorized_clie
 
 =cut
 
-sub nop {
-}
+
+# sub nop {
+# }
 
 
-# Method for API call
-sub call {
+# # Method for API call
+# sub call {
 
-    # serialize params into request
-    # make API call with LWP::UserAgent (for example)
-    # create Regru::API::Response object and return it 
-}
+#     # serialize params into request
+#     # make API call with LWP::UserAgent (for example)
+#     # create Regru::API::Response object and return it 
+# }
 
 =head1 AUTHOR
 
