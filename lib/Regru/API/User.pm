@@ -1,9 +1,8 @@
 package Regru::API::User;
 use Modern::Perl;
-use parent 'Regru::API::Category';
 
 use Moo;
-extends 'Regru::API::Category';
+extends 'Regru::API::NamespaceHandler';
 
 
 my @methods = qw/nop create get_statistics get_balance refill_balance/;

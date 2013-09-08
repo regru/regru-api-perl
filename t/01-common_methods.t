@@ -4,13 +4,13 @@ use Test::More;
 use_ok('Regru::API');
 my $client = Regru::API->new(username => 'test', password => 'test');
 
-isa_ok($client, 'Regru::API::Category');
+isa_ok($client, 'Regru::API::NamespaceHandler', 'Inheritance test');
 
 
 # Функции общего назначения
 my $regru_response = $client->nop;
 
-ok($regru_response->is_success, 'Success answer test');
+ok($regru_response->is_success, 'Success nop test');
 is($regru_response->get('user_id'), 0, 'Test user id check');
 ok($regru_response->get('login'));
 

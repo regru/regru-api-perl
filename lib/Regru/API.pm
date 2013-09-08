@@ -5,13 +5,32 @@ use strict;
 use warnings FATAL => 'all';
 use Modern::Perl;
 use Data::Dumper;
+use List::MoreUtils 'any';
+use Carp;
 
 use Moo;
 
-extends 'Regru::API::Category';
-
 my @methods = qw/nop reseller_nop get_user_id get_service_id/;
-has '+methods' => (is => 'ro', default => sub { return \@methods });
+my @namespaces = qw/user domain/;
+
+
+{
+    # Генерация обработчиков для пространств имен
+    no strict 'refs';
+    for my $namespace (@namespaces) {
+        my $sub_name = 'Regru::API::'.$namespace;
+        *{ $sub_name } = sub {
+            my $self = shift;
+
+            return $self->_get_namespace_handler($namespace, @_);
+        }
+    }
+}
+
+
+extends 'Regru::API::NamespaceHandler';
+
+has '+methods' => ( is => 'ro', default => sub { \@methods } );
 
 =head1 NAME
 
@@ -119,13 +138,42 @@ Debug messages will be printed to STDERR.
 
 =cut
 
-sub user {
+=begin comment
+
+=head2 methods
+
+Moo getter for the list of common API methods. 
+
+=head2 namespace
+
+Getter for namespace of common API methods.
+
+=end comment
+
+=head2 user
+
+Methods gives access to user/ namespace of API calls. E.g.
+
+    $api->user->nop 
+
+will call user/nop API method.
+
+=cut
+
+
+
+
+sub _get_namespace_handler {
     my $self = shift;
+    my $namespace = shift;
 
-    require Regru::API::User;
-    return Regru::API::User->new;
+    my $class = 'Regru::API::' . ucfirst($namespace);
+    eval "require $class";
+    croak $@ if $@;
+    my %params
+        = map { $_ => $self->$_; } qw/username password io_encoding lang debug/;
+    return $class->new( @_, %params );
 }
-
 
 =head2 nop
 
@@ -140,17 +188,15 @@ Does nothing, for testing purpose. Returns user_id and login for authorized_clie
 
 =cut
 
-
 # sub nop {
 # }
-
 
 # # Method for API call
 # sub call {
 
 #     # serialize params into request
 #     # make API call with LWP::UserAgent (for example)
-#     # create Regru::API::Response object and return it 
+#     # create Regru::API::Response object and return it
 # }
 
 =head1 AUTHOR
