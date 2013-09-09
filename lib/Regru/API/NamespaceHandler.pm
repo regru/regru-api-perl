@@ -8,9 +8,12 @@ use URI::Encode 'uri_encode';
 use List::MoreUtils 'any';
 use Carp;
 use Regru::API::Response;
+use JSON::XS;
+use URI;
 
 use Memoize;
 memoize('_get_ua');
+memoize('_get_json_xs');
 
 has 'methods' => (
     is  => 'ro',
@@ -22,6 +25,24 @@ has 'methods' => (
 has 'namespace' => ( is => 'ro', default => sub {q{}} );
 has [ 'username', 'password', 'io_encoding', 'lang', 'debug' ] =>
     ( is => 'ro' );
+
+sub BUILD {
+    my $self = shift;
+
+    {
+        no strict 'refs';
+        no warnings 'redefine';
+        for my $method ( @{ $self->methods } ) {
+            my $sub_name = ref($self) . '::' . $method;
+            *{$sub_name} = sub {
+                my $self = shift;
+
+                return $self->_api_call( $method, @_ );
+                }
+        }
+        use warnings;
+    }
+}
 
 my $api_url = "http://localhost:3000/api/regru2/";
 
@@ -80,26 +101,26 @@ And then add new namespace to @namespaces var in Regru::API
 
 =cut
 
-use vars '$AUTOLOAD';
+# use vars '$AUTOLOAD';
 
-sub AUTOLOAD {
-    my $self = shift;
+# sub AUTOLOAD {
+#     my $self = shift;
 
-    my $namespace = $self->namespace;
+#     my $namespace = $self->namespace;
 
-    # сделать запрос к АПИ
-    my $called_method = $AUTOLOAD;
-    $called_method =~ s/^.*:://;
+#     # сделать запрос к АПИ
+#     my $called_method = $AUTOLOAD;
+#     $called_method =~ s/^.*:://;
 
-    if ( any { $_ eq $called_method } @{ $self->methods } ) {
-        return $self->_api_call( $namespace => $called_method, @_ );
-    }
-    else {
-        croak "API call $called_method is undefined.";
-    }
-}
+#     if ( any { $_ eq $called_method } @{ $self->methods } ) {
+#         return $self->_api_call( $namespace => $called_method, @_ );
+#     }
+#     else {
+#         croak "API call $called_method is undefined.";
+#     }
+# }
 
-sub DESTROY { }
+# sub DESTROY { }
 
 sub _debug_log {
     my $self    = shift;
@@ -109,32 +130,36 @@ sub _debug_log {
 }
 
 sub _api_call {
-    my $self      = shift;
-    my $namespace = shift;
-    my $method    = shift;
-    my %params    = @_;
+    my $self   = shift;
+    my $method = shift;
+    my %params = @_;
 
-    my $ua  = $self->_get_ua;
-    my $url = $api_url . $namespace;
+    my $ua        = $self->_get_ua;
+    my $namespace = $self->namespace;
+    my $url       = $api_url . $namespace;
     $url .= '/' if $namespace;
     $url .= $method . '?';
-    $params{username}      = $self->username;
-    $params{password}      = $self->password;
-    $params{output_format} = 'json';
-    $params{lang}          = $self->lang if $self->lang;
-    $params{io_encoding}   = $self->io_encoding if $self->io_encoding;
+
+    my %post_params = (
+        username      => $self->username,
+        password      => $self->password,
+        output_format => 'json',
+        input_format => 'json'
+    );
+    $post_params{ lang } = $self->lang if defined $self->lang;
+    $post_params{ io_encoding } = $self->io_encoding if defined $self->io_encoding;
+
 
     $self->_debug_log(
         "API call: $namespace/$method, params: " . Dumper( \%params ) );
 
-    no warnings;
-    my @param_pairs = map { $_ . '=' . uri_encode( $params{$_} ) }
-        keys %params;
-    use warnings;
-    $url .= join '&' => @param_pairs;
-
     $self->_debug_log("URI called: $url");
-    my $response = $ua->get($url);
+
+    # my $json = JSON::XS->new->utf8->encode(\%params);
+    my $json = $self->_get_json_xs->encode(\%params);
+
+    my $response = $ua->post($url, [%post_params, input_data => $json]);
+
     if ( $response->is_success ) {
         my $raw_content = $response->decoded_content;
         $self->_debug_log( "Raw content: " . $raw_content );
@@ -153,6 +178,14 @@ sub _get_ua {
     my $ua = LWP::UserAgent->new;
     $ua->timeout(10);
     return $ua;
+}
+
+
+
+sub _get_json_xs {
+    my $self = shift;
+
+    return JSON::XS->new->utf8;
 }
 
 1;
