@@ -11,3 +11,5 @@ my @methods
 
 has '+methods' => ( is => 'ro', default => sub { \@methods } );
 has '+namespace' => ( default => sub {'folder'} );
+
+1;
