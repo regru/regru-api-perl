@@ -11,7 +11,7 @@ use Carp;
 use Moo;
 
 my @methods = qw/nop reseller_nop get_user_id get_service_id/;
-my @namespaces = qw/user domain/;
+my @namespaces = qw/user domain zone bill folder service/;
 
 use Memoize;
 memoize('_get_namespace_handler');
