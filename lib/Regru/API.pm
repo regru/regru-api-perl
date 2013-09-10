@@ -13,9 +13,11 @@ use Moo;
 my @methods = qw/nop reseller_nop get_user_id get_service_id/;
 my @namespaces = qw/user domain/;
 
+use Memoize;
+memoize('_get_namespace_handler');
 
 {
-    # Генерация обработчиков для пространств имен
+    # Namespace handlers generation
     no strict 'refs';
     for my $namespace (@namespaces) {
         my $sub_name = 'Regru::API::'.$namespace;
@@ -27,9 +29,9 @@ my @namespaces = qw/user domain/;
     }
 }
 
-
 extends 'Regru::API::NamespaceHandler';
 
+# for common methods, such as nop, reseller_nop, etc.
 has '+methods' => ( is => 'ro', default => sub { \@methods } );
 
 =head1 NAME
@@ -68,6 +70,8 @@ $client->$namespace method. For example,
 
 makes call to user/nop API method L<https://www.reg.ru/support/help/API-version2#user_nop>
 
+Complete Reg.ru API 2 Documentation can be found here: L<https://www.reg.ru/support/help/API-version2>.
+
 All API methods return L<Regru::API::Response> object.
 
     my $response = $client->domain->get_premium;
@@ -82,6 +86,50 @@ All API methods return L<Regru::API::Response> object.
     else {
         ... 
     }
+
+
+All params for API call is passed to API method call as a hash;
+
+
+    my $refill_balance_response = $client->user->refill_balance(
+        pay_type => 'WM',
+        wmid     => '123456789012',
+        currency => 'RUR',
+        amount   => 100
+    );
+
+
+
+    my $jsondata = {
+        contacts => {
+            descr    => 'Vschizh site',
+            person   => 'Svyatoslav V Ryurik',
+            person_r => 'Рюрик Святослав Владимирович',
+            passport =>
+                '22 44 668800 выдан по месту правления 01.09.1164',
+            birth_date => '01.01.1970',
+            p_addr =>
+                '12345, г. Вщиж, ул. Княжеска, д.1, Рюрику Святославу Владимировичу, князю Вщижскому',
+            phone   => '+7 495 5555555',
+            e_mail  => 'test@reg.ru',
+            country => 'RU',
+        },
+        nss => {
+            ns0 => 'ns1.reg.ru',
+            ns1 => 'ns2.reg.ru',
+        },
+        domain_name => 'vschizh.su',
+    };
+
+    my $domain_create_answer = $client->domain->create(%$jsondata);
+
+    if ($domain_create_answer->is_success) {
+        say "Domain create request succeeded";
+    } 
+    else {
+        die $domain_create_answer->error_text;
+    }
+
 
 =head1 SUBROUTINES/METHODS
 
@@ -158,9 +206,16 @@ Methods gives access to user/ namespace of API calls. E.g.
 
 will call user/nop API method.
 
+
+=head2 domain
+
+Gives access to domain/ namespace of API calls.
+
+
+=head2 zone
+
+
 =cut
-
-
 
 
 sub _get_namespace_handler {
@@ -188,16 +243,6 @@ Does nothing, for testing purpose. Returns user_id and login for authorized_clie
 
 =cut
 
-# sub nop {
-# }
-
-# # Method for API call
-# sub call {
-
-#     # serialize params into request
-#     # make API call with LWP::UserAgent (for example)
-#     # create Regru::API::Response object and return it
-# }
 
 =head1 AUTHOR
 

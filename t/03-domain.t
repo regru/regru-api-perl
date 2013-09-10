@@ -1,6 +1,7 @@
 use Test::More;
 use Regru::API;
 use utf8;
+use Data::Dumper;
 
 my ( $username, $password ) = ( 'test', 'test' );
 my $client = Regru::API->new( username => $username, password => $password );
@@ -38,7 +39,7 @@ my $jsondata = {
         person   => 'Svyatoslav V Ryurik',
         person_r => 'Рюрик Святослав Владимирович',
         passport =>
-            '22 44 668800 выдан по месту правления 01.09.1164',
+            '34 02 651241 выдан 48 о/м г.Москвы 26.12.1999',
         birth_date => '01.01.1970',
         p_addr =>
             '12345, г. Вщиж, ул. Княжеска, д.1, Рюрику Святославу Владимировичу, князю Вщижскому',
@@ -53,31 +54,150 @@ my $jsondata = {
     domain_name => 'vschizh.su',
 };
 
+my $domain_create_answer = $client->domain->create(%$jsondata);
+ok( $domain_create_answer->is_success, 'domain/create API call test' );
+is( $domain_create_answer->get('bill_id'),
+    '1234', 'domain/create bill id test' );
 
+$jsondata = {
+    contacts => {
+        descr    => 'Vschizh site',
+        person   => 'Svyatoslav V Ryurik',
+        person_r => 'Рюрик Святослав Владимирович',
+        passport =>
+            '22 44 668800, выдан по месту правления 01.09.1999',
+        birth_date => '01.01.1980',
+        p_addr =>
+            '12345, г. Вщиж, ул. Княжеска, д.1, Рюрику Святославу Владимировичу, князю Вщижскому',
+        phone   => '+7 495 8102233',
+        e_mail  => 'test@reg.ru',
+        country => 'RU',
+    },
+    nss => {
+        ns0 => 'ns1.reg.ru',
+        ns1 => 'ns2.reg.ru',
+    },
+    domains => [
+        {   dname           => 'vschizh.ru',
+            srv_certificate => 'free',
+            srv_parking     => 'free'
+        },
+        { dname => 'vschizh.su', srv_webfwd => '' },
+    ],
+};
 
-# my $domain_create_answer = $client->domain->create(%$jsondata);
-# die Dumper $domain_create_answer;
+my $multiple_domains_create_answer = $client->domain->create(%$jsondata);
+ok( $multiple_domains_create_answer->is_success,
+    'domain/create (multiple) API call test'
+);
 
- # "error_params" : {
- #      "error_detail" : {
- #         "e_mail" : {
- #            "error_text" : "No such email address",
- #            "error_code" : "VALUE_INVALID"
- #         },
- #         "passport" : {
- #            "error_text" : "Passport is specified in incorrect format for the given country",
- #            "error_code" : "VALUE_INVALID"
- #         },
- #         "birth_date" : {
- #            "error_text" : "Birth date is specified incorrectly",
- #            "error_code" : "VALUE_INVALID"
- #         },
- #         "phone" : {
- #            "error_text" : "Value of &laquo;Phone&raquo; field is incorrect",
- #            "error_code" : "VALUE_INVALID"
- #         }
- #      }
- #   },
+is( $multiple_domains_create_answer->get('bill_id'),
+    '1234', 'domain/create bill_id test (multiple)' );
+my $domains = $multiple_domains_create_answer->get('domains');
+is( scalar @$domains, 2, 'multiple domains total count test' );
+
+my $domain_transfer_answer
+    = $client->domain->transfer( authinfo => '1231234563454' );
+
+is( $domain_transfer_answer->error_code, 'DOMAINS_NOT_FOUND' );
+
+$jsondata = {
+    contacts => {
+        descr    => 'Vschizh site',
+        person   => 'Svyatoslav V Ryurik',
+        person_r => 'Рюрик Святослав Владимирович',
+        passport =>
+            '22 44 668800, выдан по месту правления 01.09.1999',
+        birth_date => '01.01.1980',
+        p_addr =>
+            '12345, г. Вщиж, ул. Княжеска, д.1, Рюрику Святославу Владимировичу, князю Вщижскому',
+        phone   => '+7 495 8102233',
+        e_mail  => 'test@reg.ru',
+        country => 'RU',
+    },
+    nss => {
+        ns0 => 'ns1.reg.ru',
+        ns1 => 'ns2.reg.ru',
+    },
+    domains => [
+        { dname => 'vschizh.ru', price => 225 },
+
+# или заказ в рассрочку: { dname => 'vschizh.ru', price => 2500, instalment => 1 },
+        { dname => 'vschizh.su', price => 400 },
+    ],
+};
+
+ok( $client->domain->set_rereg_bids(%$jsondata)->is_success,
+    'domain/set_rereg_bids API call test' );
+ok( $client->domain->get_user_rereg_bids->is_success,
+    'domain/get_user_rereg_bids API call test'
+);
+ok( $client->domain->get_docs_upload_uri( dname => 'test.ru' )->is_success,
+    'domain/get_docs_upload_uri API call test' );
+
+my $update_private_person_flag_answer
+    = $client->domain->update_private_person_flag(
+    private_person_flag => 0,
+    dname               => 'test.ru'
+    );
+ok( $update_private_person_flag_answer->is_success,
+    'domain/update_private_person_flag API call test'
+);
+is( $update_private_person_flag_answer->get('pp_flag'),
+    'is cleared', 'domain/update_private_person_flag answer test' );
+ok( $client->domain->register_ns(
+        dname => 'test.com',
+        ns0   => 'ns0.test.com'
+        )->is_success,
+    'domain/register_ns API call test'
+);
+
+ok( $client->domain->delete_ns( dname => 'test.com', ns0 => 'ns0.teset.com' )
+        ->is_success,
+    'domain/delete_ns API call test'
+);
+
+ok( $client->domain->get_nss( dname => 'test.com' )->is_success,
+    'domain/get_nss API call test' );
+
+ok( $client->domain->update_nss(
+        domains => [ { dname => 'test.ru' } ],
+        nss => { 'ns0' => 'ns1.reg.ru', ns1 => 'ns2.reg.ru' }
+        )->is_success,
+    'domain/update_nss API call test'
+);
+
+ok( $client->domain->delegate( domains => [ { dname => 'test.ru' } ] )
+        ->is_success,
+    'domain/delegate API call test'
+);
+
+ok( $client->domain->undelegate( domains => [ { dname => 'test.ru' } ] )
+        ->is_success,
+    'domain/undelegate API call test'
+);
+
+ok( $client->domain->transfer_to_another_account(
+        domains       => [ { dname => 'test.ru' } ],
+        new_user_name => 'not_test'
+        )->is_success,
+    'domain/transfer_to_another_account API call test'
+);
+
+# ok( $client->domain->look_at_entering_list->is_success,
+#     'domain/look_at_entering_list API call test'
+# );
+
+# die Dumper ($client->domain->look_at_entering_list);
+
+# ok( $client->domain->accept_or_refuse_entering_list->is_success,
+#     'domain/accept_or_refuse_entering_list API call test'
+
+# );
+
+ok($client->domain->cancel_transfer(dname => 'test.ru'), 'domain/cancel_transfer API call test');
+ok($client->domain->request_to_transfer(domains => [{domain_name => 'test.ru'}, {dname => 'test.ru'}]), 'domain/request_to_transfer API call test');
+
 
 
 done_testing();
