@@ -1,5 +1,4 @@
 package Regru::API;
-
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
@@ -38,7 +37,7 @@ has '+methods' => ( is => 'ro', default => sub { \@methods } );
 
 =encoding utf8
 
-Regru::API - The great new Regru::API!
+Regru::API - perl client for reg.ru API 2.
 
 =head1 VERSION
 
@@ -51,7 +50,7 @@ our $VERSION = '0.01';
 =head1 SYNOPSYS
 
     my $client = Regru::API->new(username => 'test', password => 'test');
-    my $response = $client->nop;
+    my $response = $client->nop; # makes call for L<https://www.reg.ru/support/help/API-version2#nop>
 
     if ($response->is_success) {
         say $response->get('user_id');
@@ -63,8 +62,9 @@ our $VERSION = '0.01';
 
 =head1 DESCRIPTION
 
-API calls are divided into categories - user, domain, zone, etc. Each category is stored in it's own namespace, and can be accessed through
-$client->$namespace method. For example,
+API calls are divided into categories - user, domain, zone, user, folder, bill, service. 
+Each category is stored in it's own namespace, and can be accessed through
+C<$client->$namespace method>. For example,
     
     $client->user->nop
 
@@ -131,6 +131,10 @@ All params for API call is passed to API method call as a hash;
     }
 
 
+B<NB>: All input params for call are passed in JSON format.
+
+To get service answer, use C<$response->get($param_name)> method. C<$param_name> is the answer field. 
+
 =head1 SUBROUTINES/METHODS
 
 =head2 new
@@ -186,36 +190,6 @@ Debug messages will be printed to STDERR.
 
 =cut
 
-=begin comment
-
-=head2 methods
-
-Moo getter for the list of common API methods. 
-
-=head2 namespace
-
-Getter for namespace of common API methods.
-
-=end comment
-
-=head2 user
-
-Methods gives access to user/ namespace of API calls. E.g.
-
-    $api->user->nop 
-
-will call user/nop API method.
-
-
-=head2 domain
-
-Gives access to domain/ namespace of API calls.
-
-
-=head2 zone
-
-
-=cut
 
 
 sub _get_namespace_handler {
@@ -223,7 +197,7 @@ sub _get_namespace_handler {
     my $namespace = shift;
 
     my $class = 'Regru::API::' . ucfirst($namespace);
-    eval "require $class";
+    eval qq{require $class}; 
     croak $@ if $@;
     my %params
         = map { $_ => $self->$_; } qw/username password io_encoding lang debug/;
