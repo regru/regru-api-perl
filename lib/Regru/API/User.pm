@@ -8,9 +8,11 @@ extends 'Regru::API::NamespaceHandler';
 my @methods = qw/nop create get_statistics get_balance refill_balance/;
 my $namespace = 'user';
 
-has '+methods' => ( is => 'ro', default => sub { \@methods });
 has '+namespace' => (is => 'ro', default => sub { $namespace } );
 
+sub methods { \@methods };
+
+__PACKAGE__->_create_methods;
 
 
 =head1 NAME

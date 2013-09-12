@@ -1,15 +1,14 @@
 package Regru::API;
-use 5.006;
+use v5.10.1;
 use strict;
-use warnings FATAL => 'all';
-use Modern::Perl;
+use warnings;
 use Data::Dumper;
 use List::MoreUtils 'any';
 use Carp;
 
 use Moo;
 
-my @methods = qw/nop reseller_nop get_user_id get_service_id/;
+my @methods    = qw/nop reseller_nop get_user_id get_service_id/;
 my @namespaces = qw/user domain zone bill folder service/;
 
 use Memoize;
@@ -19,19 +18,22 @@ memoize('_get_namespace_handler');
     # Namespace handlers generation
     no strict 'refs';
     for my $namespace (@namespaces) {
-        my $sub_name = 'Regru::API::'.$namespace;
-        *{ $sub_name } = sub {
+        my $sub_name = 'Regru::API::' . $namespace;
+        *{$sub_name} = sub {
             my $self = shift;
 
-            return $self->_get_namespace_handler($namespace, @_);
-        }
+            return $self->_get_namespace_handler( $namespace, @_ );
+            }
     }
 }
 
 extends 'Regru::API::NamespaceHandler';
 
-# for common methods, such as nop, reseller_nop, etc.
-has '+methods' => ( is => 'ro', default => sub { \@methods } );
+sub methods {
+    return \@methods;
+}
+
+__PACKAGE__->_create_methods;
 
 =head1 NAME
 
@@ -190,17 +192,16 @@ Debug messages will be printed to STDERR.
 
 =cut
 
-
-
 sub _get_namespace_handler {
-    my $self = shift;
+    my $self      = shift;
     my $namespace = shift;
 
     my $class = 'Regru::API::' . ucfirst($namespace);
-    eval qq{require $class}; 
+    eval qq{require $class};
     croak $@ if $@;
     my %params
-        = map { $_ => $self->$_; } qw/username password io_encoding lang debug/;
+        = map { $_ => $self->$_; }
+        qw/username password io_encoding lang debug/;
     return $class->new( @_, %params );
 }
 
@@ -216,7 +217,6 @@ Does nothing, for testing purpose. Returns user_id and login for authorized_clie
 
 
 =cut
-
 
 =head1 AUTHOR
 

@@ -4,33 +4,37 @@ use Data::Dumper;
 
 use Moo;
 
-my @getters = qw/error_text error_code is_success error_params is_service_fail answer response/;
-has [@getters] => ( is => 'ro');
+my @getters
+    = qw/error_text error_code is_success error_params is_service_fail response/;
+has [@getters] => ( is => 'ro' );
 
+has 'answer' => ( is => 'ro', default => sub { return {}; } );
 
-sub BUILD {
-    my $self = shift;
+sub BUILDARGS {
+    my $class = shift;
+    my %args  = @_;
 
-    my $response = $self->response;
-    if ( $response->is_success ) {
-        my $raw     = $response->decoded_content;
-        my $json    = Regru::API::NamespaceHandler::get_json();
-        my $decoded = $json->decode($raw);
-        my $success = $decoded->{result} eq 'success';
-        $self->{ is_success } = $success;
-        if ($success) {
-            $self->{ answer } = $decoded->{answer};
-        }
-        else {
-            $self->{ $_ } = $decoded->{ $_ } for qw/error_code error_text error_params/;
-        }
+    my $response = $args{response};
+    my $raw      = $response->decoded_content;
+    my $json     = Regru::API::NamespaceHandler::get_json();
+    my $decoded  = eval { $json->decode($raw); };
+
+    $decoded
+        = { error_code => 'API_FAIL', error_text => 'API response error' }
+        if $@; 
+    # just another API error
+
+    my $success = $decoded->{result} && $decoded->{ result } eq 'success';
+    $args{is_success} = $success;
+    if ($success) {
+        $args{answer} = $decoded->{answer};
     }
     else {
-        $self->{ success } = 0;
-        $self->{ is_service_fail } = 1;
+        $args{$_} = $decoded->{$_} for qw/error_code error_text error_params/;
     }
-}
 
+    return \%args;
+}
 
 =head1 NAME 
 
@@ -111,9 +115,7 @@ sub get {
     my $self      = shift;
     my $attr_name = shift;
 
-    my $answer = $self->answer;
-    return $answer->{$attr_name};
+    return $self->answer->{$attr_name};
 }
-
 
 1;

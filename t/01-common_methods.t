@@ -36,4 +36,5 @@ is( $regru_response->error_text,
 );
 is( $regru_response->error_code, 'PASSWORD_AUTH_FAILED', "Error code check" );
 
+
 done_testing();

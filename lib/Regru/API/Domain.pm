@@ -12,7 +12,11 @@ my @methods = qw/nop get_prices get_suggest get_premium
     look_at_entering_list accept_or_refuse_entering_list cancel_transfer
     request_to_transfer/;
 
-has '+methods' => ( is => 'ro', default => sub { \@methods } );
 has '+namespace' => ( default => sub {'domain'} );
+
+sub methods { \@methods };
+
+__PACKAGE__->_create_methods;
+
 
 1;

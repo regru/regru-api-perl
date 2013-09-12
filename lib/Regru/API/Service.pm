@@ -11,7 +11,11 @@ my @methods
     set_autorenew_flag suspend resume get_deprecated_period upgrade partcontrol_grant
     partcontrol_revoke resend_mail/;
 
-has '+methods' => ( is => 'ro', default => sub { \@methods } );
 has '+namespace' => ( default => sub {'service'} );
+
+sub methods { \@methods };
+__PACKAGE__->_create_methods;
+
+
 
 1;

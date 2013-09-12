@@ -8,32 +8,29 @@ use URI::Encode 'uri_encode';
 use List::MoreUtils 'any';
 use Carp;
 use Regru::API::Response;
-use JSON::XS;
+use JSON;
 use URI;
 
 use Memoize;
 memoize('get_ua');
 memoize('get_json');
 
-has 'methods' => (
-    is  => 'ro',
-    isa => sub {
-        my $self = shift;
-        croak "Type of methods is ARRAY" unless ref $self eq 'ARRAY';
-    }
-);
 has 'namespace' => ( is => 'ro', default => sub {q{}} );
 has [ 'username', 'password', 'io_encoding', 'lang', 'debug' ] =>
     ( is => 'ro' );
 
-sub BUILD {
-    my $self = shift;
+has 'api_url' =>
+    # ( is => 'ro', default => sub {'http://localhost:3000/api/regru2/'} );
+    ( is => 'ro', default => sub {'https://api.reg.ru/api/regru2/'} );
+
+sub _create_methods {
+    my $class = shift;
 
     {
         no strict 'refs';
         no warnings 'redefine';
-        for my $method ( @{ $self->methods } ) {
-            my $sub_name = ref($self) . '::' . $method;
+        for my $method ( @{ $class->methods } ) {
+            my $sub_name = $class . '::' . $method;
             *{$sub_name} = sub {
                 my $self = shift;
 
@@ -44,8 +41,7 @@ sub BUILD {
     }
 }
 
-my $api_url = "http://localhost:3000/api/regru2/";
-# my $api_url = "https://api.reg.ru/api/regru2/";
+sub methods { croak "Absract and must be implemented" }
 
 =head1 NAME
 
@@ -77,7 +73,6 @@ And then add new namespace to @namespaces var in Regru::API
 
 =cut
 
-
 sub _debug_log {
     my $self    = shift;
     my $message = shift;
@@ -92,7 +87,7 @@ sub _api_call {
 
     my $ua        = $self->get_ua;
     my $namespace = $self->namespace;
-    my $url       = $api_url . $namespace;
+    my $url       = $self->api_url . $namespace;
     $url .= '/' if $namespace;
     $url .= $method . '?';
 
@@ -100,36 +95,25 @@ sub _api_call {
         username      => $self->username,
         password      => $self->password,
         output_format => 'json',
-        input_format => 'json'
+        input_format  => 'json'
     );
-    $post_params{ lang } = $self->lang if defined $self->lang;
-    $post_params{ io_encoding } = $self->io_encoding if defined $self->io_encoding;
-
+    $post_params{lang} = $self->lang if defined $self->lang;
+    $post_params{io_encoding} = $self->io_encoding
+        if defined $self->io_encoding;
 
     $self->_debug_log(
         "API call: $namespace/$method, params: " . Dumper( \%params ) );
 
     $self->_debug_log("URI called: $url");
 
-    my $json = $self->get_json->encode(\%params);
+    my $json = $self->get_json->encode( \%params );
 
-    my $response = $ua->post($url, [%post_params, input_data => $json]);
+    my $response = $ua->post( $url, [ %post_params, input_data => $json ] );
 
-    return Regru::API::Response->new(response => $response);
-    # if ( $response->is_success ) {
-    #     my $raw_content = $response->decoded_content;
-    #     $self->_debug_log( "Raw content: " . $raw_content );
-    #     my $api_response
-    #         = Regru::API::Response->new( raw_content => $raw_content );
-    #     return $api_response;
-    # }
-    # else {        
-    #     return Regru::API::Response->new(is_success => 0, service_answer => $response->status_line)
-    #     # die Dumper $response;
-    #     # croak "Not implemented yet.";
-    # }
+    return Regru::API::Response->new( response => $response );
 }
 
+# Memoized
 sub get_ua {
     require LWP::UserAgent;
     my $ua = LWP::UserAgent->new;
@@ -137,12 +121,11 @@ sub get_ua {
     return $ua;
 }
 
-
-
+# Memoized and used in Regru::API::Response
 sub get_json {
     my $self = shift;
 
-    return JSON::XS->new->utf8;
+    return JSON->new->utf8;
 }
 
 1;
