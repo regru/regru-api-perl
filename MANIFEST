@@ -1,0 +1,24 @@
+Changes
+lib/Regru/API.pm
+lib/Regru/API/Bill.pm
+lib/Regru/API/Domain.pm
+lib/Regru/API/Folder.pm
+lib/Regru/API/NamespaceHandler.pm
+lib/Regru/API/Response.pm
+lib/Regru/API/Service.pm
+lib/Regru/API/User.pm
+lib/Regru/API/Zone.pm
+Makefile.PL
+MANIFEST			This list of files
+README
+t/00-load.t
+t/01-common_methods.t
+t/02-user.t
+t/03-domain.t
+t/04-zone.t
+t/05-service.t
+t/06-folder.t
+t/boilerplate.t
+t/manifest.t
+t/pod-coverage.t
+t/pod.t
