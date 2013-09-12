@@ -41,7 +41,7 @@ SKIP: {
 
     $regru_response = $client->get_service_id;
     ok( $regru_response->is_success );
-    is( $regru_response->get('service_id'), '12345', 'Test service_id got' );
+    is( $regru_response->get('service_id'), 12345, 'Test service_id got' );
 
     my $wrong_credentials_client = Regru::API->new(
         username => 'wrong login',

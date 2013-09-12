@@ -36,7 +36,7 @@ SKIP: {
 
     my $refill_balance_response = $client->user->refill_balance(
         pay_type => 'WM',
-        wmid     => '123456789012',
+        wmid     => 123456789012,
         currency => 'RUR',
         amount   => 100
     );
