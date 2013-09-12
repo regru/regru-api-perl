@@ -11,15 +11,12 @@ use Regru::API::Response;
 use JSON;
 use URI;
 
-use Memoize;
-memoize('get_ua');
-memoize('get_json');
-
 has 'namespace' => ( is => 'ro', default => sub {q{}} );
 has [ 'username', 'password', 'io_encoding', 'lang', 'debug' ] =>
     ( is => 'ro' );
 
 has 'api_url' =>
+
     # ( is => 'ro', default => sub {'http://localhost:3000/api/regru2/'} );
     ( is => 'ro', default => sub {'https://api.reg.ru/api/regru2/'} );
 
@@ -113,19 +110,18 @@ sub _api_call {
     return Regru::API::Response->new( response => $response );
 }
 
-# Memoized
 sub get_ua {
+    state $ua;
+    return $ua if defined $ua;
+
     require LWP::UserAgent;
-    my $ua = LWP::UserAgent->new;
-    $ua->timeout(10);
+    $ua = LWP::UserAgent->new;
     return $ua;
 }
 
-# Memoized and used in Regru::API::Response
 sub get_json {
-    my $self = shift;
-
-    return JSON->new->utf8;
+    state $json = JSON->new->utf8;
+    return $json;
 }
 
 1;
