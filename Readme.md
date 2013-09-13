@@ -24,7 +24,7 @@ Version 0.01
 
 API calls are divided into categories - user, domain, zone, user, folder, bill, service. 
 Each category is stored in it's own namespace, and can be accessed through
-`$client-`$namespace method>. For example,
+`$client->$namespace` method. For example,
     
 
     $client->user->nop
