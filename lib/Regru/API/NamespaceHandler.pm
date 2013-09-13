@@ -115,12 +115,14 @@ sub get_ua {
     return $ua if defined $ua;
 
     require LWP::UserAgent;
-    $ua = LWP::UserAgent->new;
+    $ua //= LWP::UserAgent->new;
     return $ua;
 }
 
 sub get_json {
-    state $json = JSON->new->utf8;
+    state $json;
+
+	$json //= JSON->new->utf8;
     return $json;
 }
 

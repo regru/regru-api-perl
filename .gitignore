@@ -16,3 +16,4 @@ pod2htm*.tmp
 pm_to_blib
 Regru-API-*
 Regru-API-*.tar.gz
+*.orig
