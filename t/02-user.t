@@ -1,6 +1,8 @@
 use Test::More;
 use Regru::API;
-use Data::Dumper;
+use Net::Ping;
+
+
 $client = Regru::API->new(
     username    => 'test',
     password    => 'test',
@@ -8,6 +10,10 @@ $client = Regru::API->new(
     io_encoding => 'cp1251',
 );
 my $unauth_client = Regru::API->new;
+
+
+plan skip_all => "Internet connection problem"
+        unless Net::Ping->new->ping('reg.ru');
 
 ok( $client->user->nop->is_success, 'user/nop API call test' );
 

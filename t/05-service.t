@@ -1,8 +1,12 @@
 use Test::More;
 use Data::Dumper;
 use Regru::API;
+use Net::Ping;
 
 my $client = Regru::API->new( username => 'test', password => 'test' );
+
+plan skip_all => "Internet connection problem"
+    unless Net::Ping->new->ping('reg.ru');
 
 ok( $client->service->nop( dname => 'test.ru' )->is_success,
     'service/nop API call test' );

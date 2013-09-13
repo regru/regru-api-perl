@@ -2,9 +2,14 @@ use Test::More;
 use Regru::API;
 use utf8;
 use Data::Dumper;
+use Net::Ping;
+
 
 my ( $username, $password ) = ( 'test', 'test' );
 my $client = Regru::API->new( username => $username, password => $password );
+
+plan skip_all => "Internet connection problem"
+        unless Net::Ping->new->ping('reg.ru');
 
 ok( $client->domain->nop->is_success, 'domain/nop API call test' );
 

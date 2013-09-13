@@ -1,9 +1,13 @@
 use Test::More;
 use Data::Dumper;
 use Regru::API;
+use Net::Ping;
 
 my $client
     = Regru::API->new( username => 'test', password => 'test', lang => 'ru' );
+
+plan skip_all => "Internet connection problem"
+    unless Net::Ping->new->ping('reg.ru');
 
 ok( $client->zone->nop( dname => 'test.ru' )->is_success,
     'zone/nop API call test' );
@@ -12,7 +16,6 @@ SKIP: {
 
     skip "For calling all API functions set ALL_TEST env var to 1", 14
         unless $ENV{ALL_TESTS};
-
 
     ok( $client->zone->add_alias(
             domains   => [ { dname => 'test.ru' } ],

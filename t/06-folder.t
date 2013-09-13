@@ -1,8 +1,11 @@
 use Test::More;
-
+use Net::Ping;
 use Data::Dumper;
 use Regru::API;
 my $client = Regru::API->new( username => 'test', password => 'test' );
+
+plan skip_all => "Internet connection problem"
+    unless Net::Ping->new->ping('reg.ru');
 
 ok( $client->folder->nop( folder_name => 'qqq' )->is_success,
     'folder/nop API call test' );

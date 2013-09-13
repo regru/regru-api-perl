@@ -1,9 +1,11 @@
 use Test::More;
 use Regru::API;
+use Net::Ping;
 
 my $client = Regru::API->new( username => 'test', password => 'test' );
-use Net::Ping;
-my $p = Net::Ping->new;
+
+plan skip_all => "Internet connection problem"
+        unless Net::Ping->new->ping('reg.ru');
 
 ok( $client->bill->nop( bill_id => 1234 )->is_success,
     'bill/nop API call test' );
