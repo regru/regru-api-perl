@@ -190,6 +190,45 @@ Debug messages will be printed to STDERR.
 =back
 
 
+=head1 Error processing
+
+If API returned exception or some bad error, such as 500 internal server error has happened, 
+`$response` will store error information and raw HTTP::Response object with service answer.
+
+=head2 is_success
+
+Returns 1 if API call is succeeded, 0 otherwise.
+
+=head2 error_text
+
+Returns error text if an error occured, default language for error messages is english.
+Language can be set in Regru::API constructor with C<lang> option.
+
+=head2 error_code
+
+Returns error code if an error occured. Full list error codes list is available at L<https://www.reg.ru/support/help/API-version2#std_error_codes>.
+Error code API_FAIL means incorrect answer from API, such as 500 inernal server error.
+
+=head2 error_params
+
+Params for error text. 
+    
+=head2 response
+
+Returns raw HTTP::Response object for further processing.
+
+Sample:
+
+    my $response = $client->api->nop;
+    if ($response->is_success) {
+        # do some stuff
+    }
+    else {
+        print "Error: " . $response->error_code . ", " . $response->error_text;
+    }
+
+
+
 =cut
 
 sub _get_namespace_handler {
@@ -205,29 +244,17 @@ sub _get_namespace_handler {
     return $class->new( @_, %params );
 }
 
-=head2 nop
 
-Does nothing, for testing purpose. Returns user_id and login for authorized_clients.
-
-    my $response = $client->nop;
-    if ($response->is_success) {
-        my $user_id = $response->get('user_id');
-        my $login = $response->get('login');
-    }
-
-
-=cut
 
 =head1 AUTHOR
 
-Polina Shubina, C<< <shubina at reg.ru> >>
+Polina Shubina, C<< <shubina@reg.ru> >>
 
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-regru-api at rt.cpan.org>, or through
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Regru-API>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
-
 
 
 

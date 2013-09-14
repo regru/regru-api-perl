@@ -1,12 +1,12 @@
-# NAME
+## NAME
 
 Regru::API - perl client for reg.ru API 2.
 
-# VERSION
+## VERSION
 
 Version 0.01
 
-# SYNOPSYS
+## SYNOPSYS
 
     my $client = Regru::API->new(username => 'test', password => 'test');
     my $response = $client->nop; # makes call for L<https://www.reg.ru/support/help/API-version2#nop>
@@ -20,7 +20,7 @@ Version 0.01
 
 
 
-# DESCRIPTION
+## DESCRIPTION
 
 API calls are divided into categories - user, domain, zone, user, folder, bill, service. 
 Each category is stored in it's own namespace, and can be accessed through
@@ -101,9 +101,9 @@ __NB__: All input params for call are passed in JSON format.
 
 To get service answer, use `$response->get($param_name)` method. `$param_name` is the answer field. 
 
-# SUBROUTINES/METHODS
+## SUBROUTINES/METHODS
 
-## new
+### new
 
     my $client = Regru::API->new(username => 'test', password => 'test');
     my $response = $client->nop;
@@ -155,29 +155,30 @@ Another options for new():
         my $client = Regru::API->new(debug => 1);
 
 
-# Error processing
+## Error processing
 
 If API returned exception or some bad error, such as 500 internal server error has happened, 
 `$response` will store error information and raw HTTP::Response object with service answer.
 
-## is_success
+### is_success
 
 Returns 1 if API call is succeeded, 0 otherwise.
 
-## error_text
+### error_text
 
 Returns error text if an error occured, default language for error messages is english.
 Language can be set in Regru::API constructor with C<lang> option.
 
-## error_code
+### error_code
 
 Returns error code if an error occured. Full list error codes list is available at L<https://www.reg.ru/support/help/API-version2#std_error_codes>.
+Error code API_FAIL means incorrect answer from API, such as 500 inernal server error.
 
-## error_params
+### error_params
 
 Params for error text. 
     
-## response
+### response
 
 Returns raw HTTP::Response object for further processing.
 
@@ -192,11 +193,11 @@ Sample:
     }
 
 
-# AUTHOR
+## AUTHOR
 
 Polina Shubina, `<shubina@reg.ru>`
 
-# BUGS
+## BUGS
 
 Please report any bugs or feature requests to `bug-regru-api at rt.cpan.org`, or through
 the web interface at [http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Regru-API](http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Regru-API).  I will be notified, and then you'll
@@ -204,7 +205,7 @@ automatically be notified of progress on your bug as I make changes.
 
 
 
-# SUPPORT
+## SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
@@ -231,10 +232,10 @@ You can also look for information at:
 
 
 
-# ACKNOWLEDGEMENTS
+## ACKNOWLEDGEMENTS
 
 
-# LICENSE AND COPYRIGHT
+## LICENSE AND COPYRIGHT
 
 Copyright 2013 Polina Shubina.
 
