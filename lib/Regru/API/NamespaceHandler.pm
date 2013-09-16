@@ -8,6 +8,7 @@ use Carp;
 use Regru::API::Response;
 use JSON;
 use Data::Dumper;
+use LWP::UserAgent;
 
 has 'namespace' => ( is => 'ro', default => sub {q{}} );
 has [ 'username', 'password', 'io_encoding', 'lang', 'debug' ] =>
@@ -110,9 +111,7 @@ sub _api_call {
 
 sub get_ua {
     state $ua;
-    return $ua if defined $ua;
 
-    require LWP::UserAgent;
     $ua //= LWP::UserAgent->new;
     return $ua;
 }
