@@ -109,6 +109,7 @@ sub _api_call {
     return Regru::API::Response->new( response => $response );
 }
 
+
 sub get_ua {
     state $ua;
 
