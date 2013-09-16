@@ -1,7 +1,6 @@
 package Regru::API::Response;
-use Modern::Perl;
-use Data::Dumper;
-
+use strict;
+use warnings;
 use Moo;
 
 my @getters

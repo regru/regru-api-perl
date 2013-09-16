@@ -1,6 +1,6 @@
 package Regru::API::Folder;
-
-use Modern::Perl;
+use strict;
+use warnings;
 
 use Moo;
 extends 'Regru::API::NamespaceHandler';

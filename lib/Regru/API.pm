@@ -2,10 +2,7 @@ package Regru::API;
 use v5.10.1;
 use strict;
 use warnings;
-use Data::Dumper;
-use List::MoreUtils 'any';
 use Carp;
-
 use Moo;
 
 my @methods    = qw/nop reseller_nop get_user_id get_service_id/;

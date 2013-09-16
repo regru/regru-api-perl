@@ -1,15 +1,13 @@
 package Regru::API::NamespaceHandler;
-
-use Modern::Perl;
-use Data::Dumper;
-
+use v5.10.1;
+use strict;
+use warnings;
 use Moo;
-use URI::Encode 'uri_encode';
 use List::MoreUtils 'any';
 use Carp;
 use Regru::API::Response;
 use JSON;
-use URI;
+use Data::Dumper;
 
 has 'namespace' => ( is => 'ro', default => sub {q{}} );
 has [ 'username', 'password', 'io_encoding', 'lang', 'debug' ] =>

@@ -1,5 +1,6 @@
 package Regru::API::User;
-use Modern::Perl;
+use strict;
+use warnings;
 
 use Moo;
 extends 'Regru::API::NamespaceHandler';
