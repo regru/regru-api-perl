@@ -1,6 +1,5 @@
 use Test::More;
 use Net::Ping;
-use Data::Dumper;
 use Regru::API;
 my $client = Regru::API->new( username => 'test', password => 'test' );
 

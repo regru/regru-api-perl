@@ -5,20 +5,11 @@ use Net::Ping;
 my $client = Regru::API->new( username => 'test', password => 'test' );
 
 plan skip_all => "Internet connection problem"
-        unless Net::Ping->new->ping('reg.ru');
+    unless Net::Ping->new->ping('reg.ru');
 
 ok( $client->bill->nop( bill_id => 1234 )->is_success,
     'bill/nop API call test' );
-ok( $client->bill->get_not_payed->is_success,
-    'bills/get_not_payed API call test'
-);
-ok( $client->bill->get_for_period(
-        limit      => 5,
-        start_date => '1917-10-26',
-        end_date   => '1917-10-07'
-        )->is_success,
-    'bills/get_for_period API call test'
-);
+
 
 SKIP: {
 

@@ -1,5 +1,4 @@
 use Test::More;
-use Data::Dumper;
 use Regru::API;
 use Net::Ping;
 

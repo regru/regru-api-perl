@@ -1,5 +1,4 @@
 use Test::More;
-use Data::Dumper;
 use Regru::API;
 use Net::Ping;
 
@@ -11,42 +10,7 @@ plan skip_all => "Internet connection problem"
 
 ok( $client->zone->nop( dname => 'test.ru' )->is_success,
     'zone/nop API call test' );
-ok( $client->zone->add_alias(
-        domains   => [ { dname => 'test.ru' } ],
-        subdomain => '@',
-        ipaddr    => '111.111.111.111'
-        )->is_success,
-    'zone/add_alias API call test'
-);
-ok( $client->zone->add_aaaa(
-        domains   => [ { dname => 'test.ru' } ],
-        subdomain => '@',
-        ipaddr    => '111.111.111.111'
-        )->is_success,
-    'zone/add_aaaa API call test'
-);
-ok( $client->zone->add_cname(
-        domains        => [ { dname => 'test.ru' } ],
-        subdomain      => '@',
-        canonical_name => 'mx10.test.ru'
-        )->is_success,
-    'zone/add_cname API call test'
-);
-ok( $client->zone->add_mx(
-        domains     => [ { dname => 'test.ru' } ],
-        subdomain   => '@',
-        mail_server => 'mail.test.ru'
-        )->is_success,
-    'zone/add_mx API call test'
-);
-ok( $client->zone->add_ns(
-        domains       => [ { dname => 'test.ru' } ],
-        subdomain     => '@',
-        dns_server    => 'dns.test.ru',
-        record_number => 10,
-        )->is_success,
-    'zone/add_ns API call test'
-);
+
 
 SKIP: {
 
