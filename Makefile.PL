@@ -4,11 +4,15 @@ use warnings FATAL => 'all';
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME               => 'Regru::API',
-    AUTHOR             => q{Polina Shubina <shubina@reg.ru>},
-    VERSION_FROM       => 'lib/Regru/API.pm',
-    ABSTRACT_FROM      => 'lib/Regru/API.pm',
-    LICENSE            => 'Artistic_2_0',
+    NAME          => 'Regru::API',
+    AUTHOR        => q{Polina Shubina <shubina@reg.ru>},
+    VERSION_FROM  => 'lib/Regru/API.pm',
+    ABSTRACT_FROM => 'lib/Regru/API.pm',
+    LICENSE       => 'perl',
+    META_MERGE    => {
+        resources =>
+            { repository => 'https://github.com/regru/regru-api-perl', },
+    },
     PL_FILES           => {},
     MIN_PERL_VERSION   => 5.006,
     CONFIGURE_REQUIRES => { 'ExtUtils::MakeMaker' => 0, },

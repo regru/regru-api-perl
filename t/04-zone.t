@@ -11,7 +11,6 @@ plan skip_all => "Internet connection problem"
 ok( $client->zone->nop( dname => 'test.ru' )->is_success,
     'zone/nop API call test' );
 
-
 SKIP: {
 
     skip "For calling all API functions set ALL_TEST env var to 1", 14

@@ -37,16 +37,16 @@ Regru::API - perl client for reg.ru API 2.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSYS
 
     my $client = Regru::API->new(username => 'test', password => 'test');
-    my $response = $client->nop; # makes call for L<https://www.reg.ru/support/help/API-version2#nop>
+    my $response = $client->nop; # makes call for <https://www.reg.com/support/help/API-version2#nop>
 
     if ($response->is_success) {
         say $response->get('user_id');
@@ -60,13 +60,13 @@ our $VERSION = '0.01';
 
 API calls are divided into categories - user, domain, zone, user, folder, bill, service. 
 Each category is stored in it's own namespace, and can be accessed through
-C<$client->$namespace method>. For example,
+C<< $client->$namespace method >>. For example,
     
     $client->user->nop
 
-makes call to user/nop API method L<https://www.reg.ru/support/help/API-version2#user_nop>
+makes call to user/nop API method L<https://www.reg.com/support/help/API-version2#user_nop>
 
-Complete Reg.ru API 2 Documentation can be found here: L<https://www.reg.ru/support/help/API-version2>.
+Complete Reg.ru API 2 Documentation can be found here: L<https://www.reg.com/support/help/API-version2>.
 
 All API methods return L<Regru::API::Response> object.
 
@@ -129,7 +129,7 @@ All params for API call is passed to API method call as a hash;
 
 B<NB>: All input params for call are passed in JSON format.
 
-To get service answer, use C<$response->get($param_name)> method. C<$param_name> is the answer field. 
+To get service answer, use C<< $response->get($param_name) >> method. C<$param_name> is the answer field. 
 
 =head1 SUBROUTINES/METHODS
 
@@ -187,7 +187,7 @@ Debug messages will be printed to STDERR.
 =head1 Error processing
 
 If API returned exception or some bad error, such as 500 internal server error has happened, 
-`$response` will store error information and raw HTTP::Response object with service answer.
+C<$response> will store error information and raw L<HTTP::Response> object with service answer.
 
 =head2 is_success
 
@@ -200,8 +200,8 @@ Language can be set in Regru::API constructor with C<lang> option.
 
 =head2 error_code
 
-Returns error code if an error occured. Full list error codes list is available at L<https://www.reg.ru/support/help/API-version2#std_error_codes>.
-Error code API_FAIL means incorrect answer from API, such as 500 inernal server error.
+Returns error code if an error occured. Full list error codes list is available at L<https://www.reg.com/support/help/API-version2#std_error_codes>.
+Error code API_FAIL means incorrect answer from API, such as 500 internal server error.
 
 =head2 error_params
 
@@ -209,7 +209,7 @@ Params for error text.
     
 =head2 response
 
-Returns raw HTTP::Response object for further processing.
+Returns raw L<HTTP::Response> object for further processing.
 
 Sample:
 

@@ -50,11 +50,11 @@ Returns 1 if API call is succeeded, 0 otherwise.
 =head2 error_text
 
 Returns error text if an error occured, default language for error messages is english.
-Language can be set in Regru::API constructor with C<lang> option.
+Language can be set in L<Regru::API> constructor with C<lang> option.
 
 =head2 error_code
 
-Returns error code if an error occured. Full list error codes list is available at L<https://www.reg.ru/support/help/API-version2#std_error_codes>.
+Returns error code if an error occured. Full list error codes list is available at L<https://www.reg.com/support/help/API-version2#std_error_codes>.
 
 =head2 error_params
 

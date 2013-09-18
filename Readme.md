@@ -10,7 +10,7 @@ Version 0.01
 
 ```perl
     my $client = Regru::API->new(username => 'test', password => 'test');
-    my $response = $client->nop; # makes call for L<https://www.reg.ru/support/help/API-version2#nop>
+    my $response = $client->nop; # makes call for L<https://www.reg.com/support/help/API-version2#nop>
 
     if ($response->is_success) {
         say $response->get('user_id');
@@ -31,7 +31,7 @@ Each category is stored in it's own namespace, and can be accessed through
     $client->user->nop
 ```
 
-makes call to user/nop API method [https://www.reg.ru/support/help/API-version2\#user\_nop](https://www.reg.ru/support/help/API-version2\#user\_nop)
+makes call to user/nop API method [https://www.reg.com/support/help/API-version2\#user\_nop](https://www.reg.com/support/help/API-version2\#user\_nop)
 
 Complete Reg.ru API 2 Documentation can be found here: [https://www.reg.ru/support/help/API-version2](https://www.reg.ru/support/help/API-version2).
 
@@ -167,11 +167,11 @@ Returns 1 if API call is succeeded, 0 otherwise.
 ## error_text
 
 Returns error text if an error occured, default language for error messages is english.
-Language can be set in Regru::API constructor with C<lang> option.
+Language can be set in Regru::API constructor with `lang` option.
 
 ## error_code
 
-Returns error code if an error occured. Full list error codes list is available at L<https://www.reg.ru/support/help/API-version2#std_error_codes>.
+Returns error code if an error occured. Full list error codes list is available at <https://www.reg.com/support/help/API-version2#std_error_codes>.
 
 ## error_params
 
