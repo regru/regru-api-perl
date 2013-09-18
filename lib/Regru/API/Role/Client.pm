@@ -19,10 +19,10 @@ has 'namespace' => ( is => 'ro', default => sub {q{}} );
 has [ 'username', 'password', 'io_encoding', 'lang', 'debug' ] =>
     ( is => 'ro' );
 
-has 'api_url' =>
-
-    # ( is => 'ro', default => sub {'http://localhost:3000/api/regru2/'} );
-    ( is => 'ro', default => sub {'https://api.reg.ru/api/regru2/'} );
+has 'api_url' => (
+    is      => 'ro',
+    default => sub { $ENV{REGRU_API_ENDPOINT} || 'https://api.reg.ru/api/regru2/' },
+);
 
 sub namespace_methods {
     my $class = shift;
