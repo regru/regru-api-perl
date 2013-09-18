@@ -29,7 +29,7 @@ sub available_namespaces {[qw(
 )]}
 
 sub _get_namespace_handler {
-    my $self = shift;
+    my $self      = shift;
     my $namespace = shift;
 
     unless ( $self->{_handlers}->{$namespace} ) {
@@ -95,7 +95,6 @@ Version 0.02
     else {
         die "Error code: " . $response->error_code . ", Error text: " . $response->error_text;
     }
-
 
 =head1 DESCRIPTION
 
@@ -270,7 +269,6 @@ Polina Shubina, C<< <shubina@reg.ru> >>
 
 Please report any bugs or feature requests to C<bug-regru-api at rt.cpan.org>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
-
 
 =head1 LICENSE AND COPYRIGHT
 

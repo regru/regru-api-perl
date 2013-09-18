@@ -56,7 +56,7 @@ sub _trigger_response {
 sub get {
     my ($self, $attr) = @_;
 
-    return $self->answer->{$attr} ? $self->answer->{$attr} : undef;
+    return $self->answer->{$attr};
 }
 
 1; # End of Regru::API::Response
