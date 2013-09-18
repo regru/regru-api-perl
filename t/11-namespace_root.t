@@ -9,7 +9,7 @@ subtest 'Generic behaviour' => sub {
 
     my @methods    = qw/nop reseller_nop get_user_id get_service_id/;
     # user domain zone bill folder service
-    my @namespaces = qw/user/;
+    my @namespaces = qw/user domain/;
 
     my $client = new_ok 'Regru::API' => [( username => 'test', password => 'test' )];
 
