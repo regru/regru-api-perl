@@ -1,5 +1,7 @@
 package Regru::API::Response;
 
+# ABSTRACT: Reg.ru API response wrapper
+
 use strict;
 use warnings;
 use Moo;
@@ -14,7 +16,7 @@ has error_code      => ( is => 'rw' );
 has error_text      => ( is => 'rw' );
 has error_params    => ( is => 'rw' );
 has is_success      => ( is => 'rw' );
-has is_service_fail => ( is => 'rw' );
+has is_service_fail => ( is => 'rw' ); # XXX: should be implemented
 
 has answer => (
     is      => 'rw',
@@ -51,37 +53,21 @@ sub _trigger_response {
     }
 }
 
-# sub BUILDARGS {
-#     my $class = shift;
-#     my %args  = @_;
+sub get {
+    my ($self, $attr) = @_;
 
-#     my $response = $args{response};
-#     my $raw      = $response->decoded_content;
-#     my $json     = Regru::API::Client->get_json();
-#     my $decoded  = eval { $json->decode($raw); };
+    return $self->answer->{$attr} ? $self->answer->{$attr} : undef;
+}
 
-#     $decoded
-#         = { error_code => 'API_FAIL', error_text => 'API response error' }
-#         if $@;
-#     # just another API error
+1; # End of Regru::API::Response
 
-#     my $success = $decoded->{result} && $decoded->{ result } eq 'success';
-#     $args{is_success} = $success;
-#     if ($success) {
-#         $args{answer} = $decoded->{answer};
-#     }
-#     else {
-#         $args{$_} = $decoded->{$_} for qw/error_code error_text error_params/;
-#     }
+__END__
 
-#     return \%args;
-# }
+=pod
 
 =head1 NAME
 
-Regru::API::Response - object wrapper for service answer.
-
-=cut
+Regru::API::Response - Reg.ru API response wrapper
 
 =head1 METHODS
 
@@ -128,8 +114,6 @@ Returns L<HTTP::Response> object with API response.
         print "HTTP code: ".$api_response->response->code;
     }
 
-=cut
-
 =head2 get
 
     my $value = $response->get($param_name);
@@ -151,12 +135,3 @@ Returns param value from API response, if API call is succeeded.
     L<https://www.reg.ru/support/help/API-version2#bill_nop>
 
 =cut
-
-sub get {
-    my $self      = shift;
-    my $attr_name = shift;
-
-    return $self->answer->{$attr_name};
-}
-
-1;
