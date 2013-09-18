@@ -9,7 +9,7 @@ use JSON;
 use Carp ();
 
 has serializer => (
-    is      => 'ro',
+    is      => 'rw',
     isa     => sub { Carp::croak "$_[0] is not a JSON instance" unless ref $_[0] eq 'JSON' },
     lazy    => 1,
     default => sub { JSON->new->utf8 },

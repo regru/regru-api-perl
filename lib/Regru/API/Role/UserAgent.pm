@@ -9,7 +9,7 @@ use LWP::UserAgent;
 use Carp ();
 
 has useragent => (
-    is      => 'ro',
+    is      => 'rw',
     isa     => sub { Carp::croak "$_[0] is not a LWP::UserAgent instance" unless ref $_[0] eq 'LWP::UserAgent' },
     lazy    => 1,
     default => sub { LWP::UserAgent->new },
