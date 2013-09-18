@@ -4,6 +4,10 @@ use utf8;
 use Test::More tests => 3;
 use Regru::API;
 
+sub namespace_client {
+    Regru::API->new(username => 'test', password => 'test')->domain;
+};
+
 subtest 'Generic behaviour' => sub {
     plan tests => 2;
 
@@ -34,7 +38,7 @@ subtest 'Generic behaviour' => sub {
         request_to_transfer
     );
 
-    my $client = Regru::API->new(username => 'test', password => 'text')->domain;
+    my $client = namespace_client();
 
     isa_ok $client, 'Regru::API::Domain';
     can_ok $client, @methods;
@@ -43,7 +47,7 @@ subtest 'Generic behaviour' => sub {
 subtest 'Namespace methods (nop)' => sub {
     plan tests => 1;
 
-    my $client = Regru::API->new(username => 'test', password => 'test')->domain;
+    my $client = namespace_client();
 
     my $resp;
 
@@ -61,7 +65,7 @@ subtest 'Namespace methods (overall)' => sub {
         plan tests => 40;
     }
 
-    my $client = Regru::API->new(username => 'test', password => 'test')->domain;
+    my $client = namespace_client();
 
     my $resp;
 

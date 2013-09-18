@@ -3,6 +3,10 @@ use warnings;
 use Test::More tests => 3;
 use Regru::API;
 
+sub namespace_client {
+    Regru::API->new(username => 'test', password => 'test')->user;
+};
+
 subtest 'Generic behaviour' => sub {
     plan tests => 2;
 
@@ -14,7 +18,7 @@ subtest 'Generic behaviour' => sub {
         refill_balance
     );
 
-    my $client = Regru::API->new(username => 'test', password => 'text')->user;
+    my $client = namespace_client();
 
     isa_ok $client, 'Regru::API::User';
     can_ok $client, @methods;
