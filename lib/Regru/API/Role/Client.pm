@@ -1,14 +1,19 @@
-package Regru::API::NamespaceHandler;
+package Regru::API::Role::Client;
+
 use v5.10.1;
 use strict;
 use warnings;
-use Moo;
-use List::MoreUtils 'any';
+use Moo::Role;
 use Carp;
 use Regru::API::Response;
-use JSON;
 use Data::Dumper;
-use LWP::UserAgent;
+
+with qw(
+    Regru::API::Role::Namespace
+    Regru::API::Role::Serializer
+    Regru::API::Role::UserAgent
+);
+
 
 has 'namespace' => ( is => 'ro', default => sub {q{}} );
 has [ 'username', 'password', 'io_encoding', 'lang', 'debug' ] =>
@@ -19,25 +24,23 @@ has 'api_url' =>
     # ( is => 'ro', default => sub {'http://localhost:3000/api/regru2/'} );
     ( is => 'ro', default => sub {'https://api.reg.ru/api/regru2/'} );
 
-sub _create_methods {
+sub namespace_methods {
     my $class = shift;
 
-    {
-        no strict 'refs';
-        no warnings 'redefine';
-        for my $method ( @{ $class->methods } ) {
-            my $sub_name = $class . '::' . $method;
-            *{$sub_name} = sub {
-                my $self = shift;
+    my $meta = $class->meta;
 
-                return $self->_api_call( $method, @_ );
-                }
-        }
-        use warnings;
+    foreach my $method ( @{ $class->available_methods } ) {
+        $method = lc $method;
+        $method =~ s/\s/_/g;
+
+        my $handler = sub {
+            my ($self, @args) = @_;
+            $self->_api_call($method => @args);
+        };
+
+        $meta->add_method($method => $handler);
     }
 }
-
-sub methods { croak "Absract and must be implemented" }
 
 =head1 NAME
 
@@ -81,7 +84,6 @@ sub _api_call {
     my $method = shift;
     my %params = @_;
 
-    my $ua        = $self->get_ua;
     my $namespace = $self->namespace;
     my $url       = $self->api_url . $namespace;
     $url .= '/' if $namespace;
@@ -102,26 +104,14 @@ sub _api_call {
 
     $self->_debug_log("URI called: $url");
 
-    my $json = $self->get_json->encode( \%params );
+    my $json = $self->serializer->encode( \%params );
 
-    my $response = $ua->post( $url, [ %post_params, input_data => $json ] );
+    my $response = $self->useragent->post(
+        $url,
+        [ %post_params, input_data => $json ]
+    );
 
     return Regru::API::Response->new( response => $response );
-}
-
-
-sub get_ua {
-    state $ua;
-
-    $ua //= LWP::UserAgent->new;
-    return $ua;
-}
-
-sub get_json {
-    state $json;
-
-	$json //= JSON->new->utf8;
-    return $json;
 }
 
 1;

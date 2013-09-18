@@ -1,13 +1,14 @@
+use strict;
+use warnings;
 use Test::More;
 use Net::Ping;
-
 
 use_ok('Regru::API');
 use_ok('Regru::API::Response');
 
 my $client = Regru::API->new( username => 'test', password => 'test' );
 
-isa_ok( $client, 'Regru::API::NamespaceHandler', 'Inheritance test' );
+isa_ok( $client, 'Regru::API', 'Inheritance test' );
 
 my @methods    = qw/nop reseller_nop get_user_id get_service_id/;
 my @namespaces = qw/user domain zone bill folder service/;
@@ -17,7 +18,7 @@ can_ok( $client, @namespaces );
 
 for my $namespace (@namespaces) {
     my $handler = $client->$namespace;
-    isa_ok( $handler, 'Regru::API::NamespaceHandler' );
+    isa_ok( $handler, 'Regru::API::' . ucfirst($namespace) );
 }
 
 
