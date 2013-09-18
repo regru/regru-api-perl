@@ -1,10 +1,11 @@
 package Regru::API::Role::Client;
 
-use v5.10.1;
+# ABSTRACT: Reg.ru API "client" role
+
 use strict;
 use warnings;
 use Moo::Role;
-use Carp;
+use Carp ();
 use Regru::API::Response;
 use Data::Dumper;
 
@@ -14,14 +15,20 @@ with qw(
     Regru::API::Role::UserAgent
 );
 
+has username    => ( is => 'ro' );
+has password    => ( is => 'ro' );
+has io_encoding => ( is => 'ro' );
+has lang        => ( is => 'ro' );
+has debug       => ( is => 'ro' );
 
-has 'namespace' => ( is => 'ro', default => sub {q{}} );
-has [ 'username', 'password', 'io_encoding', 'lang', 'debug' ] =>
-    ( is => 'ro' );
-
-has 'api_url' => (
+has namespace   => (
     is      => 'ro',
-    default => sub { $ENV{REGRU_API_ENDPOINT} || 'https://api.reg.ru/api/regru2/' },
+    default => sub { '' },
+);
+
+has endpoint => (
+    is      => 'ro',
+    default => sub { $ENV{REGRU_API_ENDPOINT} || 'https://api.reg.ru/api/regru2' },
 );
 
 sub namespace_methods {
@@ -42,14 +49,75 @@ sub namespace_methods {
     }
 }
 
+sub _debug_log {
+    my ($self, $message) = @_;
+
+    Carp::carp $message if $self->debug;
+}
+
+sub _api_call {
+    my ($self, $method, %params) = @_;
+
+    my $url = join '' => $self->endpoint,
+                        ($self->namespace ? '/' . $self->namespace : ''),
+                        ($method ? '/' . $method : '');
+
+    my %post_params = (
+        username      => $self->username,
+        password      => $self->password,
+        output_format => 'json',
+        input_format  => 'json'
+    );
+
+    $post_params{lang}          = $self->lang           if defined $self->lang;
+    $post_params{io_encoding}   = $self->io_encoding    if defined $self->io_encoding;
+
+    $self->_debug_log('API request: ' . $url);
+    $self->_debug_log('Params: ' . Dumper(\%params));
+
+    my $json = $self->serializer->encode( \%params );
+
+    my $response = $self->useragent->post(
+        $url,
+        [ %post_params, input_data => $json ]
+    );
+
+    return Regru::API::Response->new( response => $response );
+}
+
+1; # End of Regru::API::Role::Client
+
+__END__
+
+=pod
+
 =head1 NAME
 
-    Regru::API::NamespaceHandler - parent handler for all categories handlers.
-Does API call and debug logging.
+Regru::API::Role::Client - Reg.ru API "client" role
 
-=cut
+=head1 SYNOPSYS
+    # in some namespace package
+    package Regru::API::Dummy;
 
-=head1 New namespace handler creation
+    use strict;
+    use warnings;
+    use Moo;
+
+    with 'Regru::API::Role::Client';
+
+    has '+namespace' => (
+        is      => 'ro',
+        default => sub { 'dummy' },
+    );
+
+    sub available_methods {[qw(foo bar baz)]}
+
+    __PACKAGE__->namespace_methods;
+    __PACKAGE__->meta->make_immutable;
+
+=head1 DESCRIPTION
+
+=head2 New namespace handler creation
 
 First create new namespace handler package:
 
@@ -71,47 +139,3 @@ And then add new namespace to @namespaces var in Regru::API
     my @namespaces = qw/user domain/;
 
 =cut
-
-sub _debug_log {
-    my $self    = shift;
-    my $message = shift;
-
-    warn $message if $self->debug;
-}
-
-sub _api_call {
-    my $self   = shift;
-    my $method = shift;
-    my %params = @_;
-
-    my $namespace = $self->namespace;
-    my $url       = $self->api_url . $namespace;
-    $url .= '/' if $namespace;
-    $url .= $method . '?';
-
-    my %post_params = (
-        username      => $self->username,
-        password      => $self->password,
-        output_format => 'json',
-        input_format  => 'json'
-    );
-    $post_params{lang} = $self->lang if defined $self->lang;
-    $post_params{io_encoding} = $self->io_encoding
-        if defined $self->io_encoding;
-
-    $self->_debug_log(
-        "API call: $namespace/$method, params: " . Dumper( \%params ) );
-
-    $self->_debug_log("URI called: $url");
-
-    my $json = $self->serializer->encode( \%params );
-
-    my $response = $self->useragent->post(
-        $url,
-        [ %post_params, input_data => $json ]
-    );
-
-    return Regru::API::Response->new( response => $response );
-}
-
-1;
