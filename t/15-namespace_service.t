@@ -1,95 +1,141 @@
-use Test::More;
+use strict;
+use warnings;
+use Test::More tests => 3;
 use Regru::API;
-use Net::Ping;
 
-my $client = Regru::API->new( username => 'test', password => 'test' );
+sub namespace_client {
+    Regru::API->new(username => 'test', password => 'test')->service;
+};
 
-plan skip_all => "Internet connection problem"
-    unless Net::Ping->new->ping('reg.ru');
+subtest 'Generic behaviour' => sub {
+    plan tests => 2;
 
-ok( $client->service->nop( dname => 'test.ru' )->is_success,
-    'service/nop API call test' );
-
-SKIP: {
-
-    skip "For calling all API functions set ALL_TEST env var to 1", 14
-        unless $ENV{ALL_TESTS};
-
-    ok( $client->service->get_prices->is_success,
-        'service/get_prices API call test'
-    );
-    ok( $client->service->get_servtype_details(
-            servtype => 'srv_hosting_ispmgr'
-            )->is_success,
-        'service/get_servtype_details API call test'
-    );
-    ok( $client->service->create(
-            dname    => 'test.ru',
-            servtype => 'srv_hosting_ispmgr',
-            period   => 1,
-            plan     => 'Host-2-1209'
-            )->is_success,
-        'service/create API call test'
-    );
-    ok( $client->service->delete(
-            dname    => 'test.ru',
-            servtype => 'srv_hosting_ispmgr',
-            )->is_success,
-        'service/delete API call test'
+    my @methods = qw(
+        nop
+        get_prices
+        get_servtype_details
+        create
+        delete
+        get_info
+        get_list
+        get_folders
+        get_details
+        service_get_details
+        get_dedicated_server_list
+        update
+        renew
+        get_bills
+        set_autorenew_flag
+        suspend
+        resume
+        get_depreciated_period
+        upgrade partcontrol_grant
+        partcontrol_revoke
+        resend_mail
     );
 
-    for my $method (
-        qw/get_info get_list get_folders get_details
-        service_get_details get_bills/
-        )
-    {
-        ok( $client->service->$method( dname => 'test.ru', )->is_success,
-            "service/$method API call test" );
+    my $client = namespace_client();
+
+    isa_ok $client, 'Regru::API::Service';
+    can_ok $client, @methods;
+};
+
+subtest 'Namespace methods (nop)' => sub {
+    plan tests => 1;
+
+    my $client = namespace_client();
+
+    my $resp;
+
+    # /service/nop
+    $resp = $client->nop(dname => 'test.ru');
+    ok $resp->is_success,                                   'nop() success';
+};
+
+subtest 'Namespace methods (overall)' => sub {
+    unless ($ENV{REGRU_API_OVERALL_TESTING}) {
+        diag 'Skipped. Set REGRU_API_OVERALL_TESTING=1 to proceed this subtest.';
+        plan skip_all => '.';
+    }
+    else {
+        plan tests => 19;
     }
 
-    ok( $client->service->update(
-            dname      => 'test.ru',
-            servtype   => 'srv_webfwd',
-            fwd_action => 'addfwd',
-            fwdfrom    => '\&',
-            fwdto      => 'http://reg.ru',
-            fwd_type   => 'redirect'
-            )->is_success,
-        'service/update API call test'
-    );
+    my $client = namespace_client();
 
-    for my $method (
-        qw/renew set_autorenew_flag suspend resume get_deprecated_period/)
-    {
-        ok( $client->service->$method( service_id => '12345', period => 2 ),
-            "service/$method API call test" );
+    my $resp;
+
+    # /service/get_prices
+    $resp = $client->get_prices;
+    ok $resp->is_success,                                   'get_prices() success';
+
+    # /service/get_servtype_details
+    $resp = $client->get_servtype_details(servtype => 'srv_hosting_ispmgr');
+    ok $resp->is_success,                                   'get_servtype_details() success';
+
+    # /service/create
+    $resp = $client->create(
+        dname    => 'test.ru',
+        servtype => 'srv_hosting_ispmgr',
+        period   => 1,
+        plan     => 'Host-2-1209',
+    );
+    ok $resp->is_success,                                   'create() success';
+
+    # /service/delete
+    $resp = $client->delete(
+        dname    => 'test.ru',
+        servtype => 'srv_hosting_ispmgr',
+    );
+    ok $resp->is_success,                                   'delete() success';
+
+    # /service/{get_info,get_list,get_folders,get_details,service_get_details,get_bills}
+    foreach my $method (qw/get_info get_list get_folders get_details service_get_details get_bills/) {
+        $resp = $client->$method(dname => 'test.ru');
+        ok $resp->is_success, "${method}() success";
     }
 
-    ok( $client->service->update(
-            subtype  => 'Host-2-1209',
-            period   => 2,
-            servtype => 'srv_hosting_ispmgr',
-            name     => 'qqq.ru'
-        ),
-        'service/update API call test'
+    # /service/update
+    $resp = $client->update(
+        dname      => 'test.ru',
+        servtype   => 'srv_webfwd',
+        fwd_action => 'addfwd',
+        fwdfrom    => '\&',
+        fwdto      => 'http://reg.ru',
+        fwd_type   => 'redirect',
     );
+    ok $resp->is_success,                                   'update() success';
 
-    ok( $client->service->partcontrol_grant(
-            newlogin   => 'test',
-            service_id => 1
-        ),
-        'service/partcontrol_grant API call test'
+    # /service/{renew,suspend,resume,get_depreciated_period}
+    foreach my $method (qw/renew suspend resume get_depreciated_period/) {
+        $resp = $client->$method(service_id => '12345', period => 2);
+        ok $resp->is_success, "${method}() success";
+    }
+
+    # /service/set_autorenew_flag
+    $resp = $client->set_autorenew_flag(flag_value => 1, service_id => 12345);
+    ok $resp->is_success,                                   'set_autorenew_flag() success';
+
+    # /service/partcontrol_grant
+    $resp = $client->partcontrol_grant(
+        newlogin   => 'test',
+        service_id => 1,
     );
+    ok $resp->is_success,                                   'partcontrol_grant() success';
 
-    ok( $client->service->partcontrol_revoke( service_id => 1 ),
-        'service/partcontrol_revoke API call test' );
-
-    ok( $client->service->resend_mail(
-            newlogin   => 'test',
-            service_id => 1
-        ),
-        'service/resend_mail API call test'
+    # /service/partcontrol_revoke
+    $resp = $client->partcontrol_revoke(
+        service_id => 1,
     );
-}
+    ok $resp->is_success,                                   'partcontrol_revoke() success';
 
-done_testing();
+    # /service/resend_mail
+    $resp = $client->resend_mail(
+        dname       => 'test.ru',
+        servtype    => 'srv_hosting_ispmgr',
+        service_id  => 1,
+    );
+    ok $resp->is_success,                                   'resend_mail() success';
+};
+
+1;
