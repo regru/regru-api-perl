@@ -1,4 +1,4 @@
-use 5.006;
+use 5.010001;
 use strict;
 use warnings FATAL => 'all';
 use ExtUtils::MakeMaker;
@@ -14,7 +14,7 @@ WriteMakefile(
             { repository => 'https://github.com/regru/regru-api-perl', },
     },
     PL_FILES           => {},
-    MIN_PERL_VERSION   => 5.006,
+    MIN_PERL_VERSION   => 5.010001,
     CONFIGURE_REQUIRES => { 'ExtUtils::MakeMaker' => 0, },
     BUILD_REQUIRES     => { 'Test::More' => 0, },
     PREREQ_PM          => {
