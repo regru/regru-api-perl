@@ -1,45 +1,74 @@
 package Regru::API::Response;
+
+# ABSTRACT: Reg.ru API response wrapper
+
 use strict;
 use warnings;
 use Moo;
+use Try::Tiny;
+use Carp ();
+use namespace::autoclean;
 
-my @getters
-    = qw/error_text error_code is_success error_params is_service_fail response/;
-has [@getters] => ( is => 'ro' );
+our $VERSION = '0.01';
 
-has 'answer' => ( is => 'ro', default => sub { return {}; } );
+with 'Regru::API::Role::Serializer';
 
-sub BUILDARGS {
-    my $class = shift;
-    my %args  = @_;
+has error_code      => ( is => 'rw' );
+has error_text      => ( is => 'rw' );
+has error_params    => ( is => 'rw' );
+has is_success      => ( is => 'rw' );
+has is_service_fail => ( is => 'rw' ); # XXX: should be implemented
 
-    my $response = $args{response};
-    my $raw      = $response->decoded_content;
-    my $json     = Regru::API::NamespaceHandler::get_json();
-    my $decoded  = eval { $json->decode($raw); };
+has answer => (
+    is      => 'rw',
+    default => sub { +{} }
+);
 
-    $decoded
-        = { error_code => 'API_FAIL', error_text => 'API response error' }
-        if $@; 
-    # just another API error
+has response => (
+    is      => 'rw',
+    trigger => 1,
+);
 
-    my $success = $decoded->{result} && $decoded->{ result } eq 'success';
-    $args{is_success} = $success;
-    if ($success) {
-        $args{answer} = $decoded->{answer};
+sub _trigger_response {
+    my ($self, $response) = @_;
+
+    if ($response) {
+        try {
+            my $decoded = $self->serializer->decode($response->decoded_content);
+            $self->is_success($decoded->{result} && $decoded->{ result } eq 'success');
+
+            if ($self->is_success) {
+                $self->answer($decoded->{answer});
+            }
+            else {
+                foreach my $attr (qw/error_code error_text error_params/) {
+                    $self->$attr($decoded->{$attr});
+                }
+            }
+        }
+        catch {
+            Carp::carp 'Unable to decode response: ' . $_;
+            $self->error_code('API_FAIL');
+            $self->error_text('API response error');
+        };
     }
-    else {
-        $args{$_} = $decoded->{$_} for qw/error_code error_text error_params/;
-    }
-
-    return \%args;
 }
 
-=head1 NAME 
+sub get {
+    my ($self, $attr) = @_;
 
-Regru::API::Response - object wrapper for service answer.
+    return $self->answer->{$attr};
+}
 
-=cut
+1; # End of Regru::API::Response
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Regru::API::Response - Reg.ru API response wrapper
 
 =head1 METHODS
 
@@ -58,14 +87,14 @@ Returns error code if an error occured. Full list error codes list is available 
 
 =head2 error_params
 
-Params for error text. 
-    
+Params for error text.
+
     my $error_params = $response->error_params;
     my $detail = $error_params->{ error_detail };
 
 =head2 is_service_fail
 
-Returns true if API service answer code isn't 200. 
+Returns true if API service answer code isn't 200.
 
     my $response = $client->bill->nop(bill_id => 123213);
     if ($response->is_success) {
@@ -81,12 +110,10 @@ Returns true if API service answer code isn't 200.
 =head2 response
 
 Returns L<HTTP::Response> object with API response.
-    
+
     if ($api_response->is_service_fail) {
         print "HTTP code: ".$api_response->response->code;
     }
-
-=cut
 
 =head2 get
 
@@ -98,9 +125,9 @@ Returns param value from API response, if API call is succeeded.
     say "Total balance: " . $response->get("balance_total");
 
     L<https://www.reg.ru/support/help/API-version2#user_get_statistics>
-    
+
     ...
-    
+
     my $bills_answer = $client->bill->nop(bill_id => 1235);
     if ($bills_answer->is_success) {
         say $bills_answer->get('bills')->[0]->{ bill_id };
@@ -109,12 +136,3 @@ Returns param value from API response, if API call is succeeded.
     L<https://www.reg.ru/support/help/API-version2#bill_nop>
 
 =cut
-
-sub get {
-    my $self      = shift;
-    my $attr_name = shift;
-
-    return $self->answer->{$attr_name};
-}
-
-1;

@@ -1,18 +1,32 @@
 package Regru::API::Folder;
+
 use strict;
 use warnings;
-
 use Moo;
-extends 'Regru::API::NamespaceHandler';
+use namespace::autoclean;
 
-my @methods
-    = qw/nop create remove rename get_services add_services remove_services
-    replace_services move_services/;
+with 'Regru::API::Role::Client';
 
-has '+namespace' => ( default => sub {'folder'} );
+has '+namespace' => (
+    is      => 'ro',
+    default => sub { 'folder' },
+);
 
-sub methods { \@methods };
+sub available_methods {[qw(
+    nop
+    create
+    remove
+    rename
+    get_services
+    add_services
+    remove_services
+    replace_services
+    move_services
+)]}
 
-__PACKAGE__->_create_methods;
+__PACKAGE__->namespace_methods;
+__PACKAGE__->meta->make_immutable;
 
-1;
+1; # End of Regru::API::Folder
+
+__END__

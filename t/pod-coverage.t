@@ -1,5 +1,5 @@
 #!perl -T
-use v5.10.1;
+
 use strict;
 use warnings FATAL => 'all';
 use Test::More;
@@ -22,3 +22,5 @@ pod_coverage_ok('Regru::API', { trustme => [qr/^bill|domain|folder|method|servic
 pod_coverage_ok('Regru::API::Response', { trustme => [qr/^answer|raw_content|BUILD/]});
 
 done_testing();
+
+1;
