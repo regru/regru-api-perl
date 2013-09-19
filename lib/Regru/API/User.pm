@@ -3,6 +3,7 @@ package Regru::API::User;
 use strict;
 use warnings;
 use Moo;
+use namespace::autoclean;
 
 with 'Regru::API::Role::Client';
 

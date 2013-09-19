@@ -5,6 +5,7 @@ package Regru::API::Role::Namespace;
 use strict;
 use warnings;
 use Moo::Role;
+use namespace::autoclean;
 
 requires 'available_methods';
 

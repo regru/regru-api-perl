@@ -33,6 +33,7 @@ WriteMakefile(
         "Try::Tiny"                     => 0,
         "LWP::Protocol::https"          => 0,
         'Moose'                         => 0,
+        'namespace::autoclean'          => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES    => 'Regru-API-*' },

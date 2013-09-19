@@ -8,6 +8,7 @@ use Moo::Role;
 use Carp ();
 use Regru::API::Response;
 use Data::Dumper;
+use namespace::autoclean;
 
 with qw(
     Regru::API::Role::Namespace

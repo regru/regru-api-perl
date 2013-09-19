@@ -7,6 +7,7 @@ use warnings;
 use Moo::Role;
 use LWP::UserAgent;
 use Carp ();
+use namespace::autoclean;
 
 has useragent => (
     is      => 'rw',

@@ -7,6 +7,7 @@ use warnings;
 use Moo::Role;
 use JSON;
 use Carp ();
+use namespace::autoclean;
 
 has serializer => (
     is      => 'rw',

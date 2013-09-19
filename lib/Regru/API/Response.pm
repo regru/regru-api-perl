@@ -7,6 +7,7 @@ use warnings;
 use Moo;
 use Try::Tiny;
 use Carp ();
+use namespace::autoclean;
 
 our $VERSION = '0.01';
 

@@ -7,6 +7,7 @@ use warnings;
 use Moo;
 use Carp ();
 use Class::Load qw(try_load_class);
+use namespace::autoclean;
 
 our $VERSION = '0.02';
 

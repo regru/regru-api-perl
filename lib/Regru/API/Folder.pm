@@ -3,6 +3,7 @@ package Regru::API::Folder;
 use strict;
 use warnings;
 use Moo;
+use namespace::autoclean;
 
 with 'Regru::API::Role::Client';
 
