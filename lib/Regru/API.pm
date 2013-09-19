@@ -1,47 +1,89 @@
 package Regru::API;
-use v5.10.1;
+
+# ABSTRACT: Perl bindings for Reg.ru API v2
+
 use strict;
 use warnings;
-use Carp;
 use Moo;
+use Carp ();
+use Class::Load qw(try_load_class);
+use namespace::autoclean;
 
-my @methods    = qw/nop reseller_nop get_user_id get_service_id/;
-my @namespaces = qw/user domain zone bill folder service/;
+our $VERSION = '0.02';
 
-{
-    # Namespace handlers generation
-    no strict 'refs';
-    for my $namespace (@namespaces) {
-        my $sub_name = 'Regru::API::' . $namespace;
-        *{$sub_name} = sub {
-            my $self = shift;
+with 'Regru::API::Role::Client';
 
-            return $self->_get_namespace_handler( $namespace, @_ );
-            }
+sub available_methods {[qw(
+    nop
+    reseller_nop
+    get_user_id
+    get_service_id
+)]}
+
+sub available_namespaces {[qw(
+    user
+    domain
+    zone
+    bill
+    folder
+    service
+)]}
+
+sub _get_namespace_handler {
+    my $self      = shift;
+    my $namespace = shift;
+
+    unless ( $self->{_handlers}->{$namespace} ) {
+        my $ns = 'Regru::API::' . ucfirst($namespace);
+
+        try_load_class $ns or Carp::croak 'Unable to load namespace: ' . $ns;
+
+        my %params =
+            map { $_ => $self->$_ }
+                qw/username password io_encoding lang debug/;
+        $self->{_handlers}->{$namespace} = $ns->new(@_, %params);
+    }
+
+    return $self->{_handlers}->{$namespace};
+}
+
+sub namespace_handlers {
+    my $class = shift;
+
+    my $meta = $class->meta;
+
+    foreach my $namespace ( @{ $class->available_namespaces } ) {
+        $namespace = lc $namespace;
+        $namespace =~ s/\s/_/g;
+
+        my $handler = sub {
+            my ($self, @args) = @_;
+            $self->_get_namespace_handler($namespace => @args);
+        };
+
+        $meta->add_method($namespace => $handler);
     }
 }
 
-extends 'Regru::API::NamespaceHandler';
+__PACKAGE__->namespace_handlers;
+__PACKAGE__->namespace_methods;
+__PACKAGE__->meta->make_immutable;
 
-sub methods {
-    return \@methods;
-}
+1; # End of Regru::API
 
-__PACKAGE__->_create_methods;
+__END__
 
-=head1 NAME
+=pod
 
 =encoding utf8
 
-Regru::API - perl client for reg.ru API 2.
+=head1 NAME
+
+Regru::API - Perl bindings for Reg.ru API v2
 
 =head1 VERSION
 
 Version 0.02
-
-=cut
-
-our $VERSION = '0.02';
 
 =head1 SYNOPSYS
 
@@ -55,13 +97,12 @@ our $VERSION = '0.02';
         die "Error code: " . $response->error_code . ", Error text: " . $response->error_text;
     }
 
-
 =head1 DESCRIPTION
 
-API calls are divided into categories - user, domain, zone, user, folder, bill, service. 
+API calls are divided into categories - user, domain, zone, user, folder, bill, service.
 Each category is stored in it's own namespace, and can be accessed through
 C<< $client->$namespace method >>. For example,
-    
+
     $client->user->nop
 
 makes call to user/nop API method L<https://www.reg.com/support/help/API-version2#user_nop>
@@ -80,7 +121,7 @@ All API methods return L<Regru::API::Response> object.
         }
     }
     else {
-        ... 
+        ...
     }
 
 
@@ -121,7 +162,7 @@ All params for API call is passed to API method call as a hash;
 
     if ($domain_create_answer->is_success) {
         say "Domain create request succeeded";
-    } 
+    }
     else {
         die $domain_create_answer->error_text;
     }
@@ -129,7 +170,7 @@ All params for API call is passed to API method call as a hash;
 
 B<NB>: All input params for call are passed in JSON format.
 
-To get service answer, use C<< $response->get($param_name) >> method. C<$param_name> is the answer field. 
+To get service answer, use C<< $response->get($param_name) >> method. C<$param_name> is the answer field.
 
 =head1 SUBROUTINES/METHODS
 
@@ -176,9 +217,9 @@ Sets encoding for input and output data.
     );
 
 =item debug
-    
+
 Debug messages will be printed to STDERR.
-    
+
     my $client = Regru::API->new(debug => 1);
 
 =back
@@ -186,7 +227,7 @@ Debug messages will be printed to STDERR.
 
 =head1 Error processing
 
-If API returned exception or some bad error, such as 500 internal server error has happened, 
+If API returned exception or some bad error, such as 500 internal server error has happened,
 C<$response> will store error information and raw L<HTTP::Response> object with service answer.
 
 =head2 is_success
@@ -205,8 +246,8 @@ Error code API_FAIL means incorrect answer from API, such as 500 internal server
 
 =head2 error_params
 
-Params for error text. 
-    
+Params for error text.
+
 =head2 response
 
 Returns raw L<HTTP::Response> object for further processing.
@@ -221,26 +262,6 @@ Sample:
         print "Error: " . $response->error_code . ", " . $response->error_text;
     }
 
-
-=cut
-
-sub _get_namespace_handler {
-    my $self      = shift;
-    my $namespace = shift;
-
-    unless ( $self->{_handlers}->{$namespace} ) {
-
-        my $class = 'Regru::API::' . ucfirst($namespace);
-        eval qq{require $class};
-        croak $@ if $@;
-        my %params
-            = map { $_ => $self->$_; }
-            qw/username password io_encoding lang debug/;
-        $self->{_handlers}->{$namespace} = $class->new( @_, %params );
-    }
-    return $self->{_handlers}->{$namespace};
-}
-
 =head1 AUTHOR
 
 Polina Shubina, C<< <shubina@reg.ru> >>
@@ -250,7 +271,6 @@ Polina Shubina, C<< <shubina@reg.ru> >>
 Please report any bugs or feature requests to C<bug-regru-api at rt.cpan.org>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
-
 =head1 LICENSE AND COPYRIGHT
 
 Copyright 2013 Polina Shubina.
@@ -258,5 +278,3 @@ Copyright 2013 Polina Shubina.
 This is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
 =cut
-
-1;    # End of Regru::API

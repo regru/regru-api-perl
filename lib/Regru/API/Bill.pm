@@ -1,17 +1,28 @@
 package Regru::API::Bill;
+
 use strict;
 use warnings;
-
 use Moo;
-extends 'Regru::API::NamespaceHandler';
+use namespace::autoclean;
 
-my @methods = qw/nop get_not_payed get_for_period change_pay_type delete/;
+with 'Regru::API::Role::Client';
 
-has '+namespace' => ( default => sub {'bill'} );
+has '+namespace' => (
+    is      => 'ro',
+    default => sub { 'bill' },
+);
 
-sub methods { \@methods };
+sub available_methods {[qw(
+    nop
+    get_not_payed
+    get_for_period
+    change_pay_type
+    delete
+)]}
 
-__PACKAGE__->_create_methods;
+__PACKAGE__->namespace_methods;
+__PACKAGE__->meta->make_immutable;
 
+1; # End of Regru::API::Bill
 
-1;
+__END__
