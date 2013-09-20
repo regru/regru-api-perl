@@ -24,6 +24,7 @@ before_install:
     - "cpanm -q -n Dist::Zilla::Plugin::Test::Compile"
     - "cpanm -q -n Dist::Zilla::Plugin::Test::Kwalitee"
     - "cpanm -q -n Dist::Zilla::Plugin::Test::Version"
+    - "cpanm -q -n Pod::Weaver::Plugin::Encoding"
 
 install:
     - "dzil authordeps --missing | xargs cpanm -q -n && dzil listdeps --missing | xargs cpanm -q -n"
