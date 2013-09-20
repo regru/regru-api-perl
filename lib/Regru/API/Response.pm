@@ -136,6 +136,8 @@ Returns param value from API response, if API call is succeeded.
 
 =head1 SEE ALSO
 
+L<Regru::API>
+
 L<Regru::API::Role::Serializer>
 
 =cut

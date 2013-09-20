@@ -164,4 +164,10 @@ REG.API v2 "client" role (to be described)
 
 L<Regru::API>
 
+L<Regru::API::Role::Namespace>
+
+L<Regru::API::Role::Serializer>
+
+L<Regru::API::Role::UserAgent>
+
 =cut

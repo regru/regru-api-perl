@@ -34,6 +34,6 @@ __END__
 
 L<Regru::API>
 
-L<Regru::API::Client>
+L<Regru::API::Role::Client>
 
 =cut
