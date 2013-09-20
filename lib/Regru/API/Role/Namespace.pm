@@ -18,7 +18,7 @@ __END__
 
 =pod
 
-=head1 SYNOPSYS
+=head1 SYNOPSIS
 
     package Regru::API::Dummy;
     ...
@@ -31,6 +31,8 @@ __END__
 ...
 
 =head1 SEE ALSO
+
+L<Regru::API>
 
 L<Regru::API::Client>
 

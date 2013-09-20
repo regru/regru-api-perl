@@ -1,6 +1,6 @@
 package Regru::API::User;
 
-# ABSTRACT: REG.API v2 "user" category methods
+# ABSTRACT: REG.API v2 "user" category
 
 use strict;
 use warnings;
@@ -34,20 +34,21 @@ __END__
 
 =pod
 
-=head1 METHODS
+=head1 DESCRIPTION
 
+REG.API user category... (to be described)
 
-=head2 nop
+=method nop
 
 Does nothing.
 
     my $response = $client->user->nop;
 
+=method create
 
-=head2 create
+...
 
-
-=head2 get_statistics
+=method get_statistics
 
 Returns statistics for current user.
 
@@ -68,8 +69,7 @@ Options:
     my $response = $client->user->get_statistics;
     say $response->get("costs_for_period") if $response->is_success;
 
-
-=head2 get_balance
+=method get_balance
 
 Returns balance for current user.
 
@@ -86,5 +86,19 @@ Options:
     currency for output sum, RUR by default.
 
 =back
+
+=method refill_balance
+
+...
+
+=attr namespace
+
+...
+
+=head1 SEE ALSO
+
+L<Regru::API>
+
+L<Regru::API::Role::Client>
 
 =cut

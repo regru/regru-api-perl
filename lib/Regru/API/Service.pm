@@ -1,6 +1,6 @@
 package Regru::API::Service;
 
-# ABSTRACT: REG.API v2 "service" category methods
+# ABSTRACT: REG.API v2 "service" category
 
 use strict;
 use warnings;
@@ -47,3 +47,105 @@ __PACKAGE__->meta->make_immutable;
 1; # End of Regru::API::Service
 
 __END__
+
+=pod
+
+=head1 DESCRIPTION
+
+REG.API service category... (to be described)
+
+=method nop
+
+...
+
+=method get_prices
+
+...
+
+=method get_servtype_details
+
+...
+
+=method create
+
+...
+
+=method delete
+
+...
+
+=method get_info
+
+...
+
+=method get_list
+
+...
+
+=method get_folders
+
+...
+
+=method get_details
+
+...
+
+=method service_get_details
+
+...
+
+=method get_dedicated_server_list
+
+...
+
+=method update
+
+...
+
+=method renew
+
+...
+
+=method get_bills
+
+...
+
+=method set_autorenew_flag
+
+...
+
+=method suspend
+
+...
+
+=method resume
+
+...
+
+=method get_depreciated_period
+
+...
+
+=method upgrade partcontrol_grant
+
+...
+
+=method partcontrol_revoke
+
+...
+
+=method resend_mail
+
+...
+
+=attr namespace
+
+...
+
+=head1 SEE ALSO
+
+L<Regru::API>
+
+L<Regru::API::Role::Client>
+
+=cut

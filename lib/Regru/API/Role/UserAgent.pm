@@ -25,7 +25,7 @@ __END__
 
 =pod
 
-=head1 SYNOPSYS
+=head1 SYNOPSIS
 
     package Regru::API::Client;
     ...
@@ -35,13 +35,13 @@ __END__
 
 ...
 
-=head1 METHODS/ATTRIBUTES
-
-=head2 useragent
+=attr useragent
 
 ...
 
 =head1 SEE ALSO
+
+L<Regru::API>
 
 L<Regru::API::Client>
 
