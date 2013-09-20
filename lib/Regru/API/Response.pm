@@ -1,6 +1,6 @@
 package Regru::API::Response;
 
-# ABSTRACT: Reg.ru API response wrapper
+# ABSTRACT: REG.API v2 response wrapper
 
 use strict;
 use warnings;
@@ -9,7 +9,8 @@ use Try::Tiny;
 use Carp ();
 use namespace::autoclean;
 
-our $VERSION = '0.01';
+# VERSION
+# AUTHORITY
 
 with 'Regru::API::Role::Serializer';
 
@@ -66,33 +67,31 @@ __END__
 
 =pod
 
-=head1 NAME
+=head1 DESCRIPTION
 
-Regru::API::Response - Reg.ru API response wrapper
+REG.API response... (to be described)
 
-=head1 METHODS
-
-=head2 is_success
+=attr is_success
 
 Returns 1 if API call is succeeded, 0 otherwise.
 
-=head2 error_text
+=attr error_text
 
 Returns error text if an error occured, default language for error messages is english.
 Language can be set in L<Regru::API> constructor with C<lang> option.
 
-=head2 error_code
+=attr error_code
 
 Returns error code if an error occured. Full list error codes list is available at L<https://www.reg.com/support/help/API-version2#std_error_codes>.
 
-=head2 error_params
+=attr error_params
 
 Params for error text.
 
     my $error_params = $response->error_params;
     my $detail = $error_params->{ error_detail };
 
-=head2 is_service_fail
+=attr is_service_fail
 
 Returns true if API service answer code isn't 200.
 
@@ -107,7 +106,7 @@ Returns true if API service answer code isn't 200.
         die "Error code: ". $response->error_code;
     }
 
-=head2 response
+=attr response
 
 Returns L<HTTP::Response> object with API response.
 
@@ -115,7 +114,7 @@ Returns L<HTTP::Response> object with API response.
         print "HTTP code: ".$api_response->response->code;
     }
 
-=head2 get
+=method get
 
     my $value = $response->get($param_name);
 
@@ -134,5 +133,11 @@ Returns param value from API response, if API call is succeeded.
     }
 
     L<https://www.reg.ru/support/help/API-version2#bill_nop>
+
+=head1 SEE ALSO
+
+L<Regru::API>
+
+L<Regru::API::Role::Serializer>
 
 =cut

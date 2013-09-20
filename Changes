@@ -1,4 +1,13 @@
-Revision history for Regru-API
+Revision history for Perl extension Regru::API.
 
-0.01 2013-09-16
- - Initual release
+{{$NEXT}}
+    - become more moo-ish
+    - updated tests
+
+0.02    2013-09-19
+    - fixed documentation
+    - added license info
+    - added repository url
+
+0.01    2013-09-16
+    - Initial release

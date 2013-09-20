@@ -9,7 +9,8 @@ use Carp ();
 use Class::Load qw(try_load_class);
 use namespace::autoclean;
 
-our $VERSION = '0.02';
+# VERSION
+# AUTHORITY
 
 with 'Regru::API::Role::Client';
 
@@ -73,19 +74,11 @@ __PACKAGE__->meta->make_immutable;
 
 __END__
 
+# XXX необходимо полность переписать этот pod
+
 =pod
 
-=encoding utf8
-
-=head1 NAME
-
-Regru::API - Perl bindings for Reg.ru API v2
-
-=head1 VERSION
-
-Version 0.02
-
-=head1 SYNOPSYS
+=head1 SYNOPSIS
 
     my $client = Regru::API->new(username => 'test', password => 'test');
     my $response = $client->nop; # makes call for <https://www.reg.com/support/help/API-version2#nop>
@@ -127,15 +120,12 @@ All API methods return L<Regru::API::Response> object.
 
 All params for API call is passed to API method call as a hash;
 
-
     my $refill_balance_response = $client->user->refill_balance(
         pay_type => 'WM',
         wmid     => '123456789012',
         currency => 'RUR',
         amount   => 100
     );
-
-
 
     my $jsondata = {
         contacts => {
@@ -167,14 +157,11 @@ All params for API call is passed to API method call as a hash;
         die $domain_create_answer->error_text;
     }
 
-
 B<NB>: All input params for call are passed in JSON format.
 
 To get service answer, use C<< $response->get($param_name) >> method. C<$param_name> is the answer field.
 
-=head1 SUBROUTINES/METHODS
-
-=head2 new
+=method new
 
     my $client = Regru::API->new(username => 'test', password => 'test');
     my $response = $client->nop;
@@ -185,7 +172,6 @@ To get service answer, use C<< $response->get($param_name) >> method. C<$param_n
 
     my $response = $client->user->nop; # user/nop doesn't require authentication
     say 'ok' if $response->is_success;
-
 
 Another options for new():
 
@@ -198,9 +184,7 @@ Sets language for error messages.
     my $client = Regru::API->new(username => 'test1', password => 'test', lang => 'ru');
     print $client->nop->error_text; # will print "Ошибка аутентификации по паролю"
 
-
 =item io_encoding
-
 
 Sets encoding for input and output data.
 
@@ -224,6 +208,25 @@ Debug messages will be printed to STDERR.
 
 =back
 
+=method namespace_handlers
+
+...
+
+=method nop
+
+...
+
+=method reseller_nop
+
+...
+
+=method get_user_id
+
+...
+
+=method get_service_id
+
+...
 
 =head1 Error processing
 
@@ -262,19 +265,20 @@ Sample:
         print "Error: " . $response->error_code . ", " . $response->error_text;
     }
 
-=head1 AUTHOR
+=head1 SEE ALSO
 
-Polina Shubina, C<< <shubina@reg.ru> >>
+L<Regru::API::Bill>
 
-=head1 BUGS
+L<Regru::API::Domain>
 
-Please report any bugs or feature requests to C<bug-regru-api at rt.cpan.org>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+L<Regru::API::Folder>
 
-=head1 LICENSE AND COPYRIGHT
+L<Regru::API::Service>
 
-Copyright 2013 Polina Shubina.
+L<Regru::API::User>
 
-This is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+L<Regru::API::Zone>
+
+L<Regru::API::Response>
 
 =cut

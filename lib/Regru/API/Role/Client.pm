@@ -1,6 +1,6 @@
 package Regru::API::Role::Client;
 
-# ABSTRACT: Reg.ru API "client" role
+# ABSTRACT: REG.API v2 "client" role
 
 use strict;
 use warnings;
@@ -9,6 +9,9 @@ use Carp ();
 use Regru::API::Response;
 use Data::Dumper;
 use namespace::autoclean;
+
+# VERSION
+# AUTHORITY
 
 with qw(
     Regru::API::Role::Namespace
@@ -92,11 +95,8 @@ __END__
 
 =pod
 
-=head1 NAME
+=head1 SYNOPSIS
 
-Regru::API::Role::Client - Reg.ru API "client" role
-
-=head1 SYNOPSYS
     # in some namespace package
     package Regru::API::Dummy;
 
@@ -118,25 +118,56 @@ Regru::API::Role::Client - Reg.ru API "client" role
 
 =head1 DESCRIPTION
 
-=head2 New namespace handler creation
+REG.API v2 "client" role (to be described)
 
-First create new namespace handler package:
+=attr username
 
-    package Regru::API::Domain; # must be Regru::API::ucfirst($namespace_name)
-    use Modern::Perl;
+...
 
-    use Moo;
-    extends 'Regru::API::NamespaceHandler';
+=attr password
 
-    my @methods = qw/nop get_prices get_suggest/; # API calls list
+...
 
-    has '+methods' => (is => 'ro', default => sub { \@methods } );
-    has '+namespace' => (default => sub { 'domain' }); # API namespace
+=attr io_encoding
 
-    1;
+...
 
-And then add new namespace to @namespaces var in Regru::API
+=attr lang
 
-    my @namespaces = qw/user domain/;
+...
+
+=attr debug
+
+...
+
+=attr namespace
+
+...
+
+=attr endpoint
+
+...
+
+=method namespace_methods
+
+...
+
+=method _debug_log
+
+...
+
+=method _api_call
+
+...
+
+=head1 SEE ALSO
+
+L<Regru::API>
+
+L<Regru::API::Role::Namespace>
+
+L<Regru::API::Role::Serializer>
+
+L<Regru::API::Role::UserAgent>
 
 =cut
