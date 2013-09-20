@@ -4,7 +4,7 @@ Regru::API - Perl bindings for Reg.ru API v2
 
 # VERSION
 
-version 0.02
+version 0.03
 
 # SYNOPSIS
 
@@ -215,13 +215,14 @@ When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
 feature.
 
-# AUTHOR
+# AUTHORS
 
-Polina Shubina <shubina@reg.ru>
+- Polina Shubina <shubina@reg.ru>
+- Anton Gerasimov <a.gerasimov@reg.ru>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Polina Shubina.
+This software is copyright (c) 2013 by REG.RU LLC.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

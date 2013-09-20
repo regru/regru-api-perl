@@ -2,6 +2,7 @@ language: perl
 
 notifications:
     recipients:
+        - shubina@reg.ru
         - a.gerasimov@reg.ru
 
 perl:
