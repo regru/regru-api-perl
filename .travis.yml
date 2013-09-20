@@ -1,0 +1,32 @@
+language: perl
+
+perl:
+    - "5.19"
+    - "5.18"
+    - "5.16"
+    - "5.14"
+    - "5.12"
+    - "5.10"
+    - "5.8"
+
+before_install:
+    - "cpanm -q -n Test::CPAN::Meta"
+    - "cpanm -q -n Test::Kwalitee"
+    - "cpanm -q -n Test::Pod::Coverage"
+    - "cpanm -q -n Test::Pod"
+    - "cpanm -q -n Pod::Coverage::TrustPod"
+    - "cpanm -q -n Dist::Zilla::Plugin::Authority"
+    - "cpanm -q -n Dist::Zilla::Plugin::MetaProvides::Package"
+    - "cpanm -q -n Dist::Zilla::Plugin::OurPkgVersion"
+    - "cpanm -q -n Dist::Zilla::Plugin::PodWeaver"
+    - "cpanm -q -n Dist::Zilla::Plugin::ReadmeAnyFromPod"
+    - "cpanm -q -n Dist::Zilla::Plugin::ReadmeFromPod"
+    - "cpanm -q -n Dist::Zilla::Plugin::Test::Compile"
+    - "cpanm -q -n Dist::Zilla::Plugin::Test::Kwalitee"
+    - "cpanm -q -n Dist::Zilla::Plugin::Test::Version"
+
+install:
+    - "dzil authordeps --missing | xargs cpanm -q -n && dzil listdeps --missing | xargs cpanm -q -n"
+
+script:
+    - "dzil test --release"
