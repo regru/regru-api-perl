@@ -1,5 +1,9 @@
 language: perl
 
+notifications:
+    recipients:
+        - a.gerasimov@reg.ru
+
 perl:
     - "5.19"
     - "5.18"
