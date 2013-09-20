@@ -1,6 +1,6 @@
 package Regru::API::Role::Serializer;
 
-# ABSTRACT: Reg.ru API "serializer" role
+# ABSTRACT: REG.API v2 "serializer" role
 
 use strict;
 use warnings;
@@ -8,6 +8,9 @@ use Moo::Role;
 use JSON;
 use Carp ();
 use namespace::autoclean;
+
+# VERSION
+# AUTHORITY
 
 has serializer => (
     is      => 'rw',
@@ -22,11 +25,7 @@ __END__
 
 =pod
 
-=head1 NAME
-
-Regru::API::Role::Serializer - Reg.ru API "serializer" role
-
-=head1 SYNOPSYS
+=head1 SYNOPSIS
 
     package Regru::API::Client;
     ...
@@ -36,14 +35,16 @@ Regru::API::Role::Serializer - Reg.ru API "serializer" role
 
 ...
 
-=head1 METHODS/ATTRIBUTES
-
-=head2 serializer
+=attr serializer
 
 ...
 
 =head1 SEE ALSO
 
-L<Regru::API::Client>
+L<Regru::API>
+
+L<Regru::API::Role::Client>
+
+L<JSON>
 
 =cut

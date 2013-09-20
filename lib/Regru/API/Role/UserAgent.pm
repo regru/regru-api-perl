@@ -1,6 +1,6 @@
 package Regru::API::Role::UserAgent;
 
-# ABSTRACT: Reg.ru API "user agent" role
+# ABSTRACT: REG.API v2 "user agent" role
 
 use strict;
 use warnings;
@@ -8,6 +8,9 @@ use Moo::Role;
 use LWP::UserAgent;
 use Carp ();
 use namespace::autoclean;
+
+# VERSION
+# AUTHORITY
 
 has useragent => (
     is      => 'rw',
@@ -22,11 +25,7 @@ __END__
 
 =pod
 
-=head1 NAME
-
-Regru::API::Role::UserAgent - Reg.ru API "user agent" role
-
-=head1 SYNOPSYS
+=head1 SYNOPSIS
 
     package Regru::API::Client;
     ...
@@ -36,14 +35,16 @@ Regru::API::Role::UserAgent - Reg.ru API "user agent" role
 
 ...
 
-=head1 METHODS/ATTRIBUTES
-
-=head2 useragent
+=attr useragent
 
 ...
 
 =head1 SEE ALSO
 
-L<Regru::API::Client>
+L<Regru::API>
+
+L<Regru::API::Role::Client>
+
+L<LWP::UserAgent>
 
 =cut
