@@ -45,4 +45,6 @@ L<Regru::API>
 
 L<Regru::API::Role::Client>
 
+L<LWP::UserAgent>
+
 =cut
