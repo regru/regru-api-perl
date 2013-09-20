@@ -1,9 +1,14 @@
 package Regru::API::Folder;
 
+# ABSTRACT: REG.API v2 "folder" category methods
+
 use strict;
 use warnings;
 use Moo;
 use namespace::autoclean;
+
+# VERSION
+# AUTHORITY
 
 with 'Regru::API::Role::Client';
 

@@ -1,11 +1,14 @@
 package Regru::API::Role::Namespace;
 
-# ABSTRACT: Reg.ru API "namespace" role
+# ABSTRACT: REG.API v2 "namespace" role
 
 use strict;
 use warnings;
 use Moo::Role;
 use namespace::autoclean;
+
+# VERSION
+# AUTHORITY
 
 requires 'available_methods';
 
@@ -14,10 +17,6 @@ requires 'available_methods';
 __END__
 
 =pod
-
-=head1 NAME
-
-Regru::API::Role::Namespace - Reg.ru API "namespace" role
 
 =head1 SYNOPSYS
 

@@ -1,6 +1,6 @@
 package Regru::API::Response;
 
-# ABSTRACT: Reg.ru API response wrapper
+# ABSTRACT: REG.API v2 response wrapper
 
 use strict;
 use warnings;
@@ -9,7 +9,8 @@ use Try::Tiny;
 use Carp ();
 use namespace::autoclean;
 
-our $VERSION = '0.01';
+# VERSION
+# AUTHORITY
 
 with 'Regru::API::Role::Serializer';
 
@@ -65,10 +66,6 @@ sub get {
 __END__
 
 =pod
-
-=head1 NAME
-
-Regru::API::Response - Reg.ru API response wrapper
 
 =head1 METHODS
 

@@ -1,9 +1,14 @@
 package Regru::API::Bill;
 
+# ABSTRACT: REG.API v2 "bill" category methods
+
 use strict;
 use warnings;
 use Moo;
 use namespace::autoclean;
+
+# VERSION
+# AUTHORITY
 
 with 'Regru::API::Role::Client';
 

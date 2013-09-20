@@ -1,9 +1,14 @@
 package Regru::API::User;
 
+# ABSTRACT: REG.API v2 "user" category methods
+
 use strict;
 use warnings;
 use Moo;
 use namespace::autoclean;
+
+# VERSION
+# AUTHORITY
 
 with 'Regru::API::Role::Client';
 
@@ -28,10 +33,6 @@ __PACKAGE__->meta->make_immutable;
 __END__
 
 =pod
-
-=head1 NAME
-
-Regru::API::User - package for methods related to user category.
 
 =head1 METHODS
 

@@ -9,7 +9,8 @@ use Carp ();
 use Class::Load qw(try_load_class);
 use namespace::autoclean;
 
-our $VERSION = '0.02';
+# VERSION
+# AUTHORITY
 
 with 'Regru::API::Role::Client';
 
@@ -74,16 +75,6 @@ __PACKAGE__->meta->make_immutable;
 __END__
 
 =pod
-
-=encoding utf8
-
-=head1 NAME
-
-Regru::API - Perl bindings for Reg.ru API v2
-
-=head1 VERSION
-
-Version 0.02
 
 =head1 SYNOPSYS
 
@@ -262,19 +253,9 @@ Sample:
         print "Error: " . $response->error_code . ", " . $response->error_text;
     }
 
-=head1 AUTHOR
-
-Polina Shubina, C<< <shubina@reg.ru> >>
-
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-regru-api at rt.cpan.org>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
-
-=head1 LICENSE AND COPYRIGHT
-
-Copyright 2013 Polina Shubina.
-
-This is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
 =cut

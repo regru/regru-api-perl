@@ -1,9 +1,14 @@
 package Regru::API::Domain;
 
+# ABSTRACT: REG.API v2 "domain" category methods
+
 use strict;
 use warnings;
 use Moo;
 use namespace::autoclean;
+
+# VERSION
+# AUTHORITY
 
 with 'Regru::API::Role::Client';
 

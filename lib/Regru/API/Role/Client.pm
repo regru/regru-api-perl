@@ -1,6 +1,6 @@
 package Regru::API::Role::Client;
 
-# ABSTRACT: Reg.ru API "client" role
+# ABSTRACT: REG.API v2 "client" role
 
 use strict;
 use warnings;
@@ -9,6 +9,9 @@ use Carp ();
 use Regru::API::Response;
 use Data::Dumper;
 use namespace::autoclean;
+
+# VERSION
+# AUTHORITY
 
 with qw(
     Regru::API::Role::Namespace
@@ -91,10 +94,6 @@ sub _api_call {
 __END__
 
 =pod
-
-=head1 NAME
-
-Regru::API::Role::Client - Reg.ru API "client" role
 
 =head1 SYNOPSYS
     # in some namespace package
