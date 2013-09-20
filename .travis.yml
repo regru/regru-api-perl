@@ -15,9 +15,8 @@ perl:
     - "5.8"
 
 before_install:
-    - "echo '[%PAUSE]' > ~/.pause"
-    - "echo 'username = REGRU' >> ~/.pause"
-    - "echo 'password = _____' >> ~/.pause"
+    - "echo 'user REGRU' > ~/.pause"
+    - "echo 'password _____' >> ~/.pause"
     - "cpanm -q -n Test::CPAN::Meta"
     - "cpanm -q -n Test::Kwalitee"
     - "cpanm -q -n Test::Pod::Coverage"
