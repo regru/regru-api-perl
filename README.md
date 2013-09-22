@@ -2,7 +2,7 @@
 
 Regru::API - Perl bindings for Reg.ru API v2
 
-[![build status](https://secure.travis-ci.org/regru/reg-api-perl.png)](https://travis-ci.org/regru/reg-api-perl)
+[![build status](https://secure.travis-ci.org/regru/regru-api-perl.png)](https://travis-ci.org/regru/regru-api-perl)
 
 # VERSION
 
