@@ -45,7 +45,7 @@ subtest 'Client role' => sub {
     ok $foo->does('Regru::API::Role::Loggable'),        'Instance does the Loggable role';
 
     # applied by roles
-    can_ok $foo, qw(useragent serializer);
+    can_ok $foo, qw(useragent serializer debug_warn);
 
     # attributes
     can_ok $foo, qw(username password io_encoding lang debug namespace endpoint);
