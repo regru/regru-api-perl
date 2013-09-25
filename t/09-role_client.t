@@ -24,7 +24,7 @@ use Test::More tests => 1;
 }
 
 subtest 'Client role' => sub {
-    plan tests => 12;
+    plan tests => 13;
 
     # save endpoint
     my $endpoint = $ENV{REGRU_API_ENDPOINT} || undef;
@@ -42,6 +42,7 @@ subtest 'Client role' => sub {
     ok $foo->does('Regru::API::Role::UserAgent'),       'Instance does the UserAgent role';
     ok $foo->does('Regru::API::Role::Namespace'),       'Instance does the Namespace role';
     ok $foo->does('Regru::API::Role::Serializer'),      'Instance does the Serializer role';
+    ok $foo->does('Regru::API::Role::Loggable'),        'Instance does the Loggable role';
 
     # applied by roles
     can_ok $foo, qw(useragent serializer);
@@ -50,7 +51,7 @@ subtest 'Client role' => sub {
     can_ok $foo, qw(username password io_encoding lang debug namespace endpoint);
 
     # native methods
-    can_ok $foo, qw(namespace_methods _debug_log api_request);
+    can_ok $foo, qw(namespace_methods api_request);
 
     is          $foo->namespace,            'dummy',                    'Attribute namespace overwritten okay';
     is_deeply   $foo->available_methods,    [qw(baz quux)],             'Correct list of API methods';

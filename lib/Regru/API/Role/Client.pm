@@ -5,9 +5,7 @@ package Regru::API::Role::Client;
 use strict;
 use warnings;
 use Moo::Role;
-use Carp ();
 use Regru::API::Response;
-use Data::Dumper;
 use namespace::autoclean;
 
 # VERSION
@@ -17,6 +15,7 @@ with qw(
     Regru::API::Role::Namespace
     Regru::API::Role::Serializer
     Regru::API::Role::UserAgent
+    Regru::API::Role::Loggable
 );
 
 has username    => ( is => 'ro' );
@@ -53,12 +52,6 @@ sub namespace_methods {
     }
 }
 
-sub _debug_log {
-    my ($self, $message) = @_;
-
-    Carp::carp $message if $self->debug;
-}
-
 sub api_request {
     my ($self, $method, %params) = @_;
 
@@ -76,8 +69,7 @@ sub api_request {
     $post_params{lang}          = $self->lang           if defined $self->lang;
     $post_params{io_encoding}   = $self->io_encoding    if defined $self->io_encoding;
 
-    $self->_debug_log('API request: ' . $url);
-    $self->_debug_log('Params: ' . Dumper(\%params));
+    $self->debug_warn('API request:', $url, "\n", 'with params:', \%params) if $self->debug;
 
     my $json = $self->serializer->encode( \%params );
 
@@ -159,10 +151,6 @@ REG.API v2 "client" role (to be described)
 
 ...
 
-=method _debug_log
-
-...
-
 =method api_request
 
 ...
@@ -180,5 +168,7 @@ L<Regru::API::Role::Namespace>
 L<Regru::API::Role::Serializer>
 
 L<Regru::API::Role::UserAgent>
+
+L<Regru::API::Role::Loggable>
 
 =cut
