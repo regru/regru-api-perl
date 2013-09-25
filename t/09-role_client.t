@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 {
     # role consumer
@@ -24,12 +24,7 @@ use Test::More tests => 1;
 }
 
 subtest 'Client role' => sub {
-    plan tests => 13;
-
-    # save endpoint
-    my $endpoint = $ENV{REGRU_API_ENDPOINT} || undef;
-
-    $ENV{REGRU_API_ENDPOINT} = 'http://api.example.com/v2';
+    plan tests => 10;
 
     my $foo = new_ok 'Foo::Bar';
 
@@ -51,11 +46,28 @@ subtest 'Client role' => sub {
     can_ok $foo, qw(username password io_encoding lang debug namespace endpoint);
 
     # native methods
-    can_ok $foo, qw(namespace_methods api_request);
+    can_ok $foo, qw(namespace_methods api_request to_namespace);
+};
+
+subtest 'Native methods' => sub {
+    plan tests => 8;
+
+    # save endpoint
+    my $endpoint = $ENV{REGRU_API_ENDPOINT} || undef;
+
+    $ENV{REGRU_API_ENDPOINT} = 'http://api.example.com/v2';
+
+    my $foo = new_ok 'Foo::Bar';
 
     is          $foo->namespace,            'dummy',                    'Attribute namespace overwritten okay';
     is_deeply   $foo->available_methods,    [qw(baz quux)],             'Correct list of API methods';
     is          $foo->endpoint,             $ENV{REGRU_API_ENDPOINT},   'API endpoint spoofed okay';
+
+
+    is          $foo->to_namespace(),       '/dummy',                   'Missed namespace okay';
+    is          $foo->to_namespace(undef),  '/dummy',                   'Undefined namespace passed okay';
+    is          $foo->to_namespace(''),     '/dummy',                   'Empty namespace passed okay';
+    is          $foo->to_namespace('foo'),  '/foo',                     'Namespace overwritten okay';
 
     # restore endpoint
     $ENV{REGRU_API_ENDPOINT} = $endpoint if $endpoint;
