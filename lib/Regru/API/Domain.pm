@@ -13,7 +13,6 @@ use namespace::autoclean;
 with 'Regru::API::Role::Client';
 
 has '+namespace' => (
-    is      => 'ro',
     default => sub { 'domain' },
 );
 
