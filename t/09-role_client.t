@@ -12,7 +12,6 @@ use Test::More tests => 1;
     with 'Regru::API::Role::Client';
 
     has '+namespace' => (
-        is      => 'ro',
         default => sub { 'dummy' },
     );
 

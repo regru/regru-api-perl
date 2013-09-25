@@ -115,7 +115,6 @@ __END__
     with 'Regru::API::Role::Client';
 
     has '+namespace' => (
-        is      => 'ro',
         default => sub { 'dummy' },
     );
 
