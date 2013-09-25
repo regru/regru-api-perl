@@ -63,7 +63,7 @@ sub api_request {
     my ($self, $method, %params) = @_;
 
     my $url = join '' => $self->endpoint,
-                        ($self->namespace ? '/' . $self->namespace : ''),
+                         $self->to_namespace(delete $params{namespace}), # compose namespace part
                         ($method ? '/' . $method : '');
 
     my %post_params = (
@@ -87,6 +87,14 @@ sub api_request {
     );
 
     return Regru::API::Response->new( response => $response );
+}
+
+sub to_namespace {
+    my ($self, $namespace) = @_;
+
+    $namespace = $namespace || $self->namespace || undef;
+
+    return $namespace ? '/' . $namespace : '';
 }
 
 1; # End of Regru::API::Role::Client
@@ -157,6 +165,10 @@ REG.API v2 "client" role (to be described)
 ...
 
 =method api_request
+
+...
+
+=method to_namespace
 
 ...
 
