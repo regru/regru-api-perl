@@ -1,6 +1,7 @@
 Revision history for Perl extension Regru::API.
 
 {{$NEXT}}
+    - added namespace parameter for requests
     - become more moo-ish
     - updated tests
 
