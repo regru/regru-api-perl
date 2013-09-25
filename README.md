@@ -6,7 +6,7 @@ Regru::API - Perl bindings for Reg.ru API v2
 
 # VERSION
 
-version 0.03
+version 0.003
 
 # SYNOPSIS
 
