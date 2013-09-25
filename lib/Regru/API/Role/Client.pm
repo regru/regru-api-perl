@@ -46,7 +46,7 @@ sub namespace_methods {
 
         my $handler = sub {
             my ($self, @args) = @_;
-            $self->_api_call($method => @args);
+            $self->api_request($method => @args);
         };
 
         $meta->add_method($method => $handler);
@@ -59,7 +59,7 @@ sub _debug_log {
     Carp::carp $message if $self->debug;
 }
 
-sub _api_call {
+sub api_request {
     my ($self, $method, %params) = @_;
 
     my $url = join '' => $self->endpoint,
@@ -156,7 +156,7 @@ REG.API v2 "client" role (to be described)
 
 ...
 
-=method _api_call
+=method api_request
 
 ...
 

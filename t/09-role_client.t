@@ -51,7 +51,7 @@ subtest 'Client role' => sub {
     can_ok $foo, qw(username password io_encoding lang debug namespace endpoint);
 
     # native methods
-    can_ok $foo, qw(namespace_methods _debug_log _api_call);
+    can_ok $foo, qw(namespace_methods _debug_log api_request);
 
     is          $foo->namespace,            'dummy',                    'Attribute namespace overwritten okay';
     is_deeply   $foo->available_methods,    [qw(baz quux)],             'Correct list of API methods';
