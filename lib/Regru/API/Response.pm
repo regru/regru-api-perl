@@ -35,7 +35,7 @@ sub _trigger_response {
 
     if ($response) {
         try {
-            my $decoded = $self->serializer->decode($response->decoded_content);
+            my $decoded = $self->serializer->decode($response->decoded_content || $response->content);
             $self->is_success($decoded->{result} && $decoded->{ result } eq 'success');
 
             if ($self->is_success) {
