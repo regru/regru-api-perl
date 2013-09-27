@@ -35,8 +35,10 @@ sub _trigger_response {
 
     if ($response) {
         try {
+            die 'Invalid response' unless ref $response eq 'HTTP::Response';
+
             my $decoded = $self->serializer->decode($response->decoded_content || $response->content);
-            $self->is_success($decoded->{result} && $decoded->{ result } eq 'success');
+            $self->is_success($decoded->{result} && $decoded->{result} eq 'success');
 
             if ($self->is_success) {
                 $self->answer($decoded->{answer});
@@ -48,7 +50,7 @@ sub _trigger_response {
             }
         }
         catch {
-            Carp::carp 'Unable to decode response: ' . $_;
+            Carp::carp 'Error: ' . $_;
             $self->error_code('API_FAIL');
             $self->error_text('API response error');
         };
