@@ -18,7 +18,7 @@ has error_code      => ( is => 'rw' );
 has error_text      => ( is => 'rw' );
 has error_params    => ( is => 'rw' );
 has is_success      => ( is => 'rw' );
-has is_service_fail => ( is => 'rw' ); # XXX: should be implemented
+has is_service_fail => ( is => 'rw' );
 
 has answer => (
     is      => 'rw',
@@ -77,77 +77,82 @@ __END__
 
 =pod
 
-=head1 DESCRIPTION
+=attr is_service_fail
 
-REG.API response... (to be described)
+Flag to show whether or not the most last answer from the API service has not been finished with code I<HTTP 200>.
+
+    $resp = $client->bill->nop(bill_id => 123213);
+
+    if ($resp->is_success) {
+        print "It works!";
+    }
+    elsif ($resp->is_service_fail) {
+        print "Reg.ru API is gone :(";
+    }
+    else {
+        print "Error code: ". $resp->error_code;
+    }
 
 =attr is_success
 
-Returns 1 if API call is succeeded, 0 otherwise.
+Flag to show whether or not the most last API request has been successful.
 
-=attr error_text
-
-Returns error text if an error occured, default language for error messages is english.
-Language can be set in L<Regru::API> constructor with C<lang> option.
-
-=attr error_code
-
-Returns error code if an error occured. Full list error codes list is available at L<https://www.reg.com/support/help/API-version2#std_error_codes>.
-
-=attr error_params
-
-Params for error text.
-
-    my $error_params = $response->error_params;
-    my $detail = $error_params->{ error_detail };
-
-=attr is_service_fail
-
-Returns true if API service answer code isn't 200.
-
-    my $response = $client->bill->nop(bill_id => 123213);
-    if ($response->is_success) {
-        print "It works";
-    }
-    elsif ($response->is_service_fail) {
-        print "Reg.ru API is gone :("
-    }
-    else {
-        die "Error code: ". $response->error_code;
-    }
+See example for L<#is_service_fail>.
 
 =attr response
 
-Returns L<HTTP::Response> object with API response.
+Contains a L<HTTP::Response> object for the most last API request.
 
-    if ($api_response->is_service_fail) {
-        print "HTTP code: ".$api_response->response->code;
+    if ($resp->is_service_fail) {
+        print "HTTP code: " . $resp->response->code;
     }
+
+=attr answer
+
+Contains decoded answer for the most last successful API request.
+
+    if ($resp->is_success) {
+        print Dumper($resp->answer);
+    }
+
+This is useful for debugging;
+
+=attr error_code
+
+Contains error code for the most last API request if it has not been successful.
+
+Full list error codes list is available at
+L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
+
+=attr error_text
+
+Contains common error text for the most last API request if it has not been successful.
+
+Default language is B<enlish>. Language can be changed by passing option C<lang> to the
+L<Regru::API> constructor.
+
+=attr error_params
+
+Contains additional parameters included into the common error text.
+
+    $error_params = $resp->error_params;
+    print "Details: " . $error_params->{error_detail};
 
 =method get
 
-    my $value = $response->get($param_name);
+Gets a value from stored in answer.
 
-Returns param value from API response, if API call is succeeded.
-
-    my $response = $client->user->get_statistics;
-    say "Total balance: " . $response->get("balance_total");
-
-    L<https://www.reg.ru/support/help/API-version2#user_get_statistics>
-
-    ...
-
-    my $bills_answer = $client->bill->nop(bill_id => 1235);
-    if ($bills_answer->is_success) {
-        say $bills_answer->get('bills')->[0]->{ bill_id };
-    }
-
-    L<https://www.reg.ru/support/help/API-version2#bill_nop>
+    $resp = $client->user->get_statistics;
+    print "Account balance: " . $resp->get("balance_total");
 
 =head1 SEE ALSO
 
 L<Regru::API>
 
 L<Regru::API::Role::Serializer>
+
+L<HTTP::Response>
+
+L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
 
 =cut

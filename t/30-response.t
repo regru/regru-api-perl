@@ -119,7 +119,7 @@ subtest 'Expected response case (failed)' => sub {
 };
 
 subtest 'Remote service has failed' => sub {
-    plan tests => 7;
+    plan tests => 10;
 
     my $resp = new_ok 'Regru::API::Response';
 
@@ -135,6 +135,7 @@ subtest 'Remote service has failed' => sub {
         my $warned = warning { $resp->response($fake) };
         ok   $resp->is_service_fail,                                            'API service failed - ' . $code;
         like $warned,                   qr/^Error: Service failed: $msg.*/,     '...with server message - ' . $code;
+        is   $resp->response->code,     $code,                                  '...win correct code - ' . $code;
     }
 };
 
