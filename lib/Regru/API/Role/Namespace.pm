@@ -28,7 +28,12 @@ __END__
 
 =head1 DESCRIPTION
 
-...
+Any class or role that consumes this one will considered as a namespace (or category) in REG.API v2.
+
+=reqs available_methods
+
+A list of methods (as array reference) provides by namespace. An empty array reference should be used in
+case of namespace does not provide any methods. But this so odd...
 
 =head1 SEE ALSO
 
