@@ -1,9 +1,7 @@
 use strict;
 use warnings;
 use Test::More tests => 1;
-
-# XXX: need testing role requirements for consumer
-# XXX: at the moment - presence of available_methods()
+use Test::Fatal;
 
 {
     # role consumer
@@ -19,8 +17,20 @@ use Test::More tests => 1;
     1;
 }
 
+my $unmet_requirements = qq{
+    # invalid consumer
+    package Foo::Baz;
+
+    use strict;
+    use Moo;
+
+    with 'Regru::API::Role::Namespace';
+
+    1;
+};
+
 subtest 'Namespace role' => sub {
-    plan tests => 4;
+    plan tests => 5;
 
     my $foo = new_ok 'Foo::Bar';
 
@@ -28,6 +38,9 @@ subtest 'Namespace role' => sub {
     can_ok $foo, 'available_methods';
 
     ok $foo->does('Regru::API::Role::Namespace'),       'Instance does the Namespace role';
+
+    my $failed = exception { eval "$unmet_requirements" || die $@ };
+    like $failed, qr/^Can't apply .*::Role::Namespace to Foo::Baz/,     'Caught exception during apply role';
 };
 
 1;
