@@ -26,7 +26,7 @@ use Test::More tests => 2;
 subtest 'Client role' => sub {
     plan tests => 10;
 
-    my $foo = new_ok 'Foo::Bar';
+    my $foo = new_ok 'Foo::Bar' => [(username => 'foo', password => 'bar')];
 
     isa_ok $foo, 'Foo::Bar';
 
@@ -57,7 +57,7 @@ subtest 'Native methods' => sub {
 
     $ENV{REGRU_API_ENDPOINT} = 'http://api.example.com/v2';
 
-    my $foo = new_ok 'Foo::Bar';
+    my $foo = new_ok 'Foo::Bar' => [(username => 'foo', password => 'bar')];
 
     is          $foo->namespace,            'dummy',                    'Attribute namespace overwritten okay';
     is_deeply   $foo->available_methods,    [qw(baz quux)],             'Correct list of API methods';

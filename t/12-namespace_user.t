@@ -27,7 +27,7 @@ subtest 'Generic behaviour' => sub {
 subtest 'Unautheticated requests' => sub {
     plan tests => 3;
 
-    my $client = Regru::API->new;
+    my $client = Regru::API->new(username => undef, password => undef);
 
     my $resp = $client->user->refill_balance;
 

@@ -18,8 +18,8 @@ with qw(
     Regru::API::Role::Loggable
 );
 
-has username    => ( is => 'ro' );
-has password    => ( is => 'ro' );
+has username    => ( is => 'ro', required => 1 );
+has password    => ( is => 'ro', required => 1 );
 has io_encoding => ( is => 'ro' );
 has lang        => ( is => 'ro' );
 has debug       => ( is => 'ro' );
@@ -117,47 +117,56 @@ __END__
 
 =head1 DESCRIPTION
 
-REG.API v2 "client" role (to be described)
+Any class or role that consumes this role will able to execute requests to REG.API v2.
 
 =attr username
 
-...
+Account name of the user to access to website L<https://www.reg.com>. Required.
 
 =attr password
 
-...
+Account password of the user to access to website L<https://www.reg.com> or an alternative password for API
+defined at L<Reseller settings|https://www.reg.com/reseller/details> page. Required.
 
 =attr io_encoding
 
-...
+Defines encoding that will be used for data exchange between the Service and the Client. At the moment REG.API v2
+supports the following encodings: I<utf8>, I<cp1251>, I<koi8-r>, I<koi8-u>, I<cp866>. Optional. Default value is B<utf8>.
 
 =attr lang
 
-...
+Defines the language which will be used in error messages. At the moment REG.API v2 supports the following languages:
+English (I<en>), Russian (I<ru>) and Thai (I<th>). Optional. Default value is B<en>.
 
 =attr debug
 
-...
+Enables the debug mode. Prints some garbage.
 
 =attr namespace
 
-...
+Used internally.
 
 =attr endpoint
 
-...
+REG.API v2 endpoint url. There's no needs to change it. Although it might be overridden by setting environment variable:
+
+    export REGRU_API_ENDPOINT=https://api.example.com
+
+Default value is
+
+    https://api.reg.ru/api/regru2
 
 =method namespace_methods
 
-...
+Dynamically creates methods-shortcuts in in namespaces (categories) for requests to appropriate REG.API v2 functions.
 
 =method api_request
 
-...
+Performs an API request to REG.API service. Returns a L<Regru::API::Response> object.
 
 =method to_namespace
 
-...
+Used internally.
 
 =head1 SEE ALSO
 
@@ -170,5 +179,7 @@ L<Regru::API::Role::Serializer>
 L<Regru::API::Role::UserAgent>
 
 L<Regru::API::Role::Loggable>
+
+L<Regru::API::Response>
 
 =cut
