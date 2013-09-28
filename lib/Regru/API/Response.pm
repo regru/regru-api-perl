@@ -37,6 +37,14 @@ sub _trigger_response {
         try {
             die 'Invalid response' unless ref $response eq 'HTTP::Response';
 
+            $self->is_service_fail($response->code == 200 ? 0 : 1);
+
+            if ($self->is_service_fail) {
+                # Stop processing response
+                $self->is_success(0);
+                die 'Service failed: ' . ($response->decoded_content || $response->content);
+            }
+
             my $decoded = $self->serializer->decode($response->decoded_content || $response->content);
             $self->is_success($decoded->{result} && $decoded->{result} eq 'success');
 

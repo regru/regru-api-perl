@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More tests => 7;
 use Test::Warnings 0.010 qw(:all :no_end_test);
 use t::lib::FakeResponse;
 
@@ -116,6 +116,26 @@ subtest 'Expected response case (failed)' => sub {
     is_deeply   $resp->answer,      {},                             'Got empty answer';
     is          $resp->error_code,  'PASSWORD_AUTH_FAILED',         '...with correct error code';
     is          $resp->error_text,  'Username/password Incorrect',  '...with correct error code';
+};
+
+subtest 'Remote service has failed' => sub {
+    plan tests => 7;
+
+    my $resp = new_ok 'Regru::API::Response';
+
+    my @fails = (
+        302 => 'Somewhere over the rainbow..',
+        404 => 'Something went wrong',
+        500 => 'The server made a boo boo.',
+    );
+
+    while (my ($code, $msg) = splice @fails, 0, 2) {
+        my $fake = t::lib::FakeResponse->compose($code, $msg);
+
+        my $warned = warning { $resp->response($fake) };
+        ok   $resp->is_service_fail,                                            'API service failed - ' . $code;
+        like $warned,                   qr/^Error: Service failed: $msg.*/,     '...with server message - ' . $code;
+    }
 };
 
 1;
