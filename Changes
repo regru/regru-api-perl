@@ -1,6 +1,8 @@
 Revision history for Perl extension Regru::API.
 
 {{$NEXT}}
+
+0.003   Tue Oct 1 12:36:02 2013 +0000
     - added namespace parameter for requests
     - become more moo-ish
     - updated tests
