@@ -18,11 +18,11 @@ with qw(
     Regru::API::Role::Loggable
 );
 
-has username    => ( is => 'ro', required => 1 );
-has password    => ( is => 'ro', required => 1 );
-has io_encoding => ( is => 'ro' );
-has lang        => ( is => 'ro' );
-has debug       => ( is => 'ro' );
+has username    => ( is => 'rw', required => 1 );
+has password    => ( is => 'rw', required => 1 );
+has io_encoding => ( is => 'rw' );
+has lang        => ( is => 'rw' );
+has debug       => ( is => 'rw' );
 
 has namespace   => (
     is      => 'ro',

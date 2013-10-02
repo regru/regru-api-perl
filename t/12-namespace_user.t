@@ -23,9 +23,13 @@ subtest 'Generic behaviour' => sub {
 subtest 'Unautheticated requests' => sub {
     plan tests => 3;
 
-    my $client = Regru::API->new(username => undef, password => undef);
+    my $client = t::lib::NamespaceClient->user;
 
-    my $resp = $client->user->refill_balance;
+    # reset std test/test credentials
+    $client->username(undef);
+    $client->password(undef);
+
+    my $resp = $client->refill_balance;
 
     ok !$resp->is_success,                      'Request success';
     is $resp->error_text, 'No username given',  'Got correct error_text';

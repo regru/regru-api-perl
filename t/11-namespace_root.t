@@ -49,10 +49,11 @@ subtest 'Namespace methods' => sub {
 subtest 'Invalid credentials' => sub {
     plan tests => 2;
 
-    my $client = Regru::API->new(
-        username => 'wrong login',
-        password => 'wrong password'
-    );
+    my $client = t::lib::NamespaceClient->root;
+
+    # overwrite std test/test credentials
+    $client->username('wrong login');
+    $client->password('wrong password');
 
     my $resp = $client->nop;
 
