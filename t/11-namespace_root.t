@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Test::More tests => 3;
+use t::lib::NamespaceClient;
 
 subtest 'Generic behaviour' => sub {
     plan tests => 5;
@@ -20,7 +21,7 @@ subtest 'Generic behaviour' => sub {
 subtest 'Namespace methods' => sub {
     plan tests => 9;
 
-    my $client = Regru::API->new( username => 'test', password => 'test' );
+    my $client = t::lib::NamespaceClient->root;
     my $resp;
 
     # /nop

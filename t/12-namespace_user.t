@@ -1,11 +1,7 @@
 use strict;
 use warnings;
-use Test::More tests => 3;
-use Regru::API;
-
-sub namespace_client {
-    Regru::API->new(username => 'test', password => 'test')->user;
-};
+use Test::More tests => 4;
+use t::lib::NamespaceClient;
 
 subtest 'Generic behaviour' => sub {
     plan tests => 2;
@@ -18,7 +14,7 @@ subtest 'Generic behaviour' => sub {
         refill_balance
     );
 
-    my $client = namespace_client();
+    my $client = t::lib::NamespaceClient->user;
 
     isa_ok $client, 'Regru::API::User';
     can_ok $client, @methods;
@@ -36,21 +32,30 @@ subtest 'Unautheticated requests' => sub {
     is $resp->error_code, 'NO_USERNAME',        'Got correct error_code';
 };
 
-subtest 'Namespace methods' => sub {
-    plan tests => 11;
+subtest 'Namespace methods (nop)' => sub {
+    plan tests => 1;
 
-    my $client = Regru::API->new(
-        username    => 'test',
-        password    => 'test',
-        lang        => 'th',
-        io_encoding => 'cp1251',
-    )->user;
+    my $client = t::lib::NamespaceClient->user;
 
     my $resp;
 
     # /user/nop
     $resp = $client->nop;
     ok $resp->is_success,                                   'nop() success';
+};
+
+subtest 'Namespace methods (overall)' => sub {
+    unless ($ENV{REGRU_API_OVERALL_TESTING}) {
+        diag 'Some tests were skipped. Set the REGRU_API_OVERALL_TESTING to execute them.';
+        plan skip_all => '.';
+    }
+    else {
+        plan tests => 10;
+    }
+
+    my $client = t::lib::NamespaceClient->user;
+
+    my $resp;
 
     # /user/get_statistics
     $resp = $client->get_statistics;

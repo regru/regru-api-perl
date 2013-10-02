@@ -2,11 +2,7 @@ use strict;
 use warnings;
 use utf8;
 use Test::More tests => 3;
-use Regru::API;
-
-sub namespace_client {
-    Regru::API->new(username => 'test', password => 'test')->domain;
-};
+use t::lib::NamespaceClient;
 
 subtest 'Generic behaviour' => sub {
     plan tests => 2;
@@ -38,7 +34,7 @@ subtest 'Generic behaviour' => sub {
         request_to_transfer
     );
 
-    my $client = namespace_client();
+    my $client = t::lib::NamespaceClient->domain;
 
     isa_ok $client, 'Regru::API::Domain';
     can_ok $client, @methods;
@@ -47,7 +43,7 @@ subtest 'Generic behaviour' => sub {
 subtest 'Namespace methods (nop)' => sub {
     plan tests => 1;
 
-    my $client = namespace_client();
+    my $client = t::lib::NamespaceClient->domain;
 
     my $resp;
 
@@ -58,14 +54,14 @@ subtest 'Namespace methods (nop)' => sub {
 
 subtest 'Namespace methods (overall)' => sub {
     unless ($ENV{REGRU_API_OVERALL_TESTING}) {
-        diag 'Skipped. Set REGRU_API_OVERALL_TESTING=1 to proceed this subtest.';
+        diag 'Some tests were skipped. Set the REGRU_API_OVERALL_TESTING to execute them.';
         plan skip_all => '.';
     }
     else {
         plan tests => 40;
     }
 
-    my $client = namespace_client();
+    my $client = t::lib::NamespaceClient->domain;
 
     my $resp;
 
