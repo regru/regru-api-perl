@@ -190,7 +190,7 @@ L<REG.API Folder management functions|https://www.reg.com/support/help/API-versi
 Invoice management methods.
 
     # suppose we already have a client
-    $client->invoice->get_not_payed(
+    $client->bill->get_not_payed(
         limit => 10,
     );
 
@@ -282,7 +282,7 @@ supports the following encodings: I<utf8>, I<cp1251>, I<koi8-r>, I<koi8-u>, I<cp
 =item B<lang>
 
 Defines the language which will be used in error messages. At the moment REG.API v2 supports the following languages:
-English (I<en>), Russian (I<ru>) and Thai (I<th>). Optional. Default value is B<en>.
+C<en> (English), C<ru> (Russian) and C<th> (Thai). Optional. Default value is B<en>.
 
     my $client = Regru::API->new(..., lang => 'ru');
     ...

@@ -120,7 +120,7 @@ At the moment there are the following namespaces:
     Invoice management methods.
 
         # suppose we already have a client
-        $client->invoice->get_not_payed(
+        $client->bill->get_not_payed(
             limit => 10,
         );
 
@@ -206,7 +206,7 @@ Available options:
 - __lang__
 
     Defines the language which will be used in error messages. At the moment REG.API v2 supports the following languages:
-    English (_en_), Russian (_ru_) and Thai (_th_). Optional. Default value is __en__.
+    `en` (English), `ru` (Russian) and `th` (Thai). Optional. Default value is __en__.
 
         my $client = Regru::API->new(..., lang => 'ru');
         ...
