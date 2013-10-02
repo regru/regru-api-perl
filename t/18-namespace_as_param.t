@@ -1,12 +1,12 @@
 use strict;
 use warnings;
 use Test::More tests => 1;
-use Regru::API;
+use t::lib::NamespaceClient;
 
 subtest 'Grab namespace from parameters' => sub {
     plan tests => 8;
 
-    my $client = Regru::API->new(username => 'test', password => 'test');
+    my $client = t::lib::NamespaceClient->root;
 
     # nop() API call shortcut
     my $nop = sub { $client->api_request('nop', @_) };
