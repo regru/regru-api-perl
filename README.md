@@ -127,7 +127,7 @@ At the moment there are the following namespaces:
     See [Regru::API::Bill](http://search.cpan.org/perldoc?Regru::API::Bill) for details and
     [REG.API Invoice management functions](https://www.reg.com/support/help/API-version2\#bill\_fn).
 
-## Methods accesibility
+## Methods accessibility
 
 All REG.API methods can be divided into categories of accessibility. On manual pages of this distibution accessibility
 marked by `scope` tag. At the moment the following categories of accessibility present:
@@ -145,6 +145,21 @@ marked by `scope` tag. At the moment the following categories of accessibility p
 
     Group of methods which accessible only for partners (resellers) of the REG.RU LLC. Actually, partners (resellers)
     able to execute all methods of the REG.API without any restrictions.
+
+## Access to REG.API in test mode
+
+REG.RU LLC provides an access to REG.API in test mode. For this, might be used a test account with `username` and `password`
+equals to __test__.
+
+    my $client = Regru::API->new(username => 'test', password => 'test');
+    # we're in test mode now
+    $client->domain->get_prices;
+
+In the test mode at server-side handle API requests (ensures all necessary checks of input parameters), provides responses
+but actually does not perform any real actions/changes.
+
+Also, for debugging purposes REG.API provides a special set of methods allows to ensure the remote system for availability
+without workload at minimal response time. Each namespace has method called __nop__ for that.
 
 # METHODS
 

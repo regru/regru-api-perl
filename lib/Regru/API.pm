@@ -199,7 +199,7 @@ L<REG.API Invoice management functions|https://www.reg.com/support/help/API-vers
 
 =back
 
-=head2 Methods accesibility
+=head2 Methods accessibility
 
 All REG.API methods can be divided into categories of accessibility. On manual pages of this distibution accessibility
 marked by C<scope> tag. At the moment the following categories of accessibility present:
@@ -221,6 +221,21 @@ Group of methods which accessible only for partners (resellers) of the REG.RU LL
 able to execute all methods of the REG.API without any restrictions.
 
 =back
+
+=head2 Access to REG.API in test mode
+
+REG.RU LLC provides an access to REG.API in test mode. For this, might be used a test account with C<username> and C<password>
+equals to B<test>.
+
+    my $client = Regru::API->new(username => 'test', password => 'test');
+    # we're in test mode now
+    $client->domain->get_prices;
+
+In the test mode at server-side handle API requests (ensures all necessary checks of input parameters), provides responses
+but actually does not perform any real actions/changes.
+
+Also, for debugging purposes REG.API provides a special set of methods allows to ensure the remote system for availability
+without workload at minimal response time. Each namespace has method called B<nop> for that.
 
 =method new
 
