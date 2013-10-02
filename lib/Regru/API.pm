@@ -265,7 +265,7 @@ Although it might be changed at runtime.
 =item B<io_encoding>
 
 Defines encoding that will be used for data exchange between the Service and the Client. At the moment REG.API v2
-supports the following encodings: I<utf8>, I<cp1251>, I<koi8-r>, I<koi8-u>, I<cp866>. Optional. Default value is B<utf8>.
+supports the following encodings: C<utf8>, C<cp1251>, C<koi8-r>, C<koi8-u>, C<cp866>. Optional. Default value is B<utf8>.
 
     my $client = Regru::API->new(..., io_encoding => 'cp1251');
     ...
@@ -302,6 +302,30 @@ A few messages will be printed to STDERR. Default value is B<0> (suppressed debu
     $client->debug(1);
 
 =back
+
+=method user
+
+Returns a handler to access to REG.API user account management methods. See L<Regru::API::User>.
+
+=method domain
+
+Returns a handler to access to REG.API domain name management methods. See L<Regru::API::Domain>.
+
+=method zone
+
+Returns a handler to access to REG.API DNS resource records management methods. See L<Regru::API::Zone>.
+
+=method service
+
+Returns a handler to access to REG.API service management methods. See L<Regru::API::Service>.
+
+=method folder
+
+Returns a handler to access to REG.API folder management methods. See L<Regru::API::Folder>.
+
+=method bill
+
+Returns a handler to access to REG.API invoice management methods. See L<Regru::API::Bill>.
 
 =method namespace_handlers
 

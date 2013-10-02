@@ -189,7 +189,7 @@ Available options:
 - __io\_encoding__
 
     Defines encoding that will be used for data exchange between the Service and the Client. At the moment REG.API v2
-    supports the following encodings: _utf8_, _cp1251_, _koi8-r_, _koi8-u_, _cp866_. Optional. Default value is __utf8__.
+    supports the following encodings: `utf8`, `cp1251`, `koi8-r`, `koi8-u`, `cp866`. Optional. Default value is __utf8__.
 
         my $client = Regru::API->new(..., io_encoding => 'cp1251');
         ...
@@ -224,6 +224,30 @@ Available options:
         ...
         # or at runtime
         $client->debug(1);
+
+## user
+
+Returns a handler to access to REG.API user account management methods. See [Regru::API::User](http://search.cpan.org/perldoc?Regru::API::User).
+
+## domain
+
+Returns a handler to access to REG.API domain name management methods. See [Regru::API::Domain](http://search.cpan.org/perldoc?Regru::API::Domain).
+
+## zone
+
+Returns a handler to access to REG.API DNS resource records management methods. See [Regru::API::Zone](http://search.cpan.org/perldoc?Regru::API::Zone).
+
+## service
+
+Returns a handler to access to REG.API service management methods. See [Regru::API::Service](http://search.cpan.org/perldoc?Regru::API::Service).
+
+## folder
+
+Returns a handler to access to REG.API folder management methods. See [Regru::API::Folder](http://search.cpan.org/perldoc?Regru::API::Folder).
+
+## bill
+
+Returns a handler to access to REG.API invoice management methods. See [Regru::API::Bill](http://search.cpan.org/perldoc?Regru::API::Bill).
 
 ## namespace\_handlers
 
