@@ -57,7 +57,7 @@ __END__
 REG.API domain names management methods such as applying registration, initiating transfer to REG.RU, update administrative
 contacts, placing bids on freeing domain names, retrive/update DNS servers for domain and many others.
 
-=method nop
+=apimethod nop
 
 For testing purposes. Scope: B<everyone>. Typical usage:
 
@@ -69,7 +69,7 @@ Returns success response.
 
 More info at L<Domain management: nop|https://www.reg.com/support/help/API-version2#domain_nop>.
 
-=method get_prices
+=apimethod get_prices
 
 Get prices for domain registration/renewal in all available zones. Scope: B<everyone>. Typical usage:
 
@@ -85,7 +85,7 @@ onto the minimal required term.
 
 More info at L<Domain management: get_prices|https://www.reg.com/support/help/API-version2#domain_get_prices>.
 
-=method get_suggest
+=apimethod get_suggest
 
 Gets the domain names suggestions for given word or two (as additional parameter). Scope: B<partners>. Typical usage:
 
@@ -99,7 +99,7 @@ Returns a list of alternatives and its availability in given zones. Result set i
 
 More info at L<Domain management: get_suggest|https://www.reg.com/support/help/API-version2#domain_get_suggest>.
 
-=method get_premium
+=apimethod get_premium
 
 Gets a list of the premium domains available for registration. Scope: B<partners>. Typical usage:
 
@@ -113,7 +113,7 @@ Answer contains a list each element of it contains premium domain name and its p
 
 More info at L<Domain management: get_premium|https://www.reg.com/support/help/API-version2#domain_get_premium>.
 
-=method check
+=apimethod check
 
 Use this method to check availability of a domain name for registration. Scope: B<partners>. Typical usage:
 
@@ -134,7 +134,7 @@ availability or error code.
 
 More info at L<Domain management: check|https://www.reg.com/support/help/API-version2#domain_check>.
 
-=method create
+=apimethod create
 
 Apply for domain name registration. Scope: B<clients>. Typical usage:
 
@@ -155,7 +155,7 @@ Successful response will contains a list of domains and billing information.
 
 More info at L<Domain management: create|https://www.reg.com/support/help/API-version2#domain_create>.
 
-=method transfer
+=apimethod transfer
 
 Apply for a transfer of a domain name from foreign registrar. Scope: B<clients>. Typical usage:
 
@@ -169,7 +169,7 @@ C<.com>, C<.net>, C<.org> should be provided transfer key by specifying paramete
 
 More info at L<Domain management: transfer|https://www.reg.com/support/help/API-version2#domain_transfer>.
 
-=method get_rereg_data
+=apimethod get_rereg_data
 
 Gets a list of freeing domain names and their details. Scope: B<partners>. Typical usage:
 
@@ -183,7 +183,7 @@ Returns a domain names list for the given parameters.
 
 More info at L<Domain management: get_rereg_data|https://www.reg.com/support/help/API-version2#domain_get_rereg_data>.
 
-=method set_rereg_bids
+=apimethod set_rereg_bids
 
 Places a bid or bids for the freeing domain names. Scope: B<clients>. Typical usage:
 
@@ -207,7 +207,7 @@ bids will be returned.
 
 More info at L<Domain management: set_rereg_bids|https://www.reg.com/support/help/API-version2#domain_set_rereg_bids>.
 
-=method get_user_rereg_bids
+=apimethod get_user_rereg_bids
 
 Gets the bids placed on. Scope: B<clients>. Typical usage:
 
@@ -217,7 +217,7 @@ Returns a list of a domain names for which user has placed bids on.
 
 More info at L<Domain management: get_user_rereg_bids|https://www.reg.com/support/help/API-version2#domain_get_user_rereg_bids>.
 
-=method get_docs_upload_uri
+=apimethod get_docs_upload_uri
 
 Gets a link for uploading registrant identification documents (only for B<.RU>, B<.SU> and B<.РФ> zones).
 Scope: B<clients>. Typical usage:
@@ -230,7 +230,7 @@ Answer will be contains an url that should be used to upload documents.
 
 More info at L<Domain management: get_docs_upload_uri|https://www.reg.com/support/help/API-version2#domain_get_docs_upload_uri>.
 
-=method update_contacts
+=apimethod update_contacts
 
 Make changes of the domain name contact data. Scope: B<clients>. Typical usage:
 
@@ -270,7 +270,7 @@ parameters.
 
 More info at L<Domain management: update_contacts|https://www.reg.com/support/help/API-version2#domain_update_contacts>.
 
-=method update_private_person_flag
+=apimethod update_private_person_flag
 
 Change settings of the Private Person and Total Private Person flags (show/hide contact data in WHOIS answers).
 Scope: B<clients>. Typical usage:
@@ -287,7 +287,7 @@ Answer will contains a domains field with list of domain names and operation sta
 
 More info at L<Domain management: update_private_person_flag|https://www.reg.com/support/help/API-version2#domain_update_private_person_flag>.
 
-=method register_ns
+=apimethod register_ns
 
 Domain name server registration in the NSI registry ((for internatonal domains only). Scope: B<clients>. Typical usage:
 
@@ -302,7 +302,7 @@ in sussessful resposnses only.
 
 More info at L<Domain management: register_ns|https://www.reg.com/support/help/API-version2#domain_register_ns>.
 
-=method delete_ns
+=apimethod delete_ns
 
 Deletion of a domain name server from the NSI registry (for international domains only). Scope: B<clients>. Typical usage:
 
@@ -317,7 +317,7 @@ in sussessful resposnses only.
 
 More info at L<Domain management: delete_ns|https://www.reg.com/support/help/API-version2#domain_delete_ns>.
 
-=method get_nss
+=apimethod get_nss
 
 Retrive a domane name servers for domain name(s). Scope: B<clients>. Typical usage:
 
@@ -337,7 +337,7 @@ Answer will contains a list of domain names and nameservers (and ip addresses if
 
 More info at L<Domain management: get_nss|https://www.reg.com/support/help/API-version2#domain_get_nss>.
 
-=method update_nss
+=apimethod update_nss
 
 Change DNS servers of the domain name. Also this function enables/disables domain name delegation (for partners only).
 Scope: B<clients>/B<partners>. Typical usage:
@@ -358,7 +358,7 @@ Answer will contains a list of domain names with the parameters dname, service_i
 
 More info at L<Domain management: update_nss|https://www.reg.com/support/help/API-version2#domain_update_nss>.
 
-=method delegate
+=apimethod delegate
 
 Turn on a domain name delegation flag. Scope: B<partners>. Typical usage:
 
@@ -373,7 +373,7 @@ Answer will contains a list of domain names with the parameters dname, service_i
 
 More info at L<Domain management: delegate|https://www.reg.com/support/help/API-version2#domain_delegate>.
 
-=method undelegate
+=apimethod undelegate
 
 Turn off a domain name delegation flag. Scope: B<partners>. Typical usage:
 
@@ -388,7 +388,7 @@ Answer will contains a list of domain names with the parameters dname, service_i
 
 More info at L<Domain management: undelegate|https://www.reg.com/support/help/API-version2#domain_undelegate>.
 
-=method transfer_to_another_account
+=apimethod transfer_to_another_account
 
 Transfer a domain name to another account within REG.RU. Scope: B<partners>. Typical usage:
 
@@ -403,7 +403,7 @@ error code will be returned.
 
 More info at L<Domain management: transfer_to_another_account|https://www.reg.com/support/help/API-version2#domain_transfer_to_another_account>.
 
-=method look_at_entering_list
+=apimethod look_at_entering_list
 
 Show the list of domain names transferred to current account. Scope: B<partners>. Typical usage:
 
@@ -414,7 +414,7 @@ the transferred domain. Upon each transfer domain names are assigned to new user
 
 More info at L<Domain management: look_at_entering_list|https://www.reg.com/support/help/API-version2#domain_look_at_entering_list>.
 
-=method accept_or_refuse_entering_list
+=apimethod accept_or_refuse_entering_list
 
 Accept or decline domain names transferred to current account. Scope: B<partners>. Typical usage:
 
@@ -428,7 +428,7 @@ Answer will contains a list of domain names with result for each domain name.
 
 More info at L<Domain management: accept_or_refuse_entering_list|https://www.reg.com/support/help/API-version2#domain_accept_or_refuse_entering_list>.
 
-=method cancel_transfer
+=apimethod cancel_transfer
 
 Shut down transfers of the domain names. Scope: B<partners>. Typical usage:
 
@@ -443,7 +443,7 @@ Answer will contains a list of domain names with result for each domain name.
 
 More info at L<Domain management: cancel_transfer|https://www.reg.com/support/help/API-version2#domain_cancel_transfer>.
 
-=method request_to_transfer
+=apimethod request_to_transfer
 
 Send request to transfer a domain name to foreign registrar. Scope: B<partners>. Typical usage:
 

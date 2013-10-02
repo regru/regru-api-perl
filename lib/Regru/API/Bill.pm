@@ -37,7 +37,7 @@ __END__
 
 REG.API invoices management section.
 
-=method nop
+=apimethod nop
 
 For testing purposes. Scope: B<clients>. Typical usage:
 
@@ -54,7 +54,7 @@ Returns payment status for requested invoice or error code (in some cases).
 
 More info at L<Invoice management: nop|https://www.reg.com/support/help/API-version2#bill_nop>.
 
-=method get_not_payed
+=apimethod get_not_payed
 
 Obtains a list of unpaid invoices. Scope: B<clients>. Typical usage:
 
@@ -66,7 +66,7 @@ Returns a list of unpaind invoices if any.
 
 More info at L<Invoice management: get_not_payed|https://www.reg.com/support/help/API-version2#bill_get_not_payed>.
 
-=method get_for_period
+=apimethod get_for_period
 
 Obtains a list of invoices for the defined period. Scope: B<partners>. Typical usage:
 
@@ -80,7 +80,7 @@ Returns a list of invoices at given period if any.
 
 More info at L<Invoice management: get_for_period|https://www.reg.com/support/help/API-version2#bill_get_for_period>
 
-=method change_pay_type
+=apimethod change_pay_type
 
 This one allows to change payment method for selected invoice(s). Scope: B<clients>. Typical usage:
 
@@ -94,7 +94,7 @@ Returns a list of invoices with payment information and status.
 
 More info at L<Invoice management: change_pay_type|https://www.reg.com/support/help/API-version2#bill_change_pay_type>
 
-=method delete
+=apimethod delete
 
 Allows to delete unpaid invoices. Scope: B<clients>. Typical usage:
 

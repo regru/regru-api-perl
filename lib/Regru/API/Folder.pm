@@ -41,39 +41,39 @@ __END__
 
 REG.API folder category... (to be described)
 
-=method nop
+=apimethod nop
 
 ...
 
-=method create
+=apimethod create
 
 ...
 
-=method remove
+=apimethod remove
 
 ...
 
-=method rename
+=apimethod rename
 
 ...
 
-=method get_services
+=apimethod get_services
 
 ...
 
-=method add_services
+=apimethod add_services
 
 ...
 
-=method remove_services
+=apimethod remove_services
 
 ...
 
-=method replace_services
+=apimethod replace_services
 
 ...
 
-=method move_services
+=apimethod move_services
 
 ...
 

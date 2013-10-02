@@ -49,71 +49,71 @@ __END__
 
 REG.API zone category... (to be described)
 
-=method nop
+=apimethod nop
 
 ...
 
-=method add_alias
+=apimethod add_alias
 
 ...
 
-=method add_aaaa
+=apimethod add_aaaa
 
 ...
 
-=method add_cname
+=apimethod add_cname
 
 ...
 
-=method add_mx
+=apimethod add_mx
 
 ...
 
-=method add_ns
+=apimethod add_ns
 
 ...
 
-=method add_txt
+=apimethod add_txt
 
 ...
 
-=method add_srv
+=apimethod add_srv
 
 ...
 
-=method get_resource_records
+=apimethod get_resource_records
 
 ...
 
-=method update_records
+=apimethod update_records
 
 ...
 
-=method update_soa
+=apimethod update_soa
 
 ...
 
-=method tune_forwarding
+=apimethod tune_forwarding
 
 ...
 
-=method clear_forwarding
+=apimethod clear_forwarding
 
 ...
 
-=method tune_parking
+=apimethod tune_parking
 
 ...
 
-=method clear_parking
+=apimethod clear_parking
 
 ...
 
-=method remove_record
+=apimethod remove_record
 
 ...
 
-=method clear
+=apimethod clear
 
 ...
 

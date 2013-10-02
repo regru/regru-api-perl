@@ -53,87 +53,87 @@ __END__
 
 REG.API service category... (to be described)
 
-=method nop
+=apimethod nop
 
 ...
 
-=method get_prices
+=apimethod get_prices
 
 ...
 
-=method get_servtype_details
+=apimethod get_servtype_details
 
 ...
 
-=method create
+=apimethod create
 
 ...
 
-=method delete
+=apimethod delete
 
 ...
 
-=method get_info
+=apimethod get_info
 
 ...
 
-=method get_list
+=apimethod get_list
 
 ...
 
-=method get_folders
+=apimethod get_folders
 
 ...
 
-=method get_details
+=apimethod get_details
 
 ...
 
-=method service_get_details
+=apimethod service_get_details
 
 ...
 
-=method get_dedicated_server_list
+=apimethod get_dedicated_server_list
 
 ...
 
-=method update
+=apimethod update
 
 ...
 
-=method renew
+=apimethod renew
 
 ...
 
-=method get_bills
+=apimethod get_bills
 
 ...
 
-=method set_autorenew_flag
+=apimethod set_autorenew_flag
 
 ...
 
-=method suspend
+=apimethod suspend
 
 ...
 
-=method resume
+=apimethod resume
 
 ...
 
-=method get_depreciated_period
+=apimethod get_depreciated_period
 
 ...
 
-=method upgrade partcontrol_grant
+=apimethod upgrade partcontrol_grant
 
 ...
 
-=method partcontrol_revoke
+=apimethod partcontrol_revoke
 
 ...
 
-=method resend_mail
+=apimethod resend_mail
 
 ...
 

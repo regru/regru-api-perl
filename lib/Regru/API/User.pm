@@ -37,56 +37,23 @@ __END__
 
 REG.API user category... (to be described)
 
-=method nop
-
-Does nothing.
-
-    my $response = $client->user->nop;
-
-=method create
+=apimethod nop
 
 ...
 
-=method get_statistics
+=apimethod create
 
-Returns statistics for current user.
+...
 
-Options:
+=apimethod get_statistics
 
-=over
+...
 
-=item date_from
+=apimethod get_balance
 
-    start date for period, unnecessary
+...
 
-=item date_to
-
-    end date for period, unnecessary
-
-=back
-
-    my $response = $client->user->get_statistics;
-    say $response->get("costs_for_period") if $response->is_success;
-
-=method get_balance
-
-Returns balance for current user.
-
-    my $currency = 'UAH';
-    my $response = $client->user->get_balance(currency => $currency);
-    say "Balance: " . $response->get("prepay") . " ". $currency if $response->is_success;
-
-Options:
-
-=over
-
-=item currency
-
-    currency for output sum, RUR by default.
-
-=back
-
-=method refill_balance
+=apimethod refill_balance
 
 ...
 

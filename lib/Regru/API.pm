@@ -124,7 +124,7 @@ directly.
     $client->nop;
     $client->reseller_nop;
 
-See details below.
+See L</"REG.API METHODS">.
 
 =item B<user>
 
@@ -307,7 +307,7 @@ A few messages will be printed to STDERR. Default value is B<0> (suppressed debu
 
 Creates shortcuts to REG.API categories (namespaces). Used internally.
 
-=method nop
+=apimethod nop
 
 For testing purposes. Scope: B<everyone>. Typical usage:
 
@@ -317,7 +317,7 @@ Answer will contains an user_id and login fields.
 
 More info at L<Common functions: nop|https://www.reg.com/support/help/API-version2#nop>.
 
-=method reseller_nop
+=apimethod reseller_nop
 
 Similar to previous one but only for partners. Scope: B<partners>. Typical usage:
 
@@ -327,7 +327,7 @@ Answer will contains an user_id and login fields.
 
 More info at L<Common functions: nop|https://www.reg.com/support/help/API-version2#reseller_nop>.
 
-=method get_user_id
+=apimethod get_user_id
 
 Get the identifier of the current user. Scope: B<clients>. Typical usage:
 
@@ -337,7 +337,7 @@ Answer will contains an user_id field.
 
 More info at L<Common functions: nop|https://www.reg.com/support/help/API-version2#get_user_id>.
 
-=method get_service_id
+=apimethod get_service_id
 
 Get service or domain name identifier by its name. Scope: B<clients>. Typical usage:
 

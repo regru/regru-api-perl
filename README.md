@@ -54,7 +54,7 @@ At the moment there are the following namespaces:
         $client->nop;
         $client->reseller_nop;
 
-    See details below.
+    See ["REG.API METHODS"](#REG.API METHODS).
 
 - __user__
 
@@ -228,6 +228,8 @@ Available options:
 ## namespace\_handlers
 
 Creates shortcuts to REG.API categories (namespaces). Used internally.
+
+# REG.API METHODS
 
 ## nop
 
