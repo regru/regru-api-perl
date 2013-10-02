@@ -74,159 +74,280 @@ __PACKAGE__->meta->make_immutable;
 
 __END__
 
-# XXX необходимо полность переписать этот pod
-
 =pod
 
 =head1 SYNOPSIS
 
-    my $client = Regru::API->new(username => 'test', password => 'test');
-    my $response = $client->nop; # makes call for <https://www.reg.com/support/help/API-version2#nop>
+    my $client = Regru::API->new(
+        username => 'test',
+        password => 'test',
+    );
 
-    if ($response->is_success) {
-        say $response->get('user_id');
+    # trivial API request
+    my $resp = $client->nop;
+
+    if ($resp->is_success) {
+        print $response->get('user_id');
     }
     else {
-        die "Error code: " . $response->error_code . ", Error text: " . $response->error_text;
+        print "Error code: " . $resp->error_code . ", Error text: " . $resp->error_text;
     }
 
 =head1 DESCRIPTION
 
-API calls are divided into categories - user, domain, zone, user, folder, bill, service.
-Each category is stored in it's own namespace, and can be accessed through
-C<< $client->$namespace method >>. For example,
+...
 
-    $client->user->nop
+=head1 OVERVIEW
 
-makes call to user/nop API method L<https://www.reg.com/support/help/API-version2#user_nop>
+=head2 Categories (namespaces)
 
-Complete Reg.ru API 2 Documentation can be found here: L<https://www.reg.com/support/help/API-version2>.
+REG.API methods are divided into categories (namespaces). When you wish to make an API request to some REG.API method,
+that belongs to some namespace (category) you should get a namespace handler (defined as trivial client's method):
 
-All API methods return L<Regru::API::Response> object.
+    # suppose we already have a client
+    $client->user->nop;
 
-    my $response = $client->domain->get_premium;
+    # or like this
+    $zone = $client->zone;
+    $zone->register_ns(...);
 
-    if ($response->is_success) {
-        # answer params can be get with C<$response->get($param_name)> method
-        my $domains = $response->get('domain');
-        for my $domain_info (@$domains) {
-            say "Name: " . $domain_info->{ name } . ", price: " . $domain_info->{ price };
-        }
-    }
-    else {
-        ...
-    }
-
-
-All params for API call is passed to API method call as a hash;
-
-    my $refill_balance_response = $client->user->refill_balance(
-        pay_type => 'WM',
-        wmid     => '123456789012',
-        currency => 'RUR',
-        amount   => 100
-    );
-
-    my $jsondata = {
-        contacts => {
-            descr    => 'Vschizh site',
-            person   => 'Svyatoslav V Ryurik',
-            person_r => 'Рюрик Святослав Владимирович',
-            passport =>
-                '22 44 668800 выдан по месту правления 01.09.1164',
-            birth_date => '01.01.1970',
-            p_addr =>
-                '12345, г. Вщиж, ул. Княжеска, д.1, Рюрику Святославу Владимировичу, князю Вщижскому',
-            phone   => '+7 495 5555555',
-            e_mail  => 'test@reg.ru',
-            country => 'RU',
-        },
-        nss => {
-            ns0 => 'ns1.reg.ru',
-            ns1 => 'ns2.reg.ru',
-        },
-        domain_name => 'vschizh.su',
-    };
-
-    my $domain_create_answer = $client->domain->create(%$jsondata);
-
-    if ($domain_create_answer->is_success) {
-        say "Domain create request succeeded";
-    }
-    else {
-        die $domain_create_answer->error_text;
-    }
-
-B<NB>: All input params for call are passed in JSON format.
-
-To get service answer, use C<< $response->get($param_name) >> method. C<$param_name> is the answer field.
-
-=method new
-
-    my $client = Regru::API->new(username => 'test', password => 'test');
-    my $response = $client->nop;
-    # another cool code here...
-
-    # and without authentication:
-    my $client = Regru::API->new;
-
-    my $response = $client->user->nop; # user/nop doesn't require authentication
-    say 'ok' if $response->is_success;
-
-Another options for new():
+At the moment there are the following namespaces:
 
 =over
 
-=item lang
+=item B<root>
 
-Sets language for error messages.
+General purpose methods such as L</nop>, L</reseller_nop> etc which are described below. Actually is a virtual namespace
+defined by client. No needs to get namespace handler. The methods of this C<namespace> are available as client's methods
+directly.
 
-    my $client = Regru::API->new(username => 'test1', password => 'test', lang => 'ru');
-    print $client->nop->error_text; # will print "Ошибка аутентификации по паролю"
+    $client->nop;
+    $client->reseller_nop;
 
-=item io_encoding
+See details below.
 
-Sets encoding for input and output data.
+=item B<user>
+
+User account management methods.
+
+    # suppose we already have a client
+    $client->user->nop;
+
+See L<Regru::API::User> for details and
+L<REG.API Account management functions|https://www.reg.com/support/help/API-version2#user_fn>.
+
+=item B<domain>
+
+Domain names management methods.
+
+    # suppose we already have a client
+    $client->domain->get_nss(
+        domain_name => 'gallifrey.ru',
+    );
+
+See L<Regru::API::Domain> for details and
+L<REG.API Domain management functions|https://www.reg.com/support/help/API-version2#domain_fn>.
+
+=item B<zone>
+
+DNS resource records management methods.
+
+    # suppose we already have a client
+    $client->zone->clear(
+        domain_name => 'pyrovilia.net',
+    );
+
+See L<Regru::API::Zone> for details and
+L<REG.API DNS management functions|https://www.reg.com/support/help/API-version2#zone_fn>.
+
+=item B<service>
+
+Service management methods.
+
+    # suppose we already have a client
+    $client->service->delete(
+        domain_name => 'sontar.com',
+        servtype    => 'srv_hosting_plesk',
+    );
+
+See L<Regru::API::Service> for details and
+L<REG.API Service management functions|https://www.reg.com/support/help/API-version2#service_fn>.
+
+=item B<folder>
+
+User folders management methods.
+
+    # suppose we already have a client
+    $client->folder->create(
+        folder_name => 'UNIT',
+    );
+
+See L<Regru::API::Folder> for details and
+L<REG.API Folder management functions|https://www.reg.com/support/help/API-version2#folder_fn>.
+
+=item B<bill>
+
+Invoice management methods.
+
+    # suppose we already have a client
+    $client->invoice->get_not_payed(
+        limit => 10,
+    );
+
+See L<Regru::API::Bill> for details and
+L<REG.API Invoice management functions|https://www.reg.com/support/help/API-version2#bill_fn>.
+
+=back
+
+=head2 Methods accesibility
+
+All REG.API methods can be divided into categories of accessibility. On manual pages of this distibution accessibility
+marked by C<scope> tag. At the moment the following categories of accessibility present:
+
+=over
+
+=item B<everyone>
+
+All methods tagged by this one are accessible to all users. Those methods does not require authentication before call.
+
+=item B<clients>
+
+This tag indicates the methods which accessible only for users registered on L<reg.com|https://www.reg.com> website.
+Strongly required an authenticated API request.
+
+=item B<partners>
+
+Group of methods which accessible only for partners (resellers) of the REG.RU LLC. Actually, partners (resellers)
+able to execute all methods of the REG.API without any restrictions.
+
+=back
+
+=method new
+
+Creates a client instance to interract with REG.API.
 
     my $client = Regru::API->new(
-        username    => 'test',
-        password    => 'test',
-        io_encoding => 'cp1251'
+        username => 'Rassilon',
+        password => 'You die with me, Doctor!'
     );
-    my $response = $client->user->create(
+
+    my $resp = $client->user->get_balance;
+
+    print $resp->get('prepay') if $resp->is_success;
+
+    # another cool code...
+
+Available options:
+
+=over
+
+=item B<username>
+
+Account name of the user to access to L<reg.com|https://www.reg.com> website. Required. Should be passed at instance
+create time. Although it might be changed at runtime.
+
+    my $client = Regru::API->new(username => 'Cyberman', password => 'Exterminate!');
+    ...
+    # at runtime
+    $client->username('Dalek');
+
+=item B<password>
+
+Account password of the user to access to L<reg.com|https://www.reg.com> website or an alternative password for API
+defined at L<Reseller settings|https://www.reg.com/reseller/details> page. Required. Should be passed at instance create time.
+Although it might be changed at runtime.
+
+    my $client = Regru::API->new(username => 'Master', password => 'Doctor');
+    ...
+    # at runtime
+    $client->password('The-Master.');
+
+=item B<io_encoding>
+
+Defines encoding that will be used for data exchange between the Service and the Client. At the moment REG.API v2
+supports the following encodings: I<utf8>, I<cp1251>, I<koi8-r>, I<koi8-u>, I<cp866>. Optional. Default value is B<utf8>.
+
+    my $client = Regru::API->new(..., io_encoding => 'cp1251');
+    ...
+    # or at runtime
+    $client->io_encoding('cp1251');
+
+    my $resp = $client->user->create(
         user_login      => 'othertest',
         user_password   => '111',
         user_email      => 'test@test.ru',
         user_first_name => $cp1251_encoded_name
     );
 
-=item debug
+=item B<lang>
 
-Debug messages will be printed to STDERR.
+Defines the language which will be used in error messages. At the moment REG.API v2 supports the following languages:
+English (I<en>), Russian (I<ru>) and Thai (I<th>). Optional. Default value is B<en>.
 
-    my $client = Regru::API->new(debug => 1);
+    my $client = Regru::API->new(..., lang => 'ru');
+    ...
+    # or at runtime
+    $client->lang('ru');
+
+    $client->username('bogus-user');
+    print $client->nop->error_text; # -> "Ошибка аутентификации по паролю"
+
+=item B<debug>
+
+A few messages will be printed to STDERR. Default value is B<0> (suppressed debug activity).
+
+    my $client = Regru::API->new(..., debug => 1);
+    ...
+    # or at runtime
+    $client->debug(1);
 
 =back
 
 =method namespace_handlers
 
-...
+Creates shortcuts to REG.API categories (namespaces). Used internally.
 
 =method nop
 
-...
+For testing purposes. Scope: B<everyone>. Typical usage:
+
+    $resp = $client->nop;
+
+Answer will contains an user_id and login fields.
+
+More info at L<Common functions: nop|https://www.reg.com/support/help/API-version2#nop>.
 
 =method reseller_nop
 
-...
+Similar to previous one but only for partners. Scope: B<partners>. Typical usage:
+
+    $resp = $client->reseller_nop;
+
+Answer will contains an user_id and login fields.
+
+More info at L<Common functions: nop|https://www.reg.com/support/help/API-version2#reseller_nop>.
 
 =method get_user_id
 
-...
+Get the identifier of the current user. Scope: B<clients>. Typical usage:
+
+    $resp = $client->get_user_id;
+
+Answer will contains an user_id field.
+
+More info at L<Common functions: nop|https://www.reg.com/support/help/API-version2#get_user_id>.
 
 =method get_service_id
 
-...
+Get service or domain name identifier by its name. Scope: B<clients>. Typical usage:
+
+    $resp = $client->get_service_id(
+        domain_name => 'teselecta.ru',
+    );
+
+Answer will contains a service_id field or error code if requested domain name/service not found.
+
+More info at L<Common functions: nop|https://www.reg.com/support/help/API-version2#get_service_id>.
 
 =head1 Error processing
 
