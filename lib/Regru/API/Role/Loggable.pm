@@ -1,6 +1,6 @@
 package Regru::API::Role::Loggable;
 
-# ABSTRACT: REG.API v2 "loggable" role
+# ABSTRACT: something that produces a debug messages
 
 use strict;
 use warnings;

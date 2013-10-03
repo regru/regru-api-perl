@@ -1,6 +1,6 @@
 package Regru::API::Role::UserAgent;
 
-# ABSTRACT: REG.API v2 "user agent" role
+# ABSTRACT: something that can act as user-agent
 
 use strict;
 use warnings;

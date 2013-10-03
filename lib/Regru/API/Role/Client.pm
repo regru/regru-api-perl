@@ -1,6 +1,6 @@
 package Regru::API::Role::Client;
 
-# ABSTRACT: REG.API v2 "client" role
+# ABSTRACT: something that makes requests to API
 
 use strict;
 use warnings;
@@ -121,26 +121,28 @@ Any class or role that consumes this role will able to execute requests to REG.A
 
 =attr username
 
-Account name of the user to access to website L<https://www.reg.com>. Required.
+Account name of the user to access to L<reg.com|https://www.reg.com> website. Required. Should be passed at instance
+create time. Although it might be changed at runtime.
 
 =attr password
 
-Account password of the user to access to website L<https://www.reg.com> or an alternative password for API
-defined at L<Reseller settings|https://www.reg.com/reseller/details> page. Required.
+Account password of the user to access to L<reg.com|https://www.reg.com> website or an alternative password for API
+defined at L<Reseller settings|https://www.reg.com/reseller/details> page. Required. Should be passed at instance create time.
+Although it might be changed at runtime.
 
 =attr io_encoding
 
 Defines encoding that will be used for data exchange between the Service and the Client. At the moment REG.API v2
-supports the following encodings: I<utf8>, I<cp1251>, I<koi8-r>, I<koi8-u>, I<cp866>. Optional. Default value is B<utf8>.
+supports the following encodings: C<utf8>, C<cp1251>, C<koi8-r>, C<koi8-u>, C<cp866>. Optional. Default value is B<utf8>.
 
 =attr lang
 
 Defines the language which will be used in error messages. At the moment REG.API v2 supports the following languages:
-English (I<en>), Russian (I<ru>) and Thai (I<th>). Optional. Default value is B<en>.
+C<en> (English), C<ru> (Russian) and C<th> (Thai). Optional. Default value is B<en>.
 
 =attr debug
 
-Enables the debug mode. Prints some garbage.
+A few messages will be printed to STDERR. Default value is B<0> (suppressed debug activity).
 
 =attr namespace
 

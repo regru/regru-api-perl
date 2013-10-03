@@ -1,6 +1,6 @@
 package Regru::API::Role::Serializer;
 
-# ABSTRACT: REG.API v2 "serializer" role
+# ABSTRACT: something that can (de)serialize
 
 use strict;
 use warnings;

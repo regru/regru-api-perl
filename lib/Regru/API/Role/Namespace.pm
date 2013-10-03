@@ -1,6 +1,6 @@
 package Regru::API::Role::Namespace;
 
-# ABSTRACT: REG.API v2 "namespace" role
+# ABSTRACT: something that can treat as a namespace
 
 use strict;
 use warnings;
