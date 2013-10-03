@@ -29,8 +29,6 @@ version 0.004
 
 ...
 
-# OVERVIEW
-
 ## Categories (namespaces)
 
 REG.API methods are divided into categories (namespaces). When you wish to make an API request to some REG.API method,
@@ -146,6 +144,43 @@ marked by `scope` tag. At the moment the following categories of accessibility p
     Group of methods which accessible only for partners (resellers) of the REG.RU LLC. Actually, partners (resellers)
     able to execute all methods of the REG.API without any restrictions.
 
+## Request parameters
+
+...
+
+## Response parameters
+
+Response parameters of the API request automatically handles by [Regru::API::Response](http://search.cpan.org/perldoc?Regru::API::Response) module. There is no reasons to
+do some addtional work on them. Each response may contains the following set of fileds:
+
+- __result__
+
+    The result of API request. Either `success` or `error`. Can be accessed via attribute
+    [is\_success](http://search.cpan.org/perldoc?Regru::API::Response#is\_success) in boolean context.
+
+- __answer__
+
+    The answer of API method call. May appear only when result of API request was successful. Can be accessed via attribute
+    [answer](http://search.cpan.org/perldoc?Regru::API::Response#answer). Default value is __{}__ (empty HashRef). Gets assigned a default value if
+    result of API request was finished with error.
+
+- __error\_code__
+
+    The error code of API method call. May appear only when result of API request finished with error. Can be accessed via
+    attribute [error\_code](http://search.cpan.org/perldoc?Regru::API::Response#error\_code).
+    See details at [REG.API Common error codes](https://www.reg.com/support/help/API-version2\#std\_error\_codes).
+
+- __error\_text__
+
+    The short description of error. The language depends on option ["lang"](#lang) passed to constructor. May appear only when result
+    of API request finished with error. Can be accessed via attribute [error\_text](http://search.cpan.org/perldoc?Regru::API::Response#error\_text).
+    See details at [REG.API Common error codes](https://www.reg.com/support/help/API-version2\#std\_error\_codes).
+
+- __error\_params__
+
+    Additional parameters included to the error. May appear only when result of API request finished with error. Can be accessed
+    via attribute [error\_params](http://search.cpan.org/perldoc?Regru::API::Response#error\_params).
+
 ## Access to REG.API in test mode
 
 REG.RU LLC provides an access to REG.API in test mode. For this, might be used a test account with `username` and `password`
@@ -155,8 +190,8 @@ equals to __test__.
     # we're in test mode now
     $client->domain->get_prices;
 
-In the test mode at server-side handle API requests (ensures all necessary checks of input parameters), provides responses
-but actually does not perform any real actions/changes.
+In the test mode REG.API engine (at server-side) handles API request: ensures necessary checks of input parameters,
+produces response but actually does not perform any real actions/changes.
 
 Also, for debugging purposes REG.API provides a special set of methods allows to ensure the remote system for availability
 without workload at minimal response time. Each namespace has method called __nop__ for that.
@@ -312,43 +347,6 @@ Answer will contains a service\_id field or error code if requested domain name/
 
 More info at [Common functions: nop](https://www.reg.com/support/help/API-version2\#get\_service\_id).
 
-# Error processing
-
-If API returned exception or some bad error, such as 500 internal server error has happened,
-`$response` will store error information and raw [HTTP::Response](http://search.cpan.org/perldoc?HTTP::Response) object with service answer.
-
-## is\_success
-
-Returns 1 if API call is succeeded, 0 otherwise.
-
-## error\_text
-
-Returns error text if an error occured, default language for error messages is english.
-Language can be set in Regru::API constructor with `lang` option.
-
-## error\_code
-
-Returns error code if an error occured. Full list error codes list is available at [https://www.reg.com/support/help/API-version2\#std\_error\_codes](https://www.reg.com/support/help/API-version2\#std\_error\_codes).
-Error code API\_FAIL means incorrect answer from API, such as 500 internal server error.
-
-## error\_params
-
-Params for error text.
-
-## response
-
-Returns raw [HTTP::Response](http://search.cpan.org/perldoc?HTTP::Response) object for further processing.
-
-Sample:
-
-    my $response = $client->api->nop;
-    if ($response->is_success) {
-        # do some stuff
-    }
-    else {
-        print "Error: " . $response->error_code . ", " . $response->error_text;
-    }
-
 # SEE ALSO
 
 [Regru::API::Bill](http://search.cpan.org/perldoc?Regru::API::Bill)
@@ -364,6 +362,10 @@ Sample:
 [Regru::API::Zone](http://search.cpan.org/perldoc?Regru::API::Zone)
 
 [Regru::API::Response](http://search.cpan.org/perldoc?Regru::API::Response)
+
+[REG.API Common functions](https://www.reg.com/support/help/API-version2\#tests\_fn)
+
+[REG.API Common error codes](https://www.reg.com/support/help/API-version2\#std\_error\_codes)
 
 # BUGS
 

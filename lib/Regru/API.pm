@@ -97,8 +97,6 @@ __END__
 
 ...
 
-=head1 OVERVIEW
-
 =head2 Categories (namespaces)
 
 REG.API methods are divided into categories (namespaces). When you wish to make an API request to some REG.API method,
@@ -222,6 +220,47 @@ able to execute all methods of the REG.API without any restrictions.
 
 =back
 
+=head2 Request parameters
+
+...
+
+=head2 Response parameters
+
+Response parameters of the API request automatically handles by L<Regru::API::Response> module. There is no reasons to
+do some addtional work on them. Each response may contains the following set of fileds:
+
+=over
+
+=item B<result>
+
+The result of API request. Either C<success> or C<error>. Can be accessed via attribute
+L<is_success|Regru::API::Response/is_success> in boolean context.
+
+=item B<answer>
+
+The answer of API method call. May appear only when result of API request was successful. Can be accessed via attribute
+L<answer|Regru::API::Response/answer>. Default value is B<{}> (empty HashRef). Gets assigned a default value if
+result of API request was finished with error.
+
+=item B<error_code>
+
+The error code of API method call. May appear only when result of API request finished with error. Can be accessed via
+attribute L<error_code|Regru::API::Response/error_code>.
+See details at L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
+
+=item B<error_text>
+
+The short description of error. The language depends on option L</lang> passed to constructor. May appear only when result
+of API request finished with error. Can be accessed via attribute L<error_text|Regru::API::Response/error_text>.
+See details at L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
+
+=item B<error_params>
+
+Additional parameters included to the error. May appear only when result of API request finished with error. Can be accessed
+via attribute L<error_params|Regru::API::Response/error_params>.
+
+=back
+
 =head2 Access to REG.API in test mode
 
 REG.RU LLC provides an access to REG.API in test mode. For this, might be used a test account with C<username> and C<password>
@@ -231,8 +270,8 @@ equals to B<test>.
     # we're in test mode now
     $client->domain->get_prices;
 
-In the test mode at server-side handle API requests (ensures all necessary checks of input parameters), provides responses
-but actually does not perform any real actions/changes.
+In the test mode REG.API engine (at server-side) handles API request: ensures necessary checks of input parameters,
+produces response but actually does not perform any real actions/changes.
 
 Also, for debugging purposes REG.API provides a special set of methods allows to ensure the remote system for availability
 without workload at minimal response time. Each namespace has method called B<nop> for that.
@@ -388,43 +427,6 @@ Answer will contains a service_id field or error code if requested domain name/s
 
 More info at L<Common functions: nop|https://www.reg.com/support/help/API-version2#get_service_id>.
 
-=head1 Error processing
-
-If API returned exception or some bad error, such as 500 internal server error has happened,
-C<$response> will store error information and raw L<HTTP::Response> object with service answer.
-
-=head2 is_success
-
-Returns 1 if API call is succeeded, 0 otherwise.
-
-=head2 error_text
-
-Returns error text if an error occured, default language for error messages is english.
-Language can be set in Regru::API constructor with C<lang> option.
-
-=head2 error_code
-
-Returns error code if an error occured. Full list error codes list is available at L<https://www.reg.com/support/help/API-version2#std_error_codes>.
-Error code API_FAIL means incorrect answer from API, such as 500 internal server error.
-
-=head2 error_params
-
-Params for error text.
-
-=head2 response
-
-Returns raw L<HTTP::Response> object for further processing.
-
-Sample:
-
-    my $response = $client->api->nop;
-    if ($response->is_success) {
-        # do some stuff
-    }
-    else {
-        print "Error: " . $response->error_code . ", " . $response->error_text;
-    }
-
 =head1 SEE ALSO
 
 L<Regru::API::Bill>
@@ -440,5 +442,9 @@ L<Regru::API::User>
 L<Regru::API::Zone>
 
 L<Regru::API::Response>
+
+L<REG.API Common functions|https://www.reg.com/support/help/API-version2#tests_fn>
+
+L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>
 
 =cut
