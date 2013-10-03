@@ -59,11 +59,15 @@ sub api_request {
                          $self->to_namespace(delete $params{namespace}), # compose namespace part
                         ($method ? '/' . $method : '');
 
+    # protect I/O formats against modifying
+    delete $params{output_format};
+    delete $params{input_format};
+
     my %post_params = (
         username      => $self->username,
         password      => $self->password,
         output_format => 'json',
-        input_format  => 'json'
+        input_format  => 'json',
     );
 
     $post_params{lang}          = $self->lang           if defined $self->lang;
