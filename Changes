@@ -9,6 +9,7 @@ Revision history for Perl distribution Regru-API.
     [ FEATURES ]
     - client's attributes might be changed at runtime
     - response object may print debug messages if debug enabled
+    - added validation of options: io_encondig and lang
 
     [ TESTS ]
     - rework namespaces testing

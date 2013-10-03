@@ -7,6 +7,7 @@ use warnings;
 use Moo::Role;
 use Regru::API::Response;
 use namespace::autoclean;
+use Carp;
 
 # VERSION
 # AUTHORITY
@@ -18,11 +19,38 @@ with qw(
     Regru::API::Role::Loggable
 );
 
-has username    => ( is => 'rw', required => 1 );
-has password    => ( is => 'rw', required => 1 );
-has io_encoding => ( is => 'rw' );
-has lang        => ( is => 'rw' );
-has debug       => ( is => 'rw' );
+has username => (
+    is          => 'rw',
+    required    => 1,
+    predicate   => 'has_username',
+);
+has password => (
+    is          => 'rw',
+    required    => 1,
+    predicate   => 'has_password',
+);
+has io_encoding => (
+    is          => 'rw',
+    isa         => sub {
+        my %valid = map { ($_ => 1) } qw(utf8 cp1251 cp866 koi8-r koi8-u);
+        croak "Empty encoding value"            unless $_[0];
+        croak "Unsupported encoding: $_[0]"     unless exists $valid{$_[0]};
+    },
+    predicate   => 'has_io_encoding',
+);
+has lang => (
+    is          => 'rw',
+    isa         => sub {
+        my %valid = map { ($_ => 1) } qw(en ru th);
+        croak "Empty language value"            unless $_[0];
+        croak "Unsupported language: $_[0]"     unless exists $valid{$_[0]};
+    },
+    predicate   => 'has_lang',
+);
+has debug => (
+    is        => 'rw',
+    predicate => 'has_debug',
+);
 
 has namespace   => (
     is      => 'ro',

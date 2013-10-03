@@ -1,6 +1,7 @@
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More tests => 3;
+use Test::Fatal;
 
 {
     # role consumer
@@ -22,6 +23,38 @@ use Test::More tests => 2;
 
     1;
 }
+
+subtest 'Validate passed options' => sub {
+    plan tests => 13;
+
+    my $foo = new_ok 'Foo::Bar' => [(username => 'foo', password => 'bar')];
+
+    my $failed;
+
+    # I/O encodings
+    is $foo->io_encoding('utf8'),       'utf8',                         'utf8 encoding is valid';
+    is $foo->io_encoding('cp1251'),     'cp1251',                       'cp1251 encoding is valid';
+    is $foo->io_encoding('cp866'),      'cp866',                        'cp866 encoding is valid';
+    is $foo->io_encoding('koi8-r'),     'koi8-r',                       'koi8-r encoding is valid';
+    is $foo->io_encoding('koi8-u'),     'koi8-u',                       'koi8-u encoding is valid';
+
+    $failed = exception { $foo->io_encoding('utf-16') };
+    like $failed, qr/^isa check .* Unsupported encoding: utf-16 .*/,    'utf-16 encoding throws an exception';
+
+    $failed = exception { $foo->io_encoding('') };
+    like $failed, qr/^isa check .* Empty encoding value .*/,            'empty encoding throws an exception';
+
+    # Language
+    is $foo->lang('en'),                'en',                           'EN (english) language is valid';
+    is $foo->lang('ru'),                'ru',                           'RU (russian) language is valid';
+    is $foo->lang('th'),                'th',                           'TH (thai) language is valid';
+
+    $failed = exception { $foo->lang('es') };
+    like $failed, qr/^isa check .* Unsupported language: es .*/,        'ES (Spanish) language throws an exception';
+
+    $failed = exception { $foo->lang('') };
+    like $failed, qr/^isa check .* Empty language value .*/,            'empty language throws an exception';
+};
 
 subtest 'Client role' => sub {
     plan tests => 10;

@@ -39,9 +39,16 @@ sub _get_namespace_handler {
 
         try_load_class $ns or Carp::croak 'Unable to load namespace: ' . $ns;
 
-        my %params =
-            map { $_ => $self->$_ }
-                qw/username password io_encoding lang debug/;
+        my %params;
+
+        foreach my $opt (qw(username password io_encoding lang debug)) {
+            # predicate
+            my $has = 'has_' . $opt;
+
+            # pass option if it exists
+            $params{$opt} = $self->$opt if $self->can($has) && $self->$has;
+        }
+
         $self->{_handlers}->{$namespace} = $ns->new(@_, %params);
     }
 
