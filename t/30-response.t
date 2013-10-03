@@ -19,6 +19,7 @@ subtest 'Generic behaviour' => sub {
         is_service_fail
         answer
         response
+        debug
     );
 
     my @methods = qw(
@@ -41,7 +42,7 @@ subtest 'Generic behaviour' => sub {
 };
 
 subtest 'Expected response case (success)' => sub {
-    plan tests => 6;
+    plan tests => 8;
 
     ok $serializer, 'Serializer available';
 
@@ -55,8 +56,17 @@ subtest 'Expected response case (success)' => sub {
 
     my $fake = t::lib::FakeResponse->compose(200, $serializer->encode($sample));
 
-    my $resp = new_ok 'Regru::API::Response' =>[( response => $fake )];
+    my $resp = new_ok 'Regru::API::Response' =>[( debug => 1 )];
 
+    my @got_warns = (
+        qr/^REG.API response code 200 .*/,
+        qr/^REG.API request success .*/,
+    );
+
+    my @warned = warnings { $resp->response($fake) };
+
+    like        $warned[0], $got_warns[0],                      'Response code debug';
+    like        $warned[1], $got_warns[1],                      'Request status debug';
     ok          $resp->is_success,                              'Response okay';
     is_deeply   $resp->answer,          $sample->{answer},      'Got expected answer';
     is          $resp->get('login'),    'test',                 'Field login as expected';

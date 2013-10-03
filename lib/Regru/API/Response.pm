@@ -6,13 +6,16 @@ use strict;
 use warnings;
 use Moo;
 use Try::Tiny;
-use Carp ();
+use Carp;
 use namespace::autoclean;
 
 # VERSION
 # AUTHORITY
 
-with 'Regru::API::Role::Serializer';
+with qw(
+    Regru::API::Role::Serializer
+    Regru::API::Role::Loggable
+);
 
 has error_code      => ( is => 'rw' );
 has error_text      => ( is => 'rw' );
@@ -30,12 +33,19 @@ has response => (
     trigger => 1,
 );
 
+has debug => (
+    is      => 'rw',
+    default => sub { 0 }
+);
+
 sub _trigger_response {
     my ($self, $response) = @_;
 
     if ($response) {
         try {
             die 'Invalid response' unless ref $response eq 'HTTP::Response';
+
+            $self->debug_warn('REG.API response code', $response->code) if $self->debug;
 
             $self->is_service_fail($response->code == 200 ? 0 : 1);
 
@@ -48,6 +58,7 @@ sub _trigger_response {
             my $decoded = $self->serializer->decode($response->decoded_content || $response->content);
             $self->is_success($decoded->{result} && $decoded->{result} eq 'success');
 
+            $self->debug_warn('REG.API request', ($self->is_success ? 'success' : 'fail')) if $self->debug;
             if ($self->is_success) {
                 $self->answer($decoded->{answer});
             }
@@ -58,7 +69,7 @@ sub _trigger_response {
             }
         }
         catch {
-            Carp::carp 'Error: ' . $_;
+            carp 'Error: ' . $_;
             $self->error_code('API_FAIL');
             $self->error_text('API response error');
         };
@@ -76,6 +87,12 @@ sub get {
 __END__
 
 =pod
+
+=head1 SYNOPSIS
+
+    my $resp = Regru::API::Response->new(
+        response => $response,
+    );
 
 =attr is_service_fail
 
@@ -97,7 +114,7 @@ Flag to show whether or not the most last answer from the API service has not be
 
 Flag to show whether or not the most last API request has been successful.
 
-See example for L<#is_service_fail>.
+See example for L</is_service_fail>.
 
 =attr response
 
@@ -138,6 +155,28 @@ Contains additional parameters included into the common error text.
     $error_params = $resp->error_params;
     print "Details: " . $error_params->{error_detail};
 
+=attr debug
+
+A few messages will be printed to STDERR. Default value is B<0> (suppressed debug activity).
+
+=method new
+
+Creates a response object from REG.API response. Available options:
+
+=over
+
+=item B<response>
+
+Required. This should be a result of HTTP request to REG.API. In general, is a L<HTTP::Response> object returned by
+L<LWP::UserAgent>.
+
+=item B<debug>
+
+Not required. Print some debugging messages to STDERR. Default value is B<0>. Because of this contructor invoked from
+L<Regru::API::Role::Client> mainly so this option sets to the value which passed to L<Regru::API> constructor.
+
+=back
+
 =method get
 
 Gets a value from stored in answer.
@@ -149,9 +188,15 @@ Gets a value from stored in answer.
 
 L<Regru::API>
 
+L<Regru::API::Role::Client>
+
 L<Regru::API::Role::Serializer>
 
+L<Regru::API::Role::Loggable>
+
 L<HTTP::Response>
+
+L<LWP::UserAgent>
 
 L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
 

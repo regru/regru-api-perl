@@ -78,7 +78,7 @@ sub api_request {
         [ %post_params, input_data => $json ]
     );
 
-    return Regru::API::Response->new( response => $response );
+    return Regru::API::Response->new( response => $response, debug => $self->debug );
 }
 
 sub to_namespace {
