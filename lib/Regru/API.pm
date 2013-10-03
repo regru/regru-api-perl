@@ -222,7 +222,37 @@ able to execute all methods of the REG.API without any restrictions.
 
 =head2 Request parameters
 
-...
+Each API request should contains a set of parameters. There are the following parameters:
+
+=over
+
+=item B<authentication parameters>
+
+These parameters are mandatory for the each method that requires authentication. This group of parameters includes
+C<username> and C<password>. Both parameters should be passed to the L<constructor|/new> and their will be added
+to API request.
+
+=item B<management parameters>
+
+This group include parameters defines input/output formats, encodings and language prefecence. Some parameters are fixed to
+certains values, some might be set via passing values to the L<constructor|/new>: see C<io_encoding> and C<lang> options.
+
+=item B<service identification parameters>
+
+The group of parameters aims to point the particular service or group of services such as domain names, folders, etc.
+Should be passed to an API request together with C<method specific parameters>.
+
+More info at
+L<REG.API Service identification parameters|https://www.reg.com/support/help/API-version2#inputparams_identification>
+
+=item B<method specific parameters>
+
+Parameters applicable to a particular API method. Very wide group. Strongly recommended to consult with REG.API documentation
+for each method before perform an API request to it. The distribution's manual pages includes links to documentation
+for each API method call. The main source for the method specific parameters available at
+L<REG.API General description of functions|https://www.reg.com/support/help/API-version2#common_fn_descr>.
+
+=back
 
 =head2 Response parameters
 
@@ -239,7 +269,7 @@ L<is_success|Regru::API::Response/is_success> in boolean context.
 =item B<answer>
 
 The answer of API method call. May appear only when result of API request was successful. Can be accessed via attribute
-L<answer|Regru::API::Response/answer>. Default value is B<{}> (empty HashRef). Gets assigned a default value if
+L<answer|Regru::API::Response/answer>. Default value is C<{}> (empty HashRef). Gets assigned a default value if
 result of API request was finished with error.
 
 =item B<error_code>
@@ -250,7 +280,7 @@ See details at L<REG.API Common error codes|https://www.reg.com/support/help/API
 
 =item B<error_text>
 
-The short description of error. The language depends on option L</lang> passed to constructor. May appear only when result
+The short description of error. The language depends on option lang L</new> passed to constructor. May appear only when result
 of API request finished with error. Can be accessed via attribute L<error_text|Regru::API::Response/error_text>.
 See details at L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
 

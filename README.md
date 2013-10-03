@@ -146,7 +146,33 @@ marked by `scope` tag. At the moment the following categories of accessibility p
 
 ## Request parameters
 
-...
+Each API request should contains a set of parameters. There are the following parameters:
+
+- __authentication parameters__
+
+    These parameters are mandatory for the each method that requires authentication. This group of parameters includes
+    `username` and `password`. Both parameters should be passed to the [constructor](#new) and their will be added
+    to API request.
+
+- __management parameters__
+
+    This group include parameters defines input/output formats, encodings and language prefecence. Some parameters are fixed to
+    certains values, some might be set via passing values to the [constructor](#new): see `io_encoding` and `lang` options.
+
+- __service identification parameters__
+
+    The group of parameters aims to point the particular service or group of services such as domain names, folders, etc.
+    Should be passed to an API request together with `method specific parameters`.
+
+    More info at
+    [REG.API Service identification parameters](https://www.reg.com/support/help/API-version2\#inputparams\_identification)
+
+- __method specific parameters__
+
+    Parameters applicable to a particular API method. Very wide group. Strongly recommended to consult with REG.API documentation
+    for each method before perform an API request to it. The distribution's manual pages includes links to documentation
+    for each API method call. The main source for the method specific parameters available at
+    [REG.API General description of functions](https://www.reg.com/support/help/API-version2\#common\_fn\_descr).
 
 ## Response parameters
 
@@ -161,7 +187,7 @@ do some addtional work on them. Each response may contains the following set of 
 - __answer__
 
     The answer of API method call. May appear only when result of API request was successful. Can be accessed via attribute
-    [answer](http://search.cpan.org/perldoc?Regru::API::Response#answer). Default value is __{}__ (empty HashRef). Gets assigned a default value if
+    [answer](http://search.cpan.org/perldoc?Regru::API::Response#answer). Default value is `{}` (empty HashRef). Gets assigned a default value if
     result of API request was finished with error.
 
 - __error\_code__
@@ -172,7 +198,7 @@ do some addtional work on them. Each response may contains the following set of 
 
 - __error\_text__
 
-    The short description of error. The language depends on option ["lang"](#lang) passed to constructor. May appear only when result
+    The short description of error. The language depends on option lang ["new"](#new) passed to constructor. May appear only when result
     of API request finished with error. Can be accessed via attribute [error\_text](http://search.cpan.org/perldoc?Regru::API::Response#error\_text).
     See details at [REG.API Common error codes](https://www.reg.com/support/help/API-version2\#std\_error\_codes).
 
