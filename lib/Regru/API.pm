@@ -239,8 +239,8 @@ certains values, some might be set via passing values to the L<constructor|/new>
 
 =item B<service identification parameters>
 
-The group of parameters aims to point the particular service or group of services such as domain names, folders, etc.
-Should be passed to an API request together with C<method specific parameters>.
+The group of parameters with aims to point to the particular service or group of services such as domain names,
+folders, etc. Should be passed to an API request together with C<method specific parameters>.
 
 More info at
 L<REG.API Service identification parameters|https://www.reg.com/support/help/API-version2#inputparams_identification>
