@@ -2,16 +2,26 @@ use strict;
 use warnings;
 use Test::More tests => 1;
 use t::lib::NamespaceClient;
+use t::lib::Connection;
+
+my $api_avail;
 
 subtest 'Grab namespace from parameters' => sub {
-    plan tests => 8;
-
     my $client = t::lib::NamespaceClient->root;
+    my $resp;
+
+    $api_avail ||= t::lib::Connection->check($client->endpoint);
+
+    unless ($api_avail) {
+        diag 'Some tests were skipped. No connection to API endpoint.';
+        plan skip_all => '.';
+    }
+    else {
+        plan tests => 8;
+    }
 
     # nop() API call shortcut
     my $nop = sub { $client->api_request('nop', @_) };
-
-    my $resp;
 
     # /nop (default)
     $resp = $nop->();

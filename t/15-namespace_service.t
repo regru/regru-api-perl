@@ -2,6 +2,9 @@ use strict;
 use warnings;
 use Test::More tests => 3;
 use t::lib::NamespaceClient;
+use t::lib::Connection;
+
+my $api_avail;
 
 subtest 'Generic behaviour' => sub {
     plan tests => 2;
@@ -37,11 +40,18 @@ subtest 'Generic behaviour' => sub {
 };
 
 subtest 'Namespace methods (nop)' => sub {
-    plan tests => 1;
-
     my $client = t::lib::NamespaceClient->service;
-
     my $resp;
+
+    $api_avail ||= t::lib::Connection->check($client->endpoint);
+
+    unless ($api_avail) {
+        diag 'Some tests were skipped. No connection to API endpoint.';
+        plan skip_all => '.';
+    }
+    else {
+        plan tests => 1;
+    }
 
     # /service/nop
     $resp = $client->nop(dname => 'test.ru');
@@ -53,13 +63,19 @@ subtest 'Namespace methods (overall)' => sub {
         diag 'Some tests were skipped. Set the REGRU_API_OVERALL_TESTING to execute them.';
         plan skip_all => '.';
     }
+
+    my $client = t::lib::NamespaceClient->service;
+    my $resp;
+
+    $api_avail ||= t::lib::Connection->check($client->endpoint);
+
+    unless ($api_avail) {
+        diag 'Some tests were skipped. No connection to API endpoint.';
+        plan skip_all => '.';
+    }
     else {
         plan tests => 19;
     }
-
-    my $client = t::lib::NamespaceClient->service;
-
-    my $resp;
 
     # /service/get_prices
     $resp = $client->get_prices;
