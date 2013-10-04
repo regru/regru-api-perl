@@ -13,6 +13,7 @@ Revision history for Perl distribution Regru-API.
 
     [ TESTS ]
     - rework namespaces testing
+    - added checking connection to API endpoint
 
     [ META ]
     - now Changes file uses groups

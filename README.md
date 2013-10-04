@@ -27,7 +27,8 @@ version 0.004
 
 # DESCRIPTION
 
-...
+Regru::API implements simplified access to the REG.API v2 provided by REG.RU LLC. This is a JSON-driven implementation.
+Input/output request data will transforms from/to JSON transparently.
 
 ## Categories (namespaces)
 

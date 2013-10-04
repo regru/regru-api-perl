@@ -102,7 +102,8 @@ __END__
 
 =head1 DESCRIPTION
 
-...
+Regru::API implements simplified access to the REG.API v2 provided by REG.RU LLC. This is a JSON-driven implementation.
+Input/output request data will transforms from/to JSON transparently.
 
 =head2 Categories (namespaces)
 
