@@ -2,6 +2,8 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+0.004   Fri Oct 4 07:50:45 2013 +0000
+
     [ DOCUMENTATION ]
     - API methods in PODs grouped under distinct section: "REG.API METHODS"
     - improved some parts of documentation
