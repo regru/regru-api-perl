@@ -4,56 +4,53 @@ use Test::More tests => 1;
 use t::lib::NamespaceClient;
 use t::lib::Connection;
 
-my $api_avail;
-
-subtest 'Grab namespace from parameters' => sub {
+SKIP: {
+    my $planned = 1;
     my $client = t::lib::NamespaceClient->root;
-    my $resp;
 
-    $api_avail ||= t::lib::Connection->check($client->endpoint);
+    skip 'No connection to an API endpoint.', $planned              unless t::lib::Connection->check($client->endpoint);
+    skip 'IP address exceeded allowed connection rate.', $planned   unless t::lib::NamespaceClient->rate_limits_avail;
 
-    unless ($api_avail) {
-        diag 'Some tests were skipped. No connection to API endpoint.';
-        plan skip_all => '.';
-    }
-    else {
+    subtest 'Grab namespace from parameters' => sub {
         plan tests => 8;
-    }
 
-    # nop() API call shortcut
-    my $nop = sub { $client->api_request('nop', @_) };
+        my $resp;
 
-    # /nop (default)
-    $resp = $nop->();
-    ok $resp->is_success,                                   'nop() default success';
+        # nop() API call shortcut
+        my $nop = sub { $client->api_request('nop', @_) };
 
-    # /nop (with namespace)
-    $resp = $nop->(namespace => '');
-    ok $resp->is_success,                                   'nop() with namespace success';
+        # /nop (default)
+        $resp = $nop->();
+        ok $resp->is_success,                                   'nop() default success';
 
-    # /user/nop
-    $resp = $nop->(namespace => 'user');
-    ok $resp->is_success,                                   'user/nop() success';
+        # /nop (with namespace)
+        $resp = $nop->(namespace => '');
+        ok $resp->is_success,                                   'nop() with namespace success';
 
-    # /domain/nop
-    $resp = $nop->(namespace => 'domain');
-    ok $resp->is_success,                                   'domain/nop() success';
+        # /user/nop
+        $resp = $nop->(namespace => 'user');
+        ok $resp->is_success,                                   'user/nop() success';
 
-    # /zone/nop
-    $resp = $nop->(namespace => 'zone', dname => 'test.ru');
-    ok $resp->is_success,                                   'zone/nop() success';
+        # /domain/nop
+        $resp = $nop->(namespace => 'domain');
+        ok $resp->is_success,                                   'domain/nop() success';
 
-    # /bill/nop
-    $resp = $nop->(namespace => 'bill', bill_id => 1234);
-    ok $resp->is_success,                                   'bill/nop() success';
+        # /zone/nop
+        $resp = $nop->(namespace => 'zone', dname => 'test.ru');
+        ok $resp->is_success,                                   'zone/nop() success';
 
-    # /folder/nop
-    $resp = $nop->(namespace => 'folder', folder_name => 'qqq');
-    ok $resp->is_success,                                   'folder/nop() success';
+        # /bill/nop
+        $resp = $nop->(namespace => 'bill', bill_id => 1234);
+        ok $resp->is_success,                                   'bill/nop() success';
 
-    # /service/nop
-    $resp = $nop->(namespace => 'service', dname => 'test.ru');
-    ok $resp->is_success,                                   'service/nop() success';
-};
+        # /folder/nop
+        $resp = $nop->(namespace => 'folder', folder_name => 'qqq');
+        ok $resp->is_success,                                   'folder/nop() success';
+
+        # /service/nop
+        $resp = $nop->(namespace => 'service', dname => 'test.ru');
+        ok $resp->is_success,                                   'service/nop() success';
+    };
+}
 
 1;

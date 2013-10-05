@@ -4,8 +4,6 @@ use Test::More tests => 3;
 use t::lib::NamespaceClient;
 use t::lib::Connection;
 
-my $api_avail;
-
 subtest 'Generic behaviour' => sub {
     plan tests => 5;
 
@@ -21,63 +19,53 @@ subtest 'Generic behaviour' => sub {
     can_ok $client, @namespaces;
 };
 
-subtest 'Namespace methods' => sub {
+
+SKIP: {
+    my $planned = 2;
     my $client = t::lib::NamespaceClient->root;
-    my $resp;
 
-    $api_avail ||= t::lib::Connection->check($client->endpoint);
+    skip 'No connection to an API endpoint.', $planned              unless t::lib::Connection->check($client->endpoint);
+    skip 'IP address exceeded allowed connection rate.', $planned   unless t::lib::NamespaceClient->rate_limits_avail;
 
-    unless ($api_avail) {
-        diag 'Some tests were skipped. No connection to API endpoint.';
-        plan skip_all => '.';
-    }
-    else {
+    subtest 'Namespace methods' => sub {
         plan tests => 9;
-    }
 
-    # /nop
-    $resp = $client->nop;
-    ok $resp->is_success,                   'nop() success';
-    is $resp->get('user_id'), 0,            'nop() got correct user_id';
-    ok $resp->get('login'),                 'nop() got correct login';
+        my $resp;
 
-    # /reseller_nop
-    $resp = $client->reseller_nop;
-    ok $resp->is_success,                   'reseller_nop() success';
-    is $resp->get('login'), 'test',         'reseller_nop() got correct login';
+        # /nop
+        $resp = $client->nop;
+        ok $resp->is_success,                   'nop() success';
+        is $resp->get('user_id'), 0,            'nop() got correct user_id';
+        ok $resp->get('login'),                 'nop() got correct login';
 
-    # /get_user_id
-    $resp = $client->get_user_id;
-    ok $resp->is_success,                   'get_user_id() success';
-    is $resp->get('user_id'), 0,            'get_user_id() got correct user_id';
+        # /reseller_nop
+        $resp = $client->reseller_nop;
+        ok $resp->is_success,                   'reseller_nop() success';
+        is $resp->get('login'), 'test',         'reseller_nop() got correct login';
 
-    # /get_service_id
-    $resp = $client->get_service_id;
-    ok $resp->is_success,                   'get_service_id() seccess';
-    is $resp->get('service_id'), 12345,     'get_service_id() got correct service_id';
-};
+        # /get_user_id
+        $resp = $client->get_user_id;
+        ok $resp->is_success,                   'get_user_id() success';
+        is $resp->get('user_id'), 0,            'get_user_id() got correct user_id';
 
-subtest 'Invalid credentials' => sub {
-    my $client = t::lib::NamespaceClient->root;
+        # /get_service_id
+        $resp = $client->get_service_id;
+        ok $resp->is_success,                   'get_service_id() seccess';
+        is $resp->get('service_id'), 12345,     'get_service_id() got correct service_id';
+    };
 
-    $api_avail ||= t::lib::Connection->check($client->endpoint);
-
-    unless ($api_avail) {
-        diag 'Some tests were skipped. No connection to API endpoint.';
-        plan skip_all => '.';
-    }
-    else {
+    subtest 'Invalid credentials' => sub {
         plan tests => 2;
-    }
 
-    # overwrite std test/test credentials
-    $client->username('wrong login');
-    $client->password('wrong password');
+        # overwrite std test/test credentials
+        $client->username('wrong login');
+        $client->password('wrong password');
 
-    my $resp = $client->nop;
+        my $resp = $client->nop;
 
-    is $resp->error_text, 'Username/password Incorrect',        'Got correct error description';
-    is $resp->error_code, 'PASSWORD_AUTH_FAILED',               'Got correct error code';
-};
+        is $resp->error_text, 'Username/password Incorrect',        'Got correct error description';
+        is $resp->error_code, 'PASSWORD_AUTH_FAILED',               'Got correct error code';
+    };
+}
 
 1;

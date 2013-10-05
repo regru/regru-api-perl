@@ -145,7 +145,7 @@ subtest 'Remote service has failed' => sub {
         my $warned = warning { $resp->response($fake) };
         ok   $resp->is_service_fail,                                            'API service failed - ' . $code;
         like $warned,                   qr/^Error: Service failed: $msg.*/,     '...with server message - ' . $code;
-        is   $resp->response->code,     $code,                                  '...win correct code - ' . $code;
+        is   $resp->response->code,     $code,                                  '...with correct code - ' . $code;
     }
 };
 

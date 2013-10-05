@@ -4,8 +4,6 @@ use Test::More tests => 3;
 use t::lib::NamespaceClient;
 use t::lib::Connection;
 
-my $api_avail;
-
 subtest 'Generic behaviour' => sub {
     plan tests => 2;
 
@@ -27,58 +25,49 @@ subtest 'Generic behaviour' => sub {
     can_ok $client, @methods;
 };
 
-subtest 'Namespace methods (nop)' => sub {
+SKIP: {
+    my $planned = 2;
     my $client = t::lib::NamespaceClient->folder;
-    my $resp;
 
-    $api_avail ||= t::lib::Connection->check($client->endpoint);
+    skip 'No connection to an API endpoint.', $planned              unless t::lib::Connection->check($client->endpoint);
+    skip 'IP address exceeded allowed connection rate.', $planned   unless t::lib::NamespaceClient->rate_limits_avail;
 
-    unless ($api_avail) {
-        diag 'Some tests were skipped. No connection to API endpoint.';
-        plan skip_all => '.';
-    }
-    else {
+    subtest 'Namespace methods (nop)' => sub {
         plan tests => 1;
-    }
 
-    # /folder/nop
-    $resp = $client->nop(folder_name => 'qqq');
-    ok $resp->is_success,                                   'nop() success';
-};
+        my $resp;
 
-subtest 'Namespace methods (overall)' => sub {
-    unless ($ENV{REGRU_API_OVERALL_TESTING}) {
-        diag 'Some tests were skipped. Set the REGRU_API_OVERALL_TESTING to execute them.';
-        plan skip_all => '.';
-    }
+        # /folder/nop
+        $resp = $client->nop(folder_name => 'qqq');
+        ok $resp->is_success,                                   'nop() success';
+    };
 
-    my $client = t::lib::NamespaceClient->folder;
-    my $resp;
+    subtest 'Namespace methods (overall)' => sub {
+        unless ($ENV{REGRU_API_OVERALL_TESTING}) {
+            diag 'Some tests were skipped. Set the REGRU_API_OVERALL_TESTING to execute them.';
+            plan skip_all => '.';
+        }
+        else {
+            plan tests => 8;
+        }
 
-    $api_avail ||= t::lib::Connection->check($client->endpoint);
+        my $resp;
 
-    unless ($api_avail) {
-        diag 'Some tests were skipped. No connection to API endpoint.';
-        plan skip_all => '.';
-    }
-    else {
-        plan tests => 8;
-    }
+        # /folder/{create,remove,rename,get_services}
+        foreach my $method (qw/create remove rename get_services/) {
+            $resp = $client->$method(folder_name => 'qqq');
+            ok $resp->is_success, "${method}() success";
+        }
 
-    # /folder/{create,remove,rename,get_services}
-    foreach my $method (qw/create remove rename get_services/) {
-        $resp = $client->$method(folder_name => 'qqq');
-        ok $resp->is_success, "${method}() success";
-    }
-
-    # /folder/{get_services,remove_services,replace_services,move_services}
-    foreach my $method (qw/get_services remove_services replace_services move_services/) {
-        $resp = $client->$method(
-            folder_name => 'qqq',
-            services    => [ { dame => 'qqq.ru' } ]
-        );
-        ok $resp->is_success, "${method}() success";
-    }
-};
+        # /folder/{get_services,remove_services,replace_services,move_services}
+        foreach my $method (qw/get_services remove_services replace_services move_services/) {
+            $resp = $client->$method(
+                folder_name => 'qqq',
+                services    => [ { dame => 'qqq.ru' } ]
+            );
+            ok $resp->is_success, "${method}() success";
+        }
+    };
+}
 
 1;

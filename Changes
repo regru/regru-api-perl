@@ -2,6 +2,9 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+    [ TESTS ]
+    - skip some tests if an API rate limit has exceeded
+
 0.004   Fri Oct 4 07:50:45 2013 +0000
 
     [ DOCUMENTATION ]
