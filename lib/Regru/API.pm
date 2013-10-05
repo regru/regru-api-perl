@@ -110,7 +110,7 @@ Input/output request data will transforms from/to JSON transparently.
 Rate limiting in version 2 of the REG.API is considered on a per-user and per-ip basic. The REG.API methods have not
 divided into groups by limit level. There is no difference between them. At the moment REG.API v2 allows to execute
 C<1200> requests per-user and per-ip within C<1 hour> window. Both limits are acting at the same time.
-If the limits has exceeded then REG.API sets the error code (depends on kind of) C<IP_EXCEEDED_ALLOWED_CONNECTION_RATE> or
+If the limits has exceeded then REG.API sets the error code (depends on kind of) to C<IP_EXCEEDED_ALLOWED_CONNECTION_RATE> or
 C<ACCOUNT_EXCEEDED_ALLOWED_CONNECTION_RATE> which might be checked via attribute L<error_code|Regru::API::Response/error_code>.
 
 The following tips are there might helps to reduce the possibility of being rate limited:
@@ -122,7 +122,7 @@ the registry (e.g. contact data, DNS servers, etc).
 
 =item Group similar items and execute a bulk API request. A bunch of methods supports sending request for the list of items at
 the same time (e.g. multiple domain names). Check the details at
-L<REG.API Service list identification parameters| https://www.reg.com/support/help/API-version2#inputparams_identification_multi>.
+L<REG.API Service list identification parameters|https://www.reg.com/support/help/API-version2#inputparams_identification_multi>.
 
 =item Keep the logs of interactions with REG.API (requests and responses). This will helps quickly resolve the issues
 instead of sending additional requests to find out what's happened.
