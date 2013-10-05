@@ -34,8 +34,8 @@ Input/output request data will transforms from/to JSON transparently.
 
 Rate limiting in version 2 of the REG.API is considered on a per-user and per-ip basic. The REG.API methods have not
 divided into groups by limit level. There is no difference between them. At the moment REG.API v2 allows to execute
-`1200` requests perl-user and per-ip within `1 hour` window. Both limits are acting at the same time.
-If the limit has exceeded then REG.API set the error code (depends on kind of) `IP_EXCEEDED_ALLOWED_CONNECTION_RATE` or
+`1200` requests per-user and per-ip within `1 hour` window. Both limits are acting at the same time.
+If the limits has exceeded then REG.API sets the error code (depends on kind of) `IP_EXCEEDED_ALLOWED_CONNECTION_RATE` or
 `ACCOUNT_EXCEEDED_ALLOWED_CONNECTION_RATE` which might be checked via attribute [error\_code](http://search.cpan.org/perldoc?Regru::API::Response#error\_code).
 
 The following tips are there might helps to reduce the possibility of being rate limited:
