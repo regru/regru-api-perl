@@ -66,7 +66,7 @@ Creates a new user account. Scope: B<partners>. Typical usage:
 
 Answer will contains an C<user_id> field for newly created user account or error otherwise.
 
-Thera a lot of optional fields related to user account so check the documentation if you wich to use it.
+There are a lot of optional fields related to user account so check the documentation if you wish to use them.
 More info at L<Account management: create|https://www.reg.com/support/help/API-version2#user_create>.
 
 =apimethod get_statistics
