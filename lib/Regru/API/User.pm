@@ -53,9 +53,9 @@ Creates a new user account. Scope: B<partners>. Typical usage:
 
     $resp = $client->user->create(
         # required fields
-        user_login      => '',
-        user_password   => '',
-        user_email      => '',
+        user_login      => 'digory',
+        user_password   => 'gof4iSewvy8aK5at',
+        user_email      => 'digory.kirke@wardrobe.co.uk',
         user_country    => 'GB',
 
         # optional extra fields
