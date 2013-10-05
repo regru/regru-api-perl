@@ -45,8 +45,8 @@ SKIP: {
     my $planned = 2;
     my $client = t::lib::NamespaceClient->domain;
 
-    skip 'No connection to an API endpoint.', $planned              unless t::lib::Connection->check($client->endpoint);
-    skip 'IP address exceeded allowed connection rate.', $planned   unless t::lib::NamespaceClient->rate_limits_avail;
+    skip 'No connection to an API endpoint.', $planned   unless t::lib::Connection->check($client->endpoint);
+    skip 'Exceeded allowed connection rate.', $planned   unless t::lib::NamespaceClient->rate_limits_avail;
 
     subtest 'Namespace methods (nop)' => sub {
         plan tests => 1;

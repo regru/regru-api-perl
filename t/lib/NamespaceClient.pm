@@ -25,7 +25,7 @@ sub bill    { $_[0]->root->bill;     }
 sub rate_limits_avail {
     my $resp = $_[0]->root->nop;
 
-    !(!$resp->is_success && $resp->error_code eq 'IP_EXCEEDED_ALLOWED_CONNECTION_RATE');
+    !(!$resp->is_success && $resp->error_code =~ m/EXCEEDED_ALLOWED_CONNECTION_RATE/);
 }
 
 1; # End of t::lib::NamespaceClient
