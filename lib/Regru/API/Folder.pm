@@ -94,7 +94,7 @@ More info at L<Folder management: rename|https://www.reg.com/support/help/API-ve
 
 Gets services linked to folder. Scope: B<clients>. Typical usage:
 
-    $resp = $client->folder->(
+    $resp = $client->folder->get_services(
         folder_id => 389765,
     );
 
@@ -123,7 +123,7 @@ More info at L<Folder management: add_services|https://www.reg.com/support/help/
 
 =apimethod remove_services
 
-"Delete" services from folder. Scope: B<clients>. Typical usage:
+"Deletes" services from folder. Scope: B<clients>. Typical usage:
 
     $resp = $client->folder->remove_services(
         folder_name => 'vehicles',
@@ -139,7 +139,7 @@ More info at L<Folder management: remove_services|https://www.reg.com/support/he
 
 =apimethod replace_services
 
-Replaces services with a new set of services. Scope: B<clients>. Typical usage:
+"Replaces" services with a new set of services. Scope: B<clients>. Typical usage:
 
     $resp = $client->folder->replace_services(
         folder_name => 'items',
@@ -157,7 +157,7 @@ More info at L<Folder management: replace_services|https://www.reg.com/support/h
 
 =apimethod move_services
 
-Transfers services between folders. Scope: B<clients>. Typical usage:
+"Transfers" services between folders. Scope: B<clients>. Typical usage:
 
     $resp = $client->folder->move_services(
         folder_name     => 'vehicles',
@@ -183,5 +183,9 @@ Always returns the name of category: C<folder>. For internal uses only.
 L<Regru::API>
 
 L<Regru::API::Role::Client>
+
+L<REG.API Folders management|https://www.reg.com/support/help/API-version2#folder_fn>
+
+L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
 
 =cut

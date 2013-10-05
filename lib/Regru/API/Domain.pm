@@ -62,7 +62,7 @@ contacts, placing bids on freeing domain names, retrive/update DNS servers for d
 For testing purposes. Scope: B<everyone>. Typical usage:
 
     $resp = $client->domain->nop(
-        dname => 'sonic-screwdriver.com'
+        dname => 'sonic-screwdriver.com',
     );
 
 Returns success response.
@@ -77,7 +77,7 @@ Get prices for domain registration/renewal in all available zones. Scope: B<ever
 
     # or
     $resp = $client->domain->get_prices(
-        currency => 'USD'
+        currency => 'USD',
     );
 
 Additional options might be passed to this method. Returns a list available zones and cost of domain registration/renewal
@@ -118,7 +118,7 @@ More info at L<Domain management: get_premium|https://www.reg.com/support/help/A
 Use this method to check availability of a domain name for registration. Scope: B<partners>. Typical usage:
 
     $resp = $client->domain->check(
-        domain_name => 'trenzalore.net'
+        domain_name => 'trenzalore.net',
     );
 
     # or
@@ -126,7 +126,7 @@ Use this method to check availability of a domain name for registration. Scope: 
         domains => [
             { dname => 'apalapucia.com' },
             { dname => 'gallifrey.ru' },
-        ]
+        ],
     );
 
 Response answer contains C<domains> field with list of hashes providing information about domain names and their
@@ -148,7 +148,7 @@ Apply for domain name registration. Scope: B<clients>. Typical usage:
             ns0     => 'ns1.messaline.ru',
             ns0ip   => '172.16.10.1',       # The glue record for the name server at the same domain
             ns1     => 'ns2.messaline.com',
-        }
+        },
     );
 
 Successful response will contains a list of domains and billing information.
@@ -223,7 +223,7 @@ Gets a link for uploading registrant identification documents (only for B<.RU>, 
 Scope: B<clients>. Typical usage:
 
     $resp = $client->domain->get_docs_upload_uri(
-        dname => 'test.ru'
+        dname => 'test.ru',
     );
 
 Answer will be contains an url that should be used to upload documents.
@@ -262,7 +262,7 @@ Make changes of the domain name contact data. Scope: B<clients>. Typical usage:
 
             # Additional data
             private_person_flag => 1,
-        }
+        },
     );
 
 Answer will contains a domains field with list of domain names each item consist of dname, service_id and/or error_code
@@ -457,7 +457,7 @@ More info at L<Domain management: request_to_transfer|https://www.reg.com/suppor
 
 =attr namespace
 
-Always returns the name of category: C<domain>. For internal usage only.
+Always returns the name of category: C<domain>. For internal uses only.
 
 =head1 SEE ALSO
 

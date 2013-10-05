@@ -121,4 +121,8 @@ L<Regru::API>
 
 L<Regru::API::Role::Client>
 
+L<REG.API Account management|https://www.reg.com/support/help/API-version2#user_fn>
+
+L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
+
 =cut
