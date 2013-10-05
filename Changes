@@ -2,6 +2,9 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+    [ DOCUMENTATION ]
+    - added remarks about API rate limiting
+
     [ TESTS ]
     - skip some tests if an API rate limit has exceeded
 
