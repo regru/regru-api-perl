@@ -4,6 +4,7 @@ Revision history for Perl distribution Regru-API.
 
     [ DOCUMENTATION ]
     - added remarks about API rate limiting
+    - added documentation related to folder management methods
 
     [ TESTS ]
     - skip some tests if an API rate limit has exceeded
