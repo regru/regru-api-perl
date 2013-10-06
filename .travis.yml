@@ -27,4 +27,8 @@ install:
     - "dzil authordeps --missing | xargs cpanm -q -n && dzil listdeps --missing | xargs cpanm -q -n"
 
 script:
-    - "dzil test --release"
+    - "dzil smoke --release --author"
+
+after_success:
+    - "cpanm -q -n --skip-satisfied Dist::Zilla::App::Command::cover Devel::Cover::Report::Coveralls"
+    - "dzil cover -report coveralls"
