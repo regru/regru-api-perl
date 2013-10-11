@@ -56,55 +56,138 @@ a service to other users, retrieve list of invoices on service and many others.
 
 =apimethod nop
 
-. Scope: B<clients>. Typical usage:
+For testing purposes. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->nop(
+        dname   => 'kavorka.lv',
     );
+
+Answer will contains a field C<services> with a list of results for each involved to this operation services (domain names,
+hosting plans, certificates, etc) or error otherwise.
 
 More info at L<Service management: nop|https://www.reg.com/support/help/API-version2#service_nop>.
 
 =apimethod get_prices
 
-. Scope: B<everyone>. Typical usage:
+Gets a service registration/renewal pricing. Scope: B<everyone>. Typical usage:
 
     $resp = $client->service->get_prices(
+        currency => 'USD',      # default in RUR. also valid UAH and EUR
     );
+
+Answer will contains a field C<prices> with a list of all available services, their names, types, billing term and price.
 
 More info at L<Service management: get_prices|https://www.reg.com/support/help/API-version2#service_get_prices>.
 
 =apimethod get_servtype_details
 
-. Scope: B<clients>. Typical usage:
+Gets detailed information about service. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->get_servtype_details(
+        servtype    => 'srv_vps,srv_hosting_plesk',
     );
+
+    $details = $resp->answer;
+
+Answer will contains a list of all available plans and parameters for requested types of services, their names,
+types, billing term and prices for registration and renewal.
 
 More info at L<Service management: get_servtype_details|https://www.reg.com/support/help/API-version2#service_get_servtype_details>.
 
 =apimethod create
 
-. Scope: B<clients>. Typical usage:
+Orders a new service. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->create(
+        # common options
+        domain_name => 'kramerica.com',
+        forder_name => 'kramerica-industries',      # put newly created service to folder
+        period      => 3,                           # for 3 months
+
+        # service related options
+        servtype    => 'srv_hosting_plesk',
+        subtype     => 'Host-2-0311',               # service plan
+        contype     => 'hosting_org',               # organization or hosting_pp for person
+        email       => 'info@kramerica.com',
+        country     => 'US',
+        code        => '',                          # empty for non RU-redidents only
+        org_r       => 'Limited Liability Company "Kramerica Industries"',
     );
+
+    # or
+    $csreq = <<CSR;
+    -----BEGIN CERTIFICATE REQUEST-----
+    ...
+    TwGJ9/LuG771Ehq41X/IunqqZ9+lAObxqJ9XAwNAielSPdVhx4NrPjaIGdFhdPeL
+    ...
+    w9n2/G9Q8gcSGg2HG09fLyvjcFMC0cnASS26EAbfOmrcFhCp2cXddmeIlpc=
+    -----END CERTIFICATE REQUEST-----
+    CSR
+
+    $resp = $client->service->create(
+        # common options
+        domain_name         => 'kramerica.com',
+        forder_name         => 'kramerica-industries',      # put newly created service to folder
+        period              => 2,                           # SSL sectificate for 2 years
+
+        # service related options
+        servtype            => 'srv_ssl_sertificate',
+        subtype             => 'sslwebserver',              # Thawte SSL Web Server
+        server_type         => 'apachessl',                 # server software
+        csrString           => $csreq,                      # certificate request as string
+        approver_email      => 'webmaster@kramerica.com',   # email for confirmation
+
+        # organization
+        org_org_name        => 'Kramerica Industries',
+        org_address         => '129 West 81st Street, apt. 5B',
+        org_city            => 'New York',
+        org_state           => 'NY',
+        org_postal_code     => '10024',
+        org_country         => 'US',
+        org_phone           => '+1.212.5553455',
+
+        # administrative contact
+        admin_first_name    => 'Cosmo',
+        admin_last_name     => 'Kramer',
+        admin_title         => 'Mr.',
+        # rest of required admin_* fields
+        ...
+
+        # billing contact
+        billing_*           => ...,
+
+        # technical contact
+        tech_*              => ...,
+    );
+
+Successful answer will contains a newly created service and invoice indentifiers, description of order and total
+amount of charges or error otherwise.
 
 More info at L<Service management: create|https://www.reg.com/support/help/API-version2#service_create>.
 
 =apimethod delete
 
-. Scope: B<clients>. Typical usage:
+Refuses from using active service. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->delete(
+        domain_name => 'buck-naked.xxx',
+        servtype    => 'srv_vps',
     );
+
+Returns a success response or error if any.
 
 More info at L<Service management: delete|https://www.reg.com/support/help/API-version2#service_delete>.
 
 =apimethod get_info
 
-. Scope: B<clients>. Typical usage:
+Obtains an information about linked services. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->get_info(
+        show_folders => 1,
     );
+
+Answer will contains a field C<services> with a list of linked services, their subtypes, states, dates of creation and
+dates of expiration. Also a list of folders accociated with services might be included.
 
 More info at L<Service management: get_info|https://www.reg.com/support/help/API-version2#service_get_info>.
 
