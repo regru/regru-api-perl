@@ -34,7 +34,8 @@ sub available_methods {[qw(
     suspend
     resume
     get_depreciated_period
-    upgrade partcontrol_grant
+    upgrade
+    partcontrol_grant
     partcontrol_revoke
     resend_mail
 )]}

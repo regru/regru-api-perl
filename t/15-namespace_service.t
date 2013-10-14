@@ -25,7 +25,8 @@ subtest 'Generic behaviour' => sub {
         suspend
         resume
         get_depreciated_period
-        upgrade partcontrol_grant
+        upgrade
+        partcontrol_grant
         partcontrol_revoke
         resend_mail
     );
