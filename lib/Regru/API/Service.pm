@@ -26,7 +26,6 @@ sub available_methods {[qw(
     get_list
     get_folders
     get_details
-    service_get_details
     get_dedicated_server_list
     update
     renew
@@ -243,15 +242,6 @@ Scope: B<clients>. Typical usage:
 Answer will contains a field C<services> with a list of detailed information for each services or error otherwise.
 
 More info at L<Service management: get_details|https://www.reg.com/support/help/API-version2#service_get_details>.
-
-=apimethod service_get_details
-
-. Scope: B<clients>. Typical usage:
-
-    $resp = $client->service->service_get_details(
-    );
-
-More info at L<Service management: service_get_details|https://www.reg.com/support/help/API-version2#service_service_get_details>.
 
 =apimethod get_dedicated_server_list
 
