@@ -3,7 +3,11 @@ Revision history for Perl distribution Regru-API.
 {{$NEXT}}
 
     [ DOCUMENTATION ]
-    - added documentation related to DNS management methods
+    - added documentation related to DNS management and
+      service management methods
+
+    [ TESTS ]
+    - additional checks for rate limiting
 
 0.041   Mon Oct 7 08:23:59 2013 +0000
 
