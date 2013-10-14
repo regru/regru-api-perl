@@ -98,8 +98,8 @@ sub api_request {
         input_format  => 'json',
     );
 
-    $post_params{lang}          = $self->lang           if defined $self->lang;
-    $post_params{io_encoding}   = $self->io_encoding    if defined $self->io_encoding;
+    $post_params{lang}          = $self->lang           if $self->has_lang;
+    $post_params{io_encoding}   = $self->io_encoding    if $self->has_io_encoding;
 
     $self->debug_warn('API request:', $url, "\n", 'with params:', \%params) if $self->debug;
 
