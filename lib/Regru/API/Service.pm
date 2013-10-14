@@ -245,109 +245,174 @@ More info at L<Service management: get_details|https://www.reg.com/support/help/
 
 =apimethod get_dedicated_server_list
 
-. Scope: B<clients>. Typical usage:
+Gets a dedicated servers' list avaliable for order. Scope: B<clients>. Typical usage:
 
-    $resp = $client->service->get_dedicated_server_list(
-    );
+    $resp = $client->service->get_dedicated_server_list;
+
+Answer will contains a field C<server_list> with a list of dedicated configurations available for order.
 
 More info at L<Service management: get_dedicated_server_list|https://www.reg.com/support/help/API-version2#service_get_dedicated_server_list>.
 
 =apimethod update
 
-. Scope: B<clients>. Typical usage:
+Updates service configuration. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->update(
+        domain_name => 'jambalaya.net',
+        servtype    => 'srv_webfwd',    # web forwarding
+        subtask     => 'addfwd',        # add rule
+        fwd_type    => 'frames',        # framing content
+        # http://jambalaya.net/this -> http://mulligatawny.com/that
+        fwdfrom     => '/this',
+        fwdto       => 'http://mulligatawny.com/that',
     );
+
+This one is similar to method L</create>. Answer will contains a field C<descr> with a description of the order
+or error otherwise.
 
 More info at L<Service management: update|https://www.reg.com/support/help/API-version2#service_update>.
 
 =apimethod renew
 
-. Scope: B<clients>. Typical usage:
+Renewals the service(s) (domain name, hosting, SSL certificate, etc). Scope: B<clients>. Typical usage:
 
     $resp = $client->service->renew(
+        service_id  => 2674890,
+        period      => 2,   # service's billing term
     );
+
+    # or
+    $resp = $client->service->renew(
+        period  => 3,   # 3 years (for domain names)
+        domains => [
+            { dname => 'schmoopie.com' },
+            { dname => 'schmoopie.net' },
+        ],
+    );
+
+Answer will contains a set of fields like renewal period, invoice identifier, currency and amount of charges,.. for each of
+services or error otherwise.
 
 More info at L<Service management: renew|https://www.reg.com/support/help/API-version2#service_renew>.
 
 =apimethod get_bills
 
-. Scope: B<partners>. Typical usage:
+Gets a list of invoices associated with service(s). Scope: B<partners>. Typical usage:
 
     $resp = $client->service->get_bills(
+        domains => [
+            { dname => 'giddyup.com' },
+        ],
     );
+
+Answer will contains a field C<services> with a list of services, their types, id and list of invoices (field C<bills>)
+or error otherwise.
 
 More info at L<Service management: get_bills|https://www.reg.com/support/help/API-version2#service_get_bills>.
 
 =apimethod set_autorenew_flag
 
-. Scope: B<clients>. Typical usage:
+Manages automatic service renewals. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->set_autorenew_flag(
+        service_id  => 86478,
+        flag_value  => 1,       # 1/0 - enable/disable autorenew feature
     );
+
+Returns just a successful/error response.
 
 More info at L<Service management: set_autorenew_flag|https://www.reg.com/support/help/API-version2#service_set_autorenew_flag>.
 
 =apimethod suspend
 
-. Scope: B<clients>. Typical usage:
+Suspends service usage. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->suspend(
+        domain_name => 'festivus.org',
     );
+
+For domain names means a suspending delegation of the. Returns just a successful/error response.
 
 More info at L<Service management: suspend|https://www.reg.com/support/help/API-version2#service_suspend>.
 
 =apimethod resume
 
-. Scope: B<clients>. Typical usage:
+Resumes service usage. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->resume(
+        domain_name => 'festivus.org',
     );
+
+For domain names means a resuming delegation of the. Returns just a successful/error response.
 
 More info at L<Service management: resume|https://www.reg.com/support/help/API-version2#service_resume>.
 
 =apimethod get_depreciated_period
 
-. Scope: B<clients>. Typical usage:
+Gets the number of billing terms till the service expiration date. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->get_depreciated_period(
+        domain_name => 'kavorka.net',
+        servtype    => 'srv_hosting_ispmgr',
     );
+
+Answer will contains a field C<depreciated_period> with a number of terms or error otherwise.
 
 More info at L<Service management: get_depreciated_period|https://www.reg.com/support/help/API-version2#service_get_depreciated_period>.
 
 =apimethod upgrade
 
-. Scope: B<clients>. Typical usage:
+Upgrades service plans for services such as virtual hosting (C<srv_hosting_ispmgr>), VPS servers (C<srv_vps>) and additional
+disk space (C<srv_disk_space>). Scope: B<clients>. Typical usage:
 
     $resp = $client->service->upgrade(
+        domain_name => '',
+        servtype    => 'srv_vps',
+        subtype     => 'VPS-4-1011',
+        period      => 3,
     );
+
+Answer will contains a withdrawal amount and a new service identifier or error otherwise.
 
 More info at L<Service management: upgrade |https://www.reg.com/support/help/API-version2#service_upgrade>.
 
 =apimethod partcontrol_grant
 
-. Scope: B<clients>. Typical usage:
+Grants service management to other user. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->partcontrol_grant(
+        domain_name => 'mulva.org',
+        newlogin    => 'Dolores',
     );
+
+Answer will contains a field user login (C<newlogin>)to whom the right were granted and the service identifier C<service_id>
+or error otherwise.
 
 More info at L<Service management: partcontrol_grant|https://www.reg.com/support/help/API-version2#service_partcontrol_grant>.
 
 =apimethod partcontrol_revoke
 
-. Scope: B<clients>. Typical usage:
+Revokes service management from other user. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->partcontrol_revoke(
+        service_id => 2865903,
     );
+
+Answer will contains a service identifier C<service_id> or error otherwise.
 
 More info at L<Service management: partcontrol_revoke|https://www.reg.com/support/help/API-version2#service_partcontrol_revoke>.
 
 =apimethod resend_mail
 
-. Scope: B<clients>. Typical usage:
+Resends an email to user. Applicable only for hosting services and SSL certificates. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->resend_mail(
+        domain_name => 'jujyfruits.net',
+        servtype    => 'srv_ssl_certificate',
+        mailtype    => 'approver_email',        # or 'certificate_email'
     );
+
+Answer will contains a domain name and service identifier or error otherwise.
 
 More info at L<Service management: resend_mail|https://www.reg.com/support/help/API-version2#service_resend_mail>.
 
