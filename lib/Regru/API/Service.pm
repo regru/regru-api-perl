@@ -1,6 +1,6 @@
 package Regru::API::Service;
 
-# ABSTRACT: REG.API v2 "service" category
+# ABSTRACT: REG.API v2 service management
 
 use strict;
 use warnings;

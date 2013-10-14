@@ -1,6 +1,6 @@
 package Regru::API::Domain;
 
-# ABSTRACT: REG.API v2 "domain" category
+# ABSTRACT: REG.API v2 domain names management
 
 use strict;
 use warnings;

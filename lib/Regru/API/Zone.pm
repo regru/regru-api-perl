@@ -1,6 +1,6 @@
 package Regru::API::Zone;
 
-# ABSTRACT: REG.API v2 "zone" category
+# ABSTRACT: REG.API v2 DNS resource records management
 
 use strict;
 use warnings;

@@ -1,6 +1,6 @@
 package Regru::API::Bill;
 
-# ABSTRACT: REG.API v2 "bill" category
+# ABSTRACT: REG.API v2 invoice management
 
 use strict;
 use warnings;

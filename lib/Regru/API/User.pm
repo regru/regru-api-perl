@@ -1,6 +1,6 @@
 package Regru::API::User;
 
-# ABSTRACT: REG.API v2 "user" category
+# ABSTRACT: REG.API v2 user account management
 
 use strict;
 use warnings;

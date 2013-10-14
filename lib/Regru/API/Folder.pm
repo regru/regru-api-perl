@@ -1,6 +1,6 @@
 package Regru::API::Folder;
 
-# ABSTRACT: REG.API v2 "folder" category
+# ABSTRACT: REG.API v2 user folders management
 
 use strict;
 use warnings;
