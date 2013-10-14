@@ -54,6 +54,9 @@ SKIP: {
         is $resp->get('service_id'), 12345,     'get_service_id() got correct service_id';
     };
 
+    # extra ensure limits
+    skip 'Exceeded allowed connection rate.', $planned-1  unless t::lib::NamespaceClient->rate_limits_avail;
+
     subtest 'Invalid credentials' => sub {
         plan tests => 2;
 

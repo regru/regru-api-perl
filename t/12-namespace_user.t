@@ -38,6 +38,9 @@ SKIP: {
         ok $resp->is_success,                                   'nop() success';
     };
 
+    # extra ensure limits
+    skip 'Exceeded allowed connection rate.', $planned-1  unless t::lib::NamespaceClient->rate_limits_avail;
+
     subtest 'Namespace methods (overall)' => sub {
         unless ($ENV{REGRU_API_OVERALL_TESTING}) {
             diag 'Some tests were skipped. Set the REGRU_API_OVERALL_TESTING to execute them.';
@@ -92,6 +95,9 @@ SKIP: {
         ok !$resp->is_success,                                  'create() failed';
         is $resp->error_code, 'INVALID_CONTACTS',               'create() got correct error_code';
     };
+
+    # extra ensure limits
+    skip 'Exceeded allowed connection rate.', 1         unless t::lib::NamespaceClient->rate_limits_avail;
 
     subtest 'Unautheticated requests' => sub {
         plan tests => 3;
