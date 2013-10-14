@@ -180,41 +180,67 @@ More info at L<Service management: delete|https://www.reg.com/support/help/API-v
 
 =apimethod get_info
 
-Obtains an information about linked services. Scope: B<clients>. Typical usage:
+Obtains a detailed information about service(s) by domain name(s). Scope: B<clients>. Typical usage:
 
     $resp = $client->service->get_info(
-        show_folders => 1,
+        show_folders    => 1, # include folders
+        domains         => [
+            { dname => 'monks.com' },
+            { dname => 'reggies.com' },
+        ],
     );
 
-Answer will contains a field C<services> with a list of linked services, their subtypes, states, dates of creation and
+Answer will contains a field C<services> with a list of services, their subtypes, states, dates of creation and
 dates of expiration. Also a list of folders accociated with services might be included.
 
 More info at L<Service management: get_info|https://www.reg.com/support/help/API-version2#service_get_info>.
 
 =apimethod get_list
 
-. Scope: B<clients>. Typical usage:
+Obtains an information about active service(s) by type. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->get_list(
+        servtype => 'srv_webfwd',
     );
+
+In case of C<servtype> is not defined the full list of active services will be returned.
+
+Answer will contains a field C<services> with a list of services, their subtypes, states, dates of creation and
+dates of expiration.
 
 More info at L<Service management: get_list|https://www.reg.com/support/help/API-version2#service_get_list>.
 
 =apimethod get_folders
 
-. Scope: B<clients>. Typical usage:
+Returns a list of folders associated with a service. Scope: B<clients>. Typical usage:
 
     $resp = $client->service->get_folders(
+        service_id => 1744688,
     );
+
+    # or
+
+    $resp = $client->service->get_folders(
+        domain_name => 'bob.sacamano.name',
+    );
+
+Answer will contains a field C<folders> with a list of folder associated with service or empty list if no those folders.
 
 More info at L<Service management: get_folders|https://www.reg.com/support/help/API-version2#service_get_folders>.
 
 =apimethod get_details
 
-. Scope: B<clients>. Typical usage:
+Gets a detailed information about the services including contact data for domains, account settings for hosting services, etc.
+Scope: B<clients>. Typical usage:
 
     $resp = $client->service->get_details(
+        services => [
+            { dname => 'bubble-boy.net' },
+            { service_id => 5177993 },
+        ],
     );
+
+Answer will contains a field C<services> with a list of detailed information for each services or error otherwise.
 
 More info at L<Service management: get_details|https://www.reg.com/support/help/API-version2#service_get_details>.
 
