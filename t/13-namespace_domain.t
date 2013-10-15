@@ -142,7 +142,6 @@ SKIP: {
 
         $resp = $client->create(%$domain);
         ok $resp->is_success,                                   'create() multiple success';
-        # diag explain $resp->answer;
         is $resp->get('bill_id'), 1234,                         'create() multiple got correct bill_id';
         my $domains = $resp->get('domains');
         is scalar @$domains, 2,                                 'create() multiple created domains amount';

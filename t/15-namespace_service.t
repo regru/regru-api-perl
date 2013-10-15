@@ -100,7 +100,7 @@ SKIP: {
             dname      => 'test.ru',
             servtype   => 'srv_webfwd',
             fwd_action => 'addfwd',
-            fwdfrom    => '\&',
+            fwdfrom    => '/',
             fwdto      => 'http://reg.ru',
             fwd_type   => 'redirect',
         );
