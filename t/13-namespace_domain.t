@@ -13,6 +13,7 @@ subtest 'Generic behaviour' => sub {
         get_prices
         get_suggest
         get_premium
+        get_deleted
         check
         create
         transfer
@@ -64,7 +65,7 @@ SKIP: {
             plan skip_all => '.';
         }
         else {
-            plan tests => 40;
+            plan tests => 42;
         }
 
         my $resp;
@@ -85,6 +86,11 @@ SKIP: {
         # /domain/get_premium
         $resp = $client->get_premium(tld => 'рф', limit => 5);
         ok $resp->is_success,                                   'get_premium() success';
+
+        # /domain/get_deleted
+        $resp = $client->get_deleted(tld => 'ru', min_pr => 1);
+        ok $resp->is_success,                                   'get_deleted() success';
+        cmp_ok scalar(@{ $resp->get('domains') }), '>', 0,      'get_deleted() non empty list';
 
         # /domain/check (1)
         $resp = $client->check(dname => 'ya.ru');

@@ -21,6 +21,7 @@ sub available_methods {[qw(
     get_prices
     get_suggest
     get_premium
+    get_deleted
     check
     create
     transfer
@@ -112,6 +113,26 @@ Gets a list of the premium domains available for registration. Scope: B<partners
 Answer contains a list each element of it contains premium domain name and its price.
 
 More info at L<Domain management: get_premium|https://www.reg.com/support/help/API-version2#domain_get_premium>.
+
+=apimethod get_deleted
+
+Gets a list of freeing domain names in zones C<.ru>, C<.su> and C<.рф>. This one similar to the
+L<Deleted Domains|https://www.reg.com/domain/new/freeing_domains> page. Scope: B<partners>. Typical usage:
+
+    $resp = $client->domain->get_deleted(
+        tlds            => 'ru',            # look up .ru
+        tlds            => 'su',            # look up .su
+        deleted_from    => '2013-10-01',
+        deleted_to      => '2013-11-01',
+        min_pr          => 2,               # Google PR
+        min_cy          => 1,               # Yandex CY
+    );
+
+Answer will contains a field C<domains> with a list of domain names that satisfied by request criteria. Also each element
+will includes domain status, first registration date, freeing date and values of ranks (Google PR and Yandex CY).
+Maximum returned elements in list equals to 50000.
+
+More info at L<Domain management: get_deleted|https://www.reg.com/support/help/API-version2#domain_get_deleted>.
 
 =apimethod check
 

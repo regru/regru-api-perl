@@ -2,6 +2,11 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+    [ FEATURES ]
+    - added new REG.API method: "get_deleted"
+      which allows to get a list of freeing domain names
+    - deleted obsoleted REG.API method: "service_get_details"
+
     [ DOCUMENTATION ]
     - added documentation related to DNS management and
       service management methods
