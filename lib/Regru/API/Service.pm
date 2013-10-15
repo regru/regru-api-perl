@@ -219,7 +219,6 @@ Returns a list of folders associated with a service. Scope: B<clients>. Typical 
     );
 
     # or
-
     $resp = $client->service->get_folders(
         domain_name => 'bob.sacamano.name',
     );
@@ -263,6 +262,7 @@ Updates service configuration. Scope: B<clients>. Typical usage:
         servtype    => 'srv_webfwd',    # web forwarding
         subtask     => 'addfwd',        # add rule
         fwd_type    => 'frames',        # framing content
+
         # http://jambalaya.net/this -> http://mulligatawny.com/that
         fwdfrom     => '/this',
         fwdto       => 'http://mulligatawny.com/that',
@@ -367,7 +367,7 @@ Upgrades service plans for services such as virtual hosting (C<srv_hosting_ispmg
 disk space (C<srv_disk_space>). Scope: B<clients>. Typical usage:
 
     $resp = $client->service->upgrade(
-        domain_name => '',
+        domain_name => 'beef-a-reeno.com',
         servtype    => 'srv_vps',
         subtype     => 'VPS-4-1011',
         period      => 3,
