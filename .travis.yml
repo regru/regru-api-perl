@@ -29,6 +29,10 @@ install:
 script:
     - "dzil smoke --release --author"
 
+branches:
+  only:
+    - master
+
 after_success:
     - "cpanm -q -n --skip-satisfied Dist::Zilla::App::Command::cover Devel::Cover::Report::Coveralls"
     - "dzil cover -report coveralls"
