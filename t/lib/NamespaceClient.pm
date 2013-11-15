@@ -15,12 +15,13 @@ sub root {
     );
 }
 
-sub user    { $_[0]->root->user;     }
-sub domain  { $_[0]->root->domain;   }
-sub zone    { $_[0]->root->zone;     }
-sub service { $_[0]->root->service;  }
-sub folder  { $_[0]->root->folder;   }
-sub bill    { $_[0]->root->bill;     }
+sub user    { $_[0]->root->user; }
+sub domain  { $_[0]->root->domain; }
+sub zone    { $_[0]->root->zone; }
+sub service { $_[0]->root->service; }
+sub folder  { $_[0]->root->folder; }
+sub bill    { $_[0]->root->bill; }
+sub hosting { $_[0]->root->hosting; }
 
 sub rate_limits_avail {
     my $resp = $_[0]->root->nop;

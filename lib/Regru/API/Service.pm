@@ -38,6 +38,7 @@ sub available_methods {[qw(
     partcontrol_grant
     partcontrol_revoke
     resend_mail
+    refill
 )]}
 
 __PACKAGE__->namespace_methods;
@@ -416,6 +417,20 @@ Resends an email to user. Applicable only for hosting services and SSL certifica
 Answer will contains a domain name and service identifier or error otherwise.
 
 More info at L<Service management: resend_mail|https://www.reg.com/support/help/API-version2#service_resend_mail>.
+
+=apimethod refill
+
+For Jelastic service only. Tranfers specified amount from the user account to the Jelastic account,
+associated with the specified service_id. Scope: B<clients>. Typical usage:
+
+    $resp = $client->service->refill(
+        service_id => 13726302,
+        amount     => 2,
+        currency   => 'USD'
+    );
+
+Answer will contain information about created invoice, such as invoice currency, charged sum, bill number.
+More info at L<Service management: refill|https://www.reg.com/support/help/API-version2#service_refill>.
 
 =attr namespace
 

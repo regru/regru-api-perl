@@ -28,6 +28,7 @@ sub available_namespaces {[qw(
     bill
     folder
     service
+    hosting
 )]}
 
 sub _get_namespace_handler {
