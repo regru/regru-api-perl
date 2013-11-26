@@ -2,6 +2,14 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+0.043   Tue Nov 26 08:25:06 2013 +0000
+
+    [ FEATURES ]
+    - added new REG.API namespace "hosting" with two methods
+
+    [ TESTS ]
+    - updated tests
+
 0.042   Wed Oct 16 09:16:52 2013 +0000
 
     [ FEATURES ]
