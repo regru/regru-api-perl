@@ -135,7 +135,7 @@ Orders a new service. Scope: B<clients>. Typical usage:
         servtype            => 'srv_ssl_sertificate',
         subtype             => 'sslwebserver',              # Thawte SSL Web Server
         server_type         => 'apachessl',                 # server software
-        csrString           => $csreq,                      # certificate request as string
+        csr_string          => $csreq,                      # certificate request as string
         approver_email      => 'webmaster@kramerica.com',   # email for confirmation
 
         # organization

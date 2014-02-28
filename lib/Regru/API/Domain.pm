@@ -159,7 +159,7 @@ More info at L<Domain management: check|https://www.reg.com/support/help/API-ver
 
 Apply for domain name registration. Scope: B<clients>. Typical usage:
 
-    $resp = $client->domain->check(
+    $resp = $client->domain->create(
         domain_name => 'messaline.ru',
         contacts => {
             # set of contact fields goes here (depends on zone)
