@@ -95,7 +95,7 @@ __END__
     my $resp = $client->nop;
 
     if ($resp->is_success) {
-        print $response->get('user_id');
+        print $resp->get('user_id');
     }
     else {
         print "Error code: " . $resp->error_code . ", Error text: " . $resp->error_text;
