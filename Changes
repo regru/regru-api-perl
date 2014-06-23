@@ -8,6 +8,7 @@ Revision history for Perl distribution Regru-API.
     [ DOCUMENTATION ]
     - missed namespaces ("hosting" and "shop") mentioned at front page
     - fixed urls in links pointed to reg.com website
+    - added documentation to "shop" methods
 
     [ TESTS ]
     - updated tests
