@@ -20,6 +20,7 @@ sub available_methods {[qw(
     nop
     get_jelastic_refill_url
     set_jelastic_refill_url
+    get_parallelswpb_constructor_url
 )]}
 
 __PACKAGE__->namespace_methods;
@@ -33,7 +34,7 @@ __END__
 
 =head1 DESCRIPTION
 
-REG.API hosting management. Only two functions are available for now, for Jelastic resellers.
+REG.API hosting management functions. Most of their available only for C<partners>.
 
 =apimethod nop
 
@@ -62,13 +63,25 @@ More info at L<Hosting management: set_jelastic_refill_url|https://www.reg.com/s
 
 =apimethod get_jelastic_refill_url
 
-Fetch Jelastic refill URL for current reseller.Scope: B<partners>. Typical usage:
+Fetch Jelastic refill URL for current reseller. Scope: B<partners>. Typical usage:
 
     $resp = $client->hosting->get_jelastic_refill_url;
 
-Answer will contain the url field, with reseller refill url.
+Answer will contain the C<url> field, with reseller refill url.
 
 More info at L<Hosting management: get_jelastic_refill_url|https://www.reg.com/support/help/api2#hosting_get_jelastic_refill_url>.
+
+=apimethod get_parallelswpb_constructor_url
+
+Retrieves an URL for ParallelsWPB constructor. Scope: B<clients>. Typical usage:
+
+    $resp = $client->hosting->get_parallelswpb_constructor_url(
+        service_id => 2312677,
+    );
+
+Answer will contain the C<url> field, with URL for ParallelsWPB constructor.
+
+More info at L<Hosting management: get_parallelswpb_constructor_url|https://www.reg.com/support/help/api2#hosting_get_parallelswpb_constructor_url>.
 
 =attr namespace
 

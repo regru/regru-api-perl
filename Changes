@@ -4,11 +4,13 @@ Revision history for Perl distribution Regru-API.
 
     [ FEATURES ]
     - added new REG.API namespace "shop"
+    - added get_parallelswpb_constructor_url() method ("hosting")
 
     [ DOCUMENTATION ]
     - missed namespaces ("hosting" and "shop") mentioned at front page
     - fixed urls in links pointed to reg.com website
     - added documentation to "shop" methods
+    - added description for get_parallelswpb_constructor_url() method ("hosting")
 
     [ TESTS ]
     - updated tests
