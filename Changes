@@ -2,6 +2,15 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+    [ FEATURES ]
+    - added new REG.API namespace "shop"
+
+    [ DOCUMENTATION ]
+    - missed namespaces ("hosting" and "shop") mentioned at front page
+
+    [ TESTS ]
+    - updated tests
+
 0.043   Tue Nov 26 08:25:06 2013 +0000
 
     [ FEATURES ]

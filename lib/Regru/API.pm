@@ -29,6 +29,7 @@ sub available_namespaces {[qw(
     folder
     service
     hosting
+    shop
 )]}
 
 sub _get_namespace_handler {
@@ -233,6 +234,28 @@ Invoice management methods.
 
 See L<Regru::API::Bill> for details and
 L<REG.API Invoice management functions|https://www.reg.com/support/help/API-version2#bill_fn>.
+
+=item B<hosting>
+
+Hosting management methods.
+
+    # suppose we already have a client
+    $client->hosting->set_jelastic_refill_url(
+        url => 'http://mysite.com?service_id=<service_id>&email=<email>'
+    );
+
+See L<Regru::API::Hosting> for details and
+L<REG.API Hosting management functions|https://www.reg.com/support/help/api2#hosting_functions>.
+
+=item B<shop>
+
+Domain shop management methods.
+
+    # suppose we already have a client
+    $client->shop->get_info();
+
+See L<Regru::API::Shop> for details and
+L<REG.API Domain shop management functions|https://www.reg.com/support/help/api2#shop_functions>.
 
 =back
 
@@ -509,6 +532,10 @@ L<Regru::API::Service>
 L<Regru::API::User>
 
 L<Regru::API::Zone>
+
+L<Regru::API::Hosting>
+
+L<Regru::API::Shop>
 
 L<Regru::API::Response>
 
