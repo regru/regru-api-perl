@@ -22,6 +22,7 @@ sub service { $_[0]->root->service; }
 sub folder  { $_[0]->root->folder; }
 sub bill    { $_[0]->root->bill; }
 sub hosting { $_[0]->root->hosting; }
+sub shop    { $_[0]->root->shop; }
 
 sub rate_limits_avail {
     my $resp = $_[0]->root->nop;
