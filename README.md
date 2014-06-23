@@ -47,7 +47,7 @@ The following tips are there might helps to reduce the possibility of being rate
 
     Group similar items and execute a bulk API request. A bunch of methods supports sending request for the list of items at
     the same time (e.g. multiple domain names). Check the details at
-    [REG.API Service list identification parameters](https://www.reg.com/support/help/API-version2#inputparams_identification_multi).
+    [REG.API Service list identification parameters](https://www.reg.com/support/help/api2#common_service_list_identification_params).
 
 - **Journaling**
 
@@ -87,7 +87,7 @@ At the moment there are the following namespaces:
         $client->user->nop;
 
     See [Regru::API::User](https://metacpan.org/pod/Regru::API::User) for details and
-    [REG.API Account management functions](https://www.reg.com/support/help/API-version2#user_fn).
+    [REG.API Account management functions](https://www.reg.com/support/help/api2#user_functions).
 
 - **domain**
 
@@ -99,7 +99,7 @@ At the moment there are the following namespaces:
         );
 
     See [Regru::API::Domain](https://metacpan.org/pod/Regru::API::Domain) for details and
-    [REG.API Domain management functions](https://www.reg.com/support/help/API-version2#domain_fn).
+    [REG.API Domain management functions](https://www.reg.com/support/help/api2#domain_functions).
 
 - **zone**
 
@@ -111,7 +111,7 @@ At the moment there are the following namespaces:
         );
 
     See [Regru::API::Zone](https://metacpan.org/pod/Regru::API::Zone) for details and
-    [REG.API DNS management functions](https://www.reg.com/support/help/API-version2#zone_fn).
+    [REG.API DNS management functions](https://www.reg.com/support/help/api2#zone_functions).
 
 - **service**
 
@@ -124,7 +124,7 @@ At the moment there are the following namespaces:
         );
 
     See [Regru::API::Service](https://metacpan.org/pod/Regru::API::Service) for details and
-    [REG.API Service management functions](https://www.reg.com/support/help/API-version2#service_fn).
+    [REG.API Service management functions](https://www.reg.com/support/help/api2#service_functions).
 
 - **folder**
 
@@ -136,7 +136,7 @@ At the moment there are the following namespaces:
         );
 
     See [Regru::API::Folder](https://metacpan.org/pod/Regru::API::Folder) for details and
-    [REG.API Folder management functions](https://www.reg.com/support/help/API-version2#folder_fn).
+    [REG.API Folder management functions](https://www.reg.com/support/help/api2#folder_functions).
 
 - **bill**
 
@@ -148,7 +148,7 @@ At the moment there are the following namespaces:
         );
 
     See [Regru::API::Bill](https://metacpan.org/pod/Regru::API::Bill) for details and
-    [REG.API Invoice management functions](https://www.reg.com/support/help/API-version2#bill_fn).
+    [REG.API Invoice management functions](https://www.reg.com/support/help/api2#bill_functions).
 
 - **hosting**
 
@@ -212,14 +212,14 @@ Each API request should contains a set of parameters. There are the following pa
     folders, etc. Should be passed to an API request together with `method specific parameters`.
 
     More info at
-    [REG.API Service identification parameters](https://www.reg.com/support/help/API-version2#inputparams_identification)
+    [REG.API Service identification parameters](https://www.reg.com/support/help/api2#common_service_identification_params)
 
 - **method specific parameters**
 
     Parameters applicable to a particular API method. Very wide group. Strongly recommended to consult with REG.API documentation
     for each method before perform an API request to it. The distribution's manual pages includes links to documentation
     for each API method call. The main source for the method specific parameters available at
-    [REG.API General description of functions](https://www.reg.com/support/help/API-version2#common_fn_descr).
+    [REG.API General description of functions](https://www.reg.com/support/help/api2#common_functions_description).
 
 ## Response parameters
 
@@ -241,13 +241,13 @@ do some addtional work on them. Each response may contains the following set of 
 
     The error code of API method call. May appear only when result of API request finished with error. Can be accessed via
     attribute [error\_code](https://metacpan.org/pod/Regru::API::Response#error_code).
-    See details at [REG.API Common error codes](https://www.reg.com/support/help/API-version2#std_error_codes).
+    See details at [REG.API Common error codes](https://www.reg.com/support/help/api2#common_errors).
 
 - **error\_text**
 
     The short description of error. The language depends on option lang ["new"](#new) passed to constructor. May appear only when result
     of API request finished with error. Can be accessed via attribute [error\_text](https://metacpan.org/pod/Regru::API::Response#error_text).
-    See details at [REG.API Common error codes](https://www.reg.com/support/help/API-version2#std_error_codes).
+    See details at [REG.API Common error codes](https://www.reg.com/support/help/api2#common_errors).
 
 - **error\_params**
 
@@ -372,6 +372,14 @@ Returns a handler to access to REG.API folder management methods. See [Regru::AP
 
 Returns a handler to access to REG.API invoice management methods. See [Regru::API::Bill](https://metacpan.org/pod/Regru::API::Bill).
 
+## hosting
+
+Returns a handler to access to REG.API hosting management methods. See [Regru::API::Hosting](https://metacpan.org/pod/Regru::API::Hosting).
+
+## shop
+
+Returns a handler to access to REG.API domain shop management methods. See [Regru::API::Shop](https://metacpan.org/pod/Regru::API::Shop).
+
 ## namespace\_handlers
 
 Creates shortcuts to REG.API categories (namespaces). Used internally.
@@ -386,7 +394,7 @@ For testing purposes. Scope: **everyone**. Typical usage:
 
 Answer will contains an user\_id and login fields.
 
-More info at [Common functions: nop](https://www.reg.com/support/help/API-version2#nop).
+More info at [Common functions: nop](https://www.reg.com/support/help/api2#common_nop).
 
 ## reseller\_nop
 
@@ -396,7 +404,7 @@ Similar to previous one but only for partners. Scope: **partners**. Typical usag
 
 Answer will contains an user\_id and login fields.
 
-More info at [Common functions: nop](https://www.reg.com/support/help/API-version2#reseller_nop).
+More info at [Common functions: nop](https://www.reg.com/support/help/api2#common_reseller_nop).
 
 ## get\_user\_id
 
@@ -406,7 +414,7 @@ Get the identifier of the current user. Scope: **clients**. Typical usage:
 
 Answer will contains an user\_id field.
 
-More info at [Common functions: nop](https://www.reg.com/support/help/API-version2#get_user_id).
+More info at [Common functions: nop](https://www.reg.com/support/help/api2#common_get_user_id).
 
 ## get\_service\_id
 
@@ -418,7 +426,7 @@ Get service or domain name identifier by its name. Scope: **clients**. Typical u
 
 Answer will contains a service\_id field or error code if requested domain name/service not found.
 
-More info at [Common functions: nop](https://www.reg.com/support/help/API-version2#get_service_id).
+More info at [Common functions: nop](https://www.reg.com/support/help/api2#common_get_service_id).
 
 # SEE ALSO
 
@@ -440,9 +448,9 @@ More info at [Common functions: nop](https://www.reg.com/support/help/API-versio
 
 [Regru::API::Response](https://metacpan.org/pod/Regru::API::Response)
 
-[REG.API Common functions](https://www.reg.com/support/help/API-version2#tests_fn)
+[REG.API Common functions](https://www.reg.com/support/help/api2#common_functions)
 
-[REG.API Common error codes](https://www.reg.com/support/help/API-version2#std_error_codes)
+[REG.API Common error codes](https://www.reg.com/support/help/api2#common_errors)
 
 # BUGS
 

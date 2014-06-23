@@ -139,7 +139,7 @@ This is useful for debugging;
 Contains error code for the most last API request if it has not been successful.
 
 Full list error codes list is available at
-L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
+L<REG.API Common error codes|https://www.reg.com/support/help/api2#common_errors>.
 
 =attr error_text
 
@@ -198,6 +198,6 @@ L<HTTP::Response>
 
 L<LWP::UserAgent>
 
-L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
+L<REG.API Common error codes|https://www.reg.com/support/help/api2#common_errors>
 
 =cut

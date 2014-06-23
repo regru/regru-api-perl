@@ -51,7 +51,7 @@ For testing purposes. Scope: B<everyone>. Typical usage:
 
 Returns success response.
 
-More info at L<Folder management: nop|https://www.reg.com/support/help/API-version2#folder_nop>.
+More info at L<Folder management: nop|https://www.reg.com/support/help/api2#folder_nop>.
 
 =apimethod create
 
@@ -63,7 +63,7 @@ Creates a folder. Scope: B<clients>. Typical usage:
 
 Returns success response if folder was created or error otherwise.
 
-More info at L<Folder management: create|https://www.reg.com/support/help/API-version2#folder_create>.
+More info at L<Folder management: create|https://www.reg.com/support/help/api2#folder_create>.
 
 =apimethod remove
 
@@ -75,7 +75,7 @@ Deletes an existing folder. Scope: B<clients>. Typical usage:
 
 Returns success response if folder was deleted or error otherwise.
 
-More info at L<Folder management: remove|https://www.reg.com/support/help/API-version2#folder_remove>.
+More info at L<Folder management: remove|https://www.reg.com/support/help/api2#folder_remove>.
 
 =apimethod rename
 
@@ -88,7 +88,7 @@ Renames an existing forder. Scope: B<clients>. Typical usage:
 
 Returns success response if folder was renamed or error otherwise.
 
-More info at L<Folder management: rename|https://www.reg.com/support/help/API-version2#folder_rename>.
+More info at L<Folder management: rename|https://www.reg.com/support/help/api2#folder_rename>.
 
 =apimethod get_services
 
@@ -101,7 +101,7 @@ Gets services linked to folder. Scope: B<clients>. Typical usage:
 A success answer will contains a C<folder_content> with a list of services (domain names, hosting related items, etc) linked
 to requested folder.
 
-More info at L<Folder management: get_services|https://www.reg.com/support/help/API-version2#folder_get_services>.
+More info at L<Folder management: get_services|https://www.reg.com/support/help/api2#folder_get_services>.
 
 =apimethod add_services
 
@@ -119,7 +119,7 @@ More info at L<Folder management: get_services|https://www.reg.com/support/help/
 A successful answer will contains a C<services> field with a list of services that was linked to the specified folder
 and result for each of them. Additionally might be returned a C<folder_content> field.
 
-More info at L<Folder management: add_services|https://www.reg.com/support/help/API-version2#folder_add_services>.
+More info at L<Folder management: add_services|https://www.reg.com/support/help/api2#folder_add_services>.
 
 =apimethod remove_services
 
@@ -135,7 +135,7 @@ More info at L<Folder management: add_services|https://www.reg.com/support/help/
 A successful answer will contains a C<services> field with a list of services that was unlinked to the specified folder
 and result for each of them. Additionally might be returned a C<folder_content> field.
 
-More info at L<Folder management: remove_services|https://www.reg.com/support/help/API-version2#folder_remove_services>.
+More info at L<Folder management: remove_services|https://www.reg.com/support/help/api2#folder_remove_services>.
 
 =apimethod replace_services
 
@@ -153,7 +153,7 @@ More info at L<Folder management: remove_services|https://www.reg.com/support/he
 A successful answer will contains a C<services> field with a list of services that was linked to the specified folder
 and result for each of them. Additionally might be returned a C<folder_content> field.
 
-More info at L<Folder management: replace_services|https://www.reg.com/support/help/API-version2#folder_replace_services>.
+More info at L<Folder management: replace_services|https://www.reg.com/support/help/api2#folder_replace_services>.
 
 =apimethod move_services
 
@@ -172,7 +172,7 @@ More info at L<Folder management: replace_services|https://www.reg.com/support/h
 A successful answer will contains a C<services> field with a list of services that was linked to the specified folder
 and result for each of them. Additionally might be returned a C<folder_content> field with a contents of a destination folder.
 
-More info at L<Folder management: move_services|https://www.reg.com/support/help/API-version2#folder_move_services>.
+More info at L<Folder management: move_services|https://www.reg.com/support/help/api2#folder_move_services>.
 
 =attr namespace
 
@@ -184,8 +184,8 @@ L<Regru::API>
 
 L<Regru::API::Role::Client>
 
-L<REG.API Folders management|https://www.reg.com/support/help/API-version2#folder_fn>
+L<REG.API Folders management|https://www.reg.com/support/help/api2#folder_functions>
 
-L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
+L<REG.API Common error codes|https://www.reg.com/support/help/api2#common_errors>
 
 =cut

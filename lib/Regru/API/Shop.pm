@@ -160,6 +160,6 @@ L<Regru::API::Role::Client>
 
 L<REG.API Domain shop management|https://www.reg.com/support/help/api2#shop_functions>
 
-L<REG.API Common error codes|https://www.reg.com/support/help/api2#common_errors>.
+L<REG.API Common error codes|https://www.reg.com/support/help/api2#common_errors>
 
 =cut

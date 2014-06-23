@@ -43,7 +43,7 @@ For testing purposes. Scope: B<everyone>. Typical usage:
 
 Returns success response.
 
-More info at L<Hosting management: nop|https://www.reg.com/support/help/API-version2#hosting_nop>.
+More info at L<Hosting management: nop|https://www.reg.com/support/help/api2#hosting_nop>.
 
 =apimethod set_jelastic_refill_url
 
@@ -58,7 +58,7 @@ Typical usage:
     );
 
 Returns success response if URL was set.
-More info at L<Hosting management: set_jelastic_refill_url|https://www.reg.com/support/help/API-version2#hosting_set_jelastic_refill_url>.
+More info at L<Hosting management: set_jelastic_refill_url|https://www.reg.com/support/help/api2#hosting_set_jelastic_refill_url>.
 
 =apimethod get_jelastic_refill_url
 
@@ -68,7 +68,7 @@ Fetch Jelastic refill URL for current reseller.Scope: B<partners>. Typical usage
 
 Answer will contain the url field, with reseller refill url.
 
-More info at L<Hosting management: get_jelastic_refill_url|https://www.reg.com/support/help/API-version2#hosting_get_jelastic_refill_url>.
+More info at L<Hosting management: get_jelastic_refill_url|https://www.reg.com/support/help/api2#hosting_get_jelastic_refill_url>.
 
 =attr namespace
 
@@ -80,8 +80,8 @@ L<Regru::API>
 
 L<Regru::API::Role::Client>
 
-L<REG.API Hosting management|https://www.reg.com/support/help/API-version2#hosting_fn>
+L<REG.API Hosting management|https://www.reg.com/support/help/api2#hosting_functions>
 
-L<REG.API Common error codes|https://www.reg.com/support/help/API-version2#std_error_codes>.
+L<REG.API Common error codes|https://www.reg.com/support/help/api2#common_errors>
 
 =cut
