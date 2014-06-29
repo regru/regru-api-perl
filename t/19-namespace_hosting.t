@@ -29,7 +29,7 @@ SKIP: {
             plan skip_all => '.';
         }
         else {
-            plan tests => 2;
+            plan tests => 3;
         }
 
         my $resp;
@@ -44,12 +44,11 @@ SKIP: {
         );
         ok $resp->is_success,                                   'set_jelastic_refill_url() success';
 
-        # TODO: нет ответа для тестового пользователя
         # /hosting/get_parallelswpb_constructor_url
-        # $resp = $client->get_parallelswpb_constructor_url(
-        #     service_id => 2312676,
-        # );
-        # ok $resp->is_success,                                   'get_parallelswpb_constructor_url() success';
+        $resp = $client->get_parallelswpb_constructor_url(
+            service_id => 2312676,
+        );
+        ok $resp->is_success,                                   'get_parallelswpb_constructor_url() success';
     };
 
 }
