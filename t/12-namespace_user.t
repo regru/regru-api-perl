@@ -87,7 +87,7 @@ SKIP: {
 
         # /user/create
         $resp = $client->create(
-            user_login        => 'othertest',
+            user_login        => 'i_hope_there_is_not_such_user',
             user_password     => 'xxxx',
             user_email        => 'test@test.ru',
             user_country_code => 'ru'
