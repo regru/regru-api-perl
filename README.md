@@ -34,22 +34,22 @@ Rate limiting in version 2 of the REG.API is considered on a per-user and per-ip
 divided into groups by limit level. There is no difference between them. At the moment REG.API v2 allows to execute
 `1200` requests per-user and per-ip within `1 hour` window. Both limits are acting at the same time.
 If the limits has exceeded then REG.API sets the error code (depends on kind of) to `IP_EXCEEDED_ALLOWED_CONNECTION_RATE` or
-`ACCOUNT_EXCEEDED_ALLOWED_CONNECTION_RATE` which might be checked via attribute [error\_code](https://metacpan.org/pod/Regru::API::Response#error_code).
+`ACCOUNT_EXCEEDED_ALLOWED_CONNECTION_RATE` which might be checked via attribute [error_code](https://metacpan.org/pod/Regru::API::Response#error_code).
 
 The following tips are there might helps to reduce the possibility of being rate limited:
 
-- **Caching**
+- __Caching__
 
     Store all domain name or service related data locally and use the REG.API in cases you want to change some data in
     the registry (e.g. contact data, DNS servers, etc).
 
-- **Bulk requests**
+- __Bulk requests__
 
     Group similar items and execute a bulk API request. A bunch of methods supports sending request for the list of items at
     the same time (e.g. multiple domain names). Check the details at
     [REG.API Service list identification parameters](https://www.reg.com/support/help/api2#common_service_list_identification_params).
 
-- **Journaling**
+- __Journaling__
 
     Keep the logs of interactions with REG.API (requests and responses). This will helps quickly resolve the issues
     instead of sending additional requests to find out what's happened.
@@ -68,18 +68,18 @@ that belongs to some namespace (category) you should get a namespace handler (de
 
 At the moment there are the following namespaces:
 
-- **root**
+- __root__
 
-    General purpose methods such as ["nop"](#nop), ["reseller\_nop"](#reseller_nop) etc which are described below. Actually is a virtual namespace
+    General purpose methods such as ["nop"](#nop), ["reseller_nop"](#reseller_nop) etc which are described below. Actually is a virtual namespace
     defined by client. No needs to get namespace handler. The methods of this `namespace` are available as client's methods
     directly.
 
         $client->nop;
         $client->reseller_nop;
 
-    See ["REG.API METHODS"](#reg-api-methods).
+    See ["REG.API METHODS"](#REG.API METHODS).
 
-- **user**
+- __user__
 
     User account management methods.
 
@@ -89,7 +89,7 @@ At the moment there are the following namespaces:
     See [Regru::API::User](https://metacpan.org/pod/Regru::API::User) for details and
     [REG.API Account management functions](https://www.reg.com/support/help/api2#user_functions).
 
-- **domain**
+- __domain__
 
     Domain names management methods.
 
@@ -101,7 +101,7 @@ At the moment there are the following namespaces:
     See [Regru::API::Domain](https://metacpan.org/pod/Regru::API::Domain) for details and
     [REG.API Domain management functions](https://www.reg.com/support/help/api2#domain_functions).
 
-- **zone**
+- __zone__
 
     DNS resource records management methods.
 
@@ -113,7 +113,7 @@ At the moment there are the following namespaces:
     See [Regru::API::Zone](https://metacpan.org/pod/Regru::API::Zone) for details and
     [REG.API DNS management functions](https://www.reg.com/support/help/api2#zone_functions).
 
-- **service**
+- __service__
 
     Service management methods.
 
@@ -126,7 +126,7 @@ At the moment there are the following namespaces:
     See [Regru::API::Service](https://metacpan.org/pod/Regru::API::Service) for details and
     [REG.API Service management functions](https://www.reg.com/support/help/api2#service_functions).
 
-- **folder**
+- __folder__
 
     User folders management methods.
 
@@ -138,7 +138,7 @@ At the moment there are the following namespaces:
     See [Regru::API::Folder](https://metacpan.org/pod/Regru::API::Folder) for details and
     [REG.API Folder management functions](https://www.reg.com/support/help/api2#folder_functions).
 
-- **bill**
+- __bill__
 
     Invoice management methods.
 
@@ -150,7 +150,7 @@ At the moment there are the following namespaces:
     See [Regru::API::Bill](https://metacpan.org/pod/Regru::API::Bill) for details and
     [REG.API Invoice management functions](https://www.reg.com/support/help/api2#bill_functions).
 
-- **hosting**
+- __hosting__
 
     Hosting management methods.
 
@@ -162,7 +162,7 @@ At the moment there are the following namespaces:
     See [Regru::API::Hosting](https://metacpan.org/pod/Regru::API::Hosting) for details and
     [REG.API Hosting management functions](https://www.reg.com/support/help/api2#hosting_functions).
 
-- **shop**
+- __shop__
 
     Domain shop management methods.
 
@@ -177,16 +177,16 @@ At the moment there are the following namespaces:
 All REG.API methods can be divided into categories of accessibility. On manual pages of this distibution accessibility
 marked by `scope` tag. At the moment the following categories of accessibility present:
 
-- **everyone**
+- __everyone__
 
     All methods tagged by this one are accessible to all users. Those methods does not require authentication before call.
 
-- **clients**
+- __clients__
 
     This tag indicates the methods which accessible only for users registered on [reg.com](https://www.reg.com) website.
     Strongly required an authenticated API request.
 
-- **partners**
+- __partners__
 
     Group of methods which accessible only for partners (resellers) of the REG.RU LLC. Actually, partners (resellers)
     able to execute all methods of the REG.API without any restrictions.
@@ -195,18 +195,18 @@ marked by `scope` tag. At the moment the following categories of accessibility p
 
 Each API request should contains a set of parameters. There are the following parameters:
 
-- **authentication parameters**
+- __authentication parameters__
 
     These parameters are mandatory for the each method that requires authentication. This group of parameters includes
     `username` and `password`. Both parameters should be passed to the [constructor](#new) and their will be added
     to API request.
 
-- **management parameters**
+- __management parameters__
 
     This group include parameters defines input/output formats, encodings and language prefecence. Some parameters are fixed to
     certains values, some might be set via passing values to the [constructor](#new): see `io_encoding` and `lang` options.
 
-- **service identification parameters**
+- __service identification parameters__
 
     The group of parameters with aims to point to the particular service or group of services such as domain names,
     folders, etc. Should be passed to an API request together with `method specific parameters`.
@@ -214,7 +214,7 @@ Each API request should contains a set of parameters. There are the following pa
     More info at
     [REG.API Service identification parameters](https://www.reg.com/support/help/api2#common_service_identification_params)
 
-- **method specific parameters**
+- __method specific parameters__
 
     Parameters applicable to a particular API method. Very wide group. Strongly recommended to consult with REG.API documentation
     for each method before perform an API request to it. The distribution's manual pages includes links to documentation
@@ -226,38 +226,38 @@ Each API request should contains a set of parameters. There are the following pa
 Response parameters of the API request automatically handles by [Regru::API::Response](https://metacpan.org/pod/Regru::API::Response) module. There is no reasons to
 do some addtional work on them. Each response may contains the following set of fileds:
 
-- **result**
+- __result__
 
     The result of API request. Either `success` or `error`. Can be accessed via attribute
-    [is\_success](https://metacpan.org/pod/Regru::API::Response#is_success) in boolean context.
+    [is_success](https://metacpan.org/pod/Regru::API::Response#is_success) in boolean context.
 
-- **answer**
+- __answer__
 
     The answer of API method call. May appear only when result of API request was successful. Can be accessed via attribute
     [answer](https://metacpan.org/pod/Regru::API::Response#answer). Default value is `{}` (empty HashRef). Gets assigned a default value if
     result of API request was finished with error.
 
-- **error\_code**
+- __error\_code__
 
     The error code of API method call. May appear only when result of API request finished with error. Can be accessed via
-    attribute [error\_code](https://metacpan.org/pod/Regru::API::Response#error_code).
+    attribute [error_code](https://metacpan.org/pod/Regru::API::Response#error_code).
     See details at [REG.API Common error codes](https://www.reg.com/support/help/api2#common_errors).
 
-- **error\_text**
+- __error\_text__
 
     The short description of error. The language depends on option lang ["new"](#new) passed to constructor. May appear only when result
-    of API request finished with error. Can be accessed via attribute [error\_text](https://metacpan.org/pod/Regru::API::Response#error_text).
+    of API request finished with error. Can be accessed via attribute [error_text](https://metacpan.org/pod/Regru::API::Response#error_text).
     See details at [REG.API Common error codes](https://www.reg.com/support/help/api2#common_errors).
 
-- **error\_params**
+- __error\_params__
 
     Additional parameters included to the error. May appear only when result of API request finished with error. Can be accessed
-    via attribute [error\_params](https://metacpan.org/pod/Regru::API::Response#error_params).
+    via attribute [error_params](https://metacpan.org/pod/Regru::API::Response#error_params).
 
 ## Access to REG.API in test mode
 
 REG.RU LLC provides an access to REG.API in test mode. For this, might be used a test account with `username` and `password`
-equals to **test**.
+equals to __test__.
 
     my $client = Regru::API->new(username => 'test', password => 'test');
     # we're in test mode now
@@ -267,7 +267,7 @@ In the test mode REG.API engine (at server-side) handles API request: ensures ne
 produces response but actually does not perform any real actions/changes.
 
 Also, for debugging purposes REG.API provides a special set of methods allows to ensure the remote system for availability
-without workload at minimal response time. Each namespace has method called **nop** for that.
+without workload at minimal response time. Each namespace has method called __nop__ for that.
 
 # METHODS
 
@@ -288,7 +288,7 @@ Creates a client instance to interract with REG.API.
 
 Available options:
 
-- **username**
+- __username__
 
     Account name of the user to access to [reg.com](https://www.reg.com) website. Required. Should be passed at instance
     create time. Although it might be changed at runtime.
@@ -298,7 +298,7 @@ Available options:
         # at runtime
         $client->username('Dalek');
 
-- **password**
+- __password__
 
     Account password of the user to access to [reg.com](https://www.reg.com) website or an alternative password for API
     defined at [Reseller settings](https://www.reg.com/reseller/details) page. Required. Should be passed at instance create time.
@@ -309,10 +309,10 @@ Available options:
         # at runtime
         $client->password('The-Master.');
 
-- **io\_encoding**
+- __io\_encoding__
 
     Defines encoding that will be used for data exchange between the Service and the Client. At the moment REG.API v2
-    supports the following encodings: `utf8`, `cp1251`, `koi8-r`, `koi8-u`, `cp866`. Optional. Default value is **utf8**.
+    supports the following encodings: `utf8`, `cp1251`, `koi8-r`, `koi8-u`, `cp866`. Optional. Default value is __utf8__.
 
         my $client = Regru::API->new(..., io_encoding => 'cp1251');
         ...
@@ -326,10 +326,10 @@ Available options:
             user_first_name => $cp1251_encoded_name
         );
 
-- **lang**
+- __lang__
 
     Defines the language which will be used in error messages. At the moment REG.API v2 supports the following languages:
-    `en` (English), `ru` (Russian) and `th` (Thai). Optional. Default value is **en**.
+    `en` (English), `ru` (Russian) and `th` (Thai). Optional. Default value is __en__.
 
         my $client = Regru::API->new(..., lang => 'ru');
         ...
@@ -339,9 +339,9 @@ Available options:
         $client->username('bogus-user');
         print $client->nop->error_text; # -> "Ошибка аутентификации по паролю"
 
-- **debug**
+- __debug__
 
-    A few messages will be printed to STDERR. Default value is **0** (suppressed debug activity).
+    A few messages will be printed to STDERR. Default value is __0__ (suppressed debug activity).
 
         my $client = Regru::API->new(..., debug => 1);
         ...
@@ -388,7 +388,7 @@ Creates shortcuts to REG.API categories (namespaces). Used internally.
 
 ## nop
 
-For testing purposes. Scope: **everyone**. Typical usage:
+For testing purposes. Scope: __everyone__. Typical usage:
 
     $resp = $client->nop;
 
@@ -398,7 +398,7 @@ More info at [Common functions: nop](https://www.reg.com/support/help/api2#commo
 
 ## reseller\_nop
 
-Similar to previous one but only for partners. Scope: **partners**. Typical usage:
+Similar to previous one but only for partners. Scope: __partners__. Typical usage:
 
     $resp = $client->reseller_nop;
 
@@ -408,7 +408,7 @@ More info at [Common functions: nop](https://www.reg.com/support/help/api2#commo
 
 ## get\_user\_id
 
-Get the identifier of the current user. Scope: **clients**. Typical usage:
+Get the identifier of the current user. Scope: __clients__. Typical usage:
 
     $resp = $client->get_user_id;
 
@@ -418,7 +418,7 @@ More info at [Common functions: nop](https://www.reg.com/support/help/api2#commo
 
 ## get\_service\_id
 
-Get service or domain name identifier by its name. Scope: **clients**. Typical usage:
+Get service or domain name identifier by its name. Scope: __clients__. Typical usage:
 
     $resp = $client->get_service_id(
         domain_name => 'teselecta.ru',
