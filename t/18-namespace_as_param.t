@@ -12,7 +12,7 @@ SKIP: {
     skip 'Exceeded allowed connection rate.', $planned   unless t::lib::NamespaceClient->rate_limits_avail;
 
     subtest 'Grab namespace from parameters' => sub {
-        plan tests => 8;
+        plan tests => 10;
 
         my $resp;
 
@@ -50,6 +50,14 @@ SKIP: {
         # /service/nop
         $resp = $nop->(namespace => 'service', dname => 'test.ru');
         ok $resp->is_success,                                   'service/nop() success';
+
+        # /hosting/nop
+        $resp = $nop->(namespace => 'hosting');
+        ok $resp->is_success,                                   'hosting/nop() success';
+
+        # /shop/nop
+        $resp = $nop->(namespace => 'shop');
+        ok $resp->is_success,                                   'shop/nop() success';
     };
 }
 
