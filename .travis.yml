@@ -33,6 +33,6 @@ branches:
   only:
     - master
 
-after_success:
-    - "cpanm -q -n --skip-satisfied Dist::Zilla::App::Command::cover Devel::Cover::Report::Coveralls"
-    - "dzil cover -report coveralls"
+# after_success:
+#     - "cpanm -q -n --skip-satisfied Dist::Zilla::App::Command::cover Devel::Cover::Report::Coveralls"
+#     - "dzil cover -report coveralls"
