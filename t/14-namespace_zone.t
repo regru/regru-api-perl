@@ -18,6 +18,7 @@ subtest 'Generic behaviour' => sub {
         add_ns
         add_txt
         add_srv
+        add_spf
         get_resource_records
         update_records
         update_soa
@@ -58,7 +59,7 @@ SKIP: {
             plan skip_all => '.';
         }
         else {
-            plan tests => 15;
+            plan tests => 16;
         }
 
         my $resp;
@@ -113,6 +114,14 @@ SKIP: {
             port            => 5060,
         );
         ok $resp->is_success,                                   'add_srv() success';
+
+        # /zone/add_spf
+        $resp = $client->add_spf(
+            domains         => [ { dname => 'test.ru' } ],
+            subdomain       => '@',
+            text            => 'v=spf1 ~all',
+        );
+        ok $resp->is_success,                                   'add_spf() success';
 
         # /zone/get_resource_records
         $resp = $client->get_resource_records(
