@@ -25,6 +25,7 @@ sub available_methods {[qw(
     add_ns
     add_txt
     add_srv
+    add_spf
     get_resource_records
     update_records
     update_soa
@@ -189,6 +190,22 @@ Answer will contains a field C<domains> with a list of results for each involved
 error otherwise.
 
 More info at L<DNS management: add_srv|https://www.reg.com/support/help/api2#zone_add_srv>.
+
+=apimethod add_spf
+
+Creates a SPF (sender policy framework) resource record up to 512 characters in length.
+Scope: B<clients>. Typical usage:
+
+    $resp = $client->zone->add_spf(
+        subdomain   => '@',
+        domain_name => 'stand-poor.net',
+        text        => 'v=spf1 include:_spf.google.com ~all',
+    );
+
+Answer will contains a field C<domains> with a list of results for each involved to this operation domain names or
+error otherwise.
+
+More info at L<DNS management: add_spf|https://www.reg.com/support/help/api2#zone_add_spf>.
 
 =apimethod get_resource_records
 
