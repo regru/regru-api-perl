@@ -8,6 +8,9 @@ Revision history for Perl distribution Regru-API.
     [ TESTS ]
     - added a few namespace tests
 
+    [ MISC ]
+    - fixed 'missing_build_prereqs' error
+
 0.044   Mon Jun 30 11:00:37 2014 +0000
 
     [ FEATURES ]
