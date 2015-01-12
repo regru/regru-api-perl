@@ -5,7 +5,7 @@ use t::lib::NamespaceClient;
 use t::lib::Connection;
 
 SKIP: {
-    my $planned = 1;
+    my $planned = 2;
     my $client = t::lib::NamespaceClient->shop;
 
     skip 'No connection to an API endpoint.', $planned   unless t::lib::Connection->check($client->endpoint);
