@@ -108,9 +108,9 @@ subtest 'Github issue #5 (support_by_pp)' => sub {
     {
         package Fake::Dancer::Serializer::Factory;
 
-        delete $INC{'JSON.pm'};
-
         require JSON;
+
+        JSON->unimport();
         JSON->import( '-support_by_pp' );
 
         sub instance { JSON->new->utf8; }
