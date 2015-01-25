@@ -14,7 +14,11 @@ use namespace::autoclean;
 
 has serializer => (
     is      => 'rw',
-    isa     => sub { croak "$_[0] is not a JSON instance" unless ref $_[0] eq 'JSON' },
+    isa     => sub {
+        croak "$_[0] is not a JSON instance"    unless ref($_[0]) =~ m/JSON/;
+        croak "$_[0] can not decode"            unless $_[0]->can('decode');
+        croak "$_[0] can not encode"            unless $_[0]->can('encode');
+    },
     lazy    => 1,
     default => sub { JSON->new->utf8 },
 );
