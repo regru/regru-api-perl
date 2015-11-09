@@ -2,6 +2,8 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+0.046   Mon Nov 9 07:23:20 2015 +0000
+
     [ FIXES ]
     - fixed isa check when JSON module loaded with 'support_by_pp' (gh #5)
 
