@@ -123,6 +123,9 @@ At the moment there are the following namespaces:
         $client->dnssec->enable(
             domain_name => 'tvilgo.com',
         );
+    
+    See [Regru::API::DNSSEC](https://metacpan.org/pod/Regru::API::DNSSEC) for details and
+    [REG.API DNSSEC management functions](https://www.reg.com/support/help/api2#dnssec_functions).
 
 - **service**
 

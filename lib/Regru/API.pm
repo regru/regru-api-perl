@@ -208,8 +208,8 @@ DNSSEC management methods.
         domain_name => 'tvilgo.com',
     );
 
-See L<Regru::API::Zone> for details and
-L<REG.API DNS management functions|https://www.reg.com/support/help/api2#zone_functions>.
+See L<Regru::API::DNSSEC> for details and
+L<REG.API DNSSEC management functions|https://www.reg.com/support/help/api2#dnssec_functions>.
 
 =item B<service>
 
