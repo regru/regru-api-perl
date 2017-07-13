@@ -25,6 +25,7 @@ sub available_namespaces {[qw(
     user
     domain
     zone
+    dnssec
     bill
     folder
     service
@@ -37,7 +38,7 @@ sub _get_namespace_handler {
     my $namespace = shift;
 
     unless ( $self->{_handlers}->{$namespace} ) {
-        my $ns = 'Regru::API::' . ucfirst($namespace);
+        my $ns = 'Regru::API::' . ( $namespace eq 'dnssec' ? uc($namespace) : ucfirst($namespace) );
 
         try_load_class $ns or Carp::croak 'Unable to load namespace: ' . $ns;
 
@@ -193,6 +194,18 @@ DNS resource records management methods.
     # suppose we already have a client
     $client->zone->clear(
         domain_name => 'pyrovilia.net',
+    );
+
+See L<Regru::API::Zone> for details and
+L<REG.API DNS management functions|https://www.reg.com/support/help/api2#zone_functions>.
+
+=item B<dnssec>
+
+DNSSEC management methods.
+
+    # suppose we already have a client
+    $client->dnssec->enable(
+        domain_name => 'tvilgo.com',
     );
 
 See L<Regru::API::Zone> for details and

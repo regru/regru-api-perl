@@ -115,6 +115,15 @@ At the moment there are the following namespaces:
     See [Regru::API::Zone](https://metacpan.org/pod/Regru::API::Zone) for details and
     [REG.API DNS management functions](https://www.reg.com/support/help/api2#zone_functions).
 
+- **dnssec**
+
+    DNSSEC management methods.
+
+        # suppose we already have a client
+        $client->dnssec->enable(
+            domain_name => 'tvilgo.com',
+        );
+
 - **service**
 
     Service management methods.
