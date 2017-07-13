@@ -13,7 +13,7 @@ use namespace::autoclean;
 with 'Regru::API::Role::Client';
 
 has '+namespace' => (
-    default => sub { 'zone' },
+    default => sub { 'dnssec' },
 );
 
 sub available_methods {[qw(
