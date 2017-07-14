@@ -474,6 +474,10 @@ Returns a handler to access to REG.API domain name management methods. See L<Reg
 
 Returns a handler to access to REG.API DNS resource records management methods. See L<Regru::API::Zone>.
 
+=method dnssec
+
+Returns a handler to access to REG.API DNSSEC management methods. See L<Regru::API::DNSSEC>.
+
 =method service
 
 Returns a handler to access to REG.API service management methods. See L<Regru::API::Service>.
