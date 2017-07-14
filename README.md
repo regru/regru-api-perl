@@ -115,6 +115,18 @@ At the moment there are the following namespaces:
     See [Regru::API::Zone](https://metacpan.org/pod/Regru::API::Zone) for details and
     [REG.API DNS management functions](https://www.reg.com/support/help/api2#zone_functions).
 
+- **dnssec**
+
+    DNSSEC management methods.
+
+        # suppose we already have a client
+        $client->dnssec->enable(
+            domain_name => 'tvilgo.com',
+        );
+
+    See [Regru::API::DNSSEC](https://metacpan.org/pod/Regru::API::DNSSEC) for details and
+    [REG.API DNSSEC management functions](https://www.reg.com/support/help/api2#dnssec_functions).
+
 - **service**
 
     Service management methods.
@@ -362,6 +374,10 @@ Returns a handler to access to REG.API domain name management methods. See [Regr
 
 Returns a handler to access to REG.API DNS resource records management methods. See [Regru::API::Zone](https://metacpan.org/pod/Regru::API::Zone).
 
+## dnssec
+
+Returns a handler to access to REG.API DNSSEC management methods. See [Regru::API::DNSSEC](https://metacpan.org/pod/Regru::API::DNSSEC).
+
 ## service
 
 Returns a handler to access to REG.API service management methods. See [Regru::API::Service](https://metacpan.org/pod/Regru::API::Service).
@@ -457,7 +473,7 @@ More info at [Common functions: nop](https://www.reg.com/support/help/api2#commo
 # BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/regru/regru-api-perl/issues
+[https://github.com/regru/regru-api-perl/issues](https://github.com/regru/regru-api-perl/issues)
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
