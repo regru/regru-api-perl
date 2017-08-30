@@ -161,8 +161,8 @@ More info at L<DNSSEC management: get_records|https://www.reg.com/support/help/a
 =apimethod add_keys
 
 Adds information about KSK keys to the parent zone. Can be used only for domains which don't use REG.RU nameservers. C<records>
-field should contain array of DNSKEY/DS records. Later you can use L</get_status>, L</get_records> to check that operation
-finished successfully. Scope: B<clients>. Typical usage:
+field should contain array of DNSKEY/DS records or API will try to get records from authoritative DNS server if field missed or emty.
+Later you can use L</get_status>, L</get_records> to check that operation finished successfully. Scope: B<clients>. Typical usage:
 
     $resp = $client->dnssec->add_keys(
         domains => [
