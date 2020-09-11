@@ -21,7 +21,6 @@ sub available_methods {[qw(
     create
     get_statistics
     get_balance
-    refill_balance
 )]}
 
 __PACKAGE__->namespace_methods;
@@ -96,20 +95,6 @@ will be shown amount of available credit additionally.
 
 More info at L<Account management: get_balance|https://www.reg.com/support/help/api2#user_get_balance>.
 
-=apimethod refill_balance
-
-Tops up an user account balance with Webmoney or Yandex.Money. Scope: B<clients>. Typical usage:
-
-    $resp = $client->user->refill_balance(
-        pay_type    => 'WM',            # Webmoney
-        wmid        => 291400771678,    # Webmoney ID
-        currency    => 'USD',
-        amount      => '19.95',
-    );
-
-Answer will contains an invoice ID and other payment details or error otherwise.
-
-More info at L<Account management: refill_balance|https://www.reg.com/support/help/api2#user_refill_balance>.
 
 =attr namespace
 
