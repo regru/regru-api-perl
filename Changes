@@ -8,6 +8,7 @@ Revision history for Perl distribution Regru-API.
     [ FIXES ]
     - merge old changes
     - fix testing
+    - fix travis-ci builds
 
 0.049   Wed Nov  7 12:11:49 2018 +0000
 
