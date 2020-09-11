@@ -86,11 +86,11 @@ SKIP: {
         $client->username(undef);
         $client->password(undef);
 
-        my $resp = $client->refill_balance;
+        my $resp = $client->get_balance;
 
-        ok !$resp->is_success,                      'Request success';
-        is $resp->error_text, 'No username given',  'Got correct error_text';
-        is $resp->error_code, 'NO_USERNAME',        'Got correct error_code';
+        ok !$resp->is_success,                                          'Request success';
+        is $resp->error_text, 'No authorization mechanism selected',    'Got correct error_text';
+        is $resp->error_code, 'NO_AUTH',                                'Got correct error_code';
     };
 }
 
