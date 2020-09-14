@@ -2,16 +2,16 @@ language: perl
 
 notifications:
     recipients:
-        - shubina@reg.ru
         - a.gerasimov@reg.ru
 
 perl:
+    - "5.26"
+    - "5.24"
+    - "5.22"
     - "5.20"
     - "5.18"
     - "5.16"
     - "5.14"
-    - "5.12"
-    - "5.10"
 
 before_install:
     - "echo 'user REGRU' > ~/.pause"
@@ -19,6 +19,7 @@ before_install:
     - "git config user.name 'REG.RU LLC'"
     - "perlbrew --force install-cpanm"
     - "cpanm --version"
+    - "dzil --version"
     - "cpanm -q -n version"
     - "cpanm -q -n Pod::Readme"
     - "cpanm -q -n Test::CPAN::Meta"
