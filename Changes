@@ -2,6 +2,8 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+0.050   Mon Sep 14 08:58:32 2020 +0000
+
     [ FEATURES ]
     - removed obsoleted method user/refill_balance
 
