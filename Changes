@@ -2,6 +2,8 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+0.051   Mon Sep 14 11:42:43 2020 +0000
+
     [ FIXES ]
     - returned "add_caa" method
     - returned "records" param in "add_keys" as optional
