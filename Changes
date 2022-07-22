@@ -2,6 +2,8 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+0.052   Fri Jul 22 11:20:27 2022 +0000
+
     [ FIXES ]
     - deserialize client response (gh#9)
 
