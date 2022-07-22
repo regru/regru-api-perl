@@ -52,10 +52,10 @@ sub _trigger_response {
             if ($self->is_service_fail) {
                 # Stop processing response
                 $self->is_success(0);
-                die 'Service failed: ' . ($response->decoded_content || $response->content);
+                die 'Service failed: ' . $response->content;
             }
 
-            my $decoded = $self->serializer->decode($response->decoded_content || $response->content);
+            my $decoded = $self->serializer->decode($response->content);
             $self->is_success($decoded->{result} && $decoded->{result} eq 'success');
 
             $self->debug_warn('REG.API request', ($self->is_success ? 'success' : 'fail')) if $self->debug;
