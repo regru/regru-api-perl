@@ -22,6 +22,7 @@ sub available_methods {[qw(
     add_aaaa
     add_caa
     add_cname
+    add_https
     add_mx
     add_ns
     add_txt
@@ -138,6 +139,22 @@ Answer will contains a field C<domains> with a list of results for each involved
 error otherwise.
 
 More info at L<DNS management: add_cname|https://www.reg.com/support/help/api2#zone_add_cname>.
+
+=apimethod add_https
+
+Creates a HTTPS (https connection rules) resource record for domain(s). Scope: B<clients>. Typical usage:
+
+    $resp = $client->zone->add_https(
+        subdomain  => '@',
+        priority   => 1,
+        target     => '.',
+        value      => 'alpn=h3,h2 port=8080'
+    );
+
+Answer will contains a field C<domains> with a list of results for each involved to this operation domain names or
+error otherwise.
+
+More info at L<DNS management: add_https|https://www.reg.com/support/help/api2#zone_add_https>.
 
 =apimethod add_mx
 
@@ -276,7 +293,7 @@ Takes a set of actions and manipulates the resource records in batch mode. Scope
     );
 
 
-Action should one of allowed methods related to resource records: L</add_alias>, L</add_aaaa>, L</add_caa>, L</add_cname>, L</add_mx>,
+Action should one of allowed methods related to resource records: L</add_alias>, L</add_aaaa>, L</add_caa>, L</add_cname>, L</add_https>, L</add_mx>,
 L</add_ns>, L</add_txt>, L</add_srv> or L</remove_record>.
 
 Answer will contains a field C<domains> with a list of results for each involved to this operation domain names and actions or
