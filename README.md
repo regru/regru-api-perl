@@ -36,7 +36,7 @@ Rate limiting in version 2 of the REG.API is considered on a per-user and per-ip
 divided into groups by limit level. There is no difference between them. At the moment REG.API v2 allows to execute
 `1200` requests per-user and per-ip within `1 hour` window. Both limits are acting at the same time.
 If the limits has exceeded then REG.API sets the error code (depends on kind of) to `IP_EXCEEDED_ALLOWED_CONNECTION_RATE` or
-`ACCOUNT_EXCEEDED_ALLOWED_CONNECTION_RATE` which might be checked via attribute [error\_code](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AResponse#error_code).
+`ACCOUNT_EXCEEDED_ALLOWED_CONNECTION_RATE` which might be checked via attribute [error\_code](https://metacpan.org/pod/Regru::API::Response#error_code).
 
 The following tips are there might helps to reduce the possibility of being rate limited:
 
@@ -88,7 +88,7 @@ At the moment there are the following namespaces:
         # suppose we already have a client
         $client->user->nop;
 
-    See [Regru::API::User](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AUser) for details and
+    See [Regru::API::User](https://metacpan.org/pod/Regru::API::User) for details and
     [REG.API Account management functions](https://www.reg.com/support/help/api2#user_functions).
 
 - **domain**
@@ -100,7 +100,7 @@ At the moment there are the following namespaces:
             domain_name => 'gallifrey.ru',
         );
 
-    See [Regru::API::Domain](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3ADomain) for details and
+    See [Regru::API::Domain](https://metacpan.org/pod/Regru::API::Domain) for details and
     [REG.API Domain management functions](https://www.reg.com/support/help/api2#domain_functions).
 
 - **zone**
@@ -112,7 +112,7 @@ At the moment there are the following namespaces:
             domain_name => 'pyrovilia.net',
         );
 
-    See [Regru::API::Zone](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AZone) for details and
+    See [Regru::API::Zone](https://metacpan.org/pod/Regru::API::Zone) for details and
     [REG.API DNS management functions](https://www.reg.com/support/help/api2#zone_functions).
 
 - **dnssec**
@@ -124,7 +124,7 @@ At the moment there are the following namespaces:
             domain_name => 'tvilgo.com',
         );
 
-    See [Regru::API::DNSSEC](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3ADNSSEC) for details and
+    See [Regru::API::DNSSEC](https://metacpan.org/pod/Regru::API::DNSSEC) for details and
     [REG.API DNSSEC management functions](https://www.reg.com/support/help/api2#dnssec_functions).
 
 - **service**
@@ -137,7 +137,7 @@ At the moment there are the following namespaces:
             servtype    => 'srv_hosting_plesk',
         );
 
-    See [Regru::API::Service](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AService) for details and
+    See [Regru::API::Service](https://metacpan.org/pod/Regru::API::Service) for details and
     [REG.API Service management functions](https://www.reg.com/support/help/api2#service_functions).
 
 - **folder**
@@ -149,7 +149,7 @@ At the moment there are the following namespaces:
             folder_name => 'UNIT',
         );
 
-    See [Regru::API::Folder](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AFolder) for details and
+    See [Regru::API::Folder](https://metacpan.org/pod/Regru::API::Folder) for details and
     [REG.API Folder management functions](https://www.reg.com/support/help/api2#folder_functions).
 
 - **bill**
@@ -161,7 +161,7 @@ At the moment there are the following namespaces:
             limit => 10,
         );
 
-    See [Regru::API::Bill](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3ABill) for details and
+    See [Regru::API::Bill](https://metacpan.org/pod/Regru::API::Bill) for details and
     [REG.API Invoice management functions](https://www.reg.com/support/help/api2#bill_functions).
 
 - **hosting**
@@ -173,7 +173,7 @@ At the moment there are the following namespaces:
             url => 'http://mysite.com?service_id=<service_id>&email=<email>'
         );
 
-    See [Regru::API::Hosting](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AHosting) for details and
+    See [Regru::API::Hosting](https://metacpan.org/pod/Regru::API::Hosting) for details and
     [REG.API Hosting management functions](https://www.reg.com/support/help/api2#hosting_functions).
 
 - **shop**
@@ -183,7 +183,7 @@ At the moment there are the following namespaces:
         # suppose we already have a client
         $client->shop->get_info();
 
-    See [Regru::API::Shop](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AShop) for details and
+    See [Regru::API::Shop](https://metacpan.org/pod/Regru::API::Shop) for details and
     [REG.API Domain shop management functions](https://www.reg.com/support/help/api2#shop_functions).
 
 ## Methods accessibility
@@ -237,36 +237,36 @@ Each API request should contains a set of parameters. There are the following pa
 
 ## Response parameters
 
-Response parameters of the API request automatically handles by [Regru::API::Response](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AResponse) module. There is no reasons to
+Response parameters of the API request automatically handles by [Regru::API::Response](https://metacpan.org/pod/Regru::API::Response) module. There is no reasons to
 do some addtional work on them. Each response may contains the following set of fileds:
 
 - **result**
 
     The result of API request. Either `success` or `error`. Can be accessed via attribute
-    [is\_success](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AResponse#is_success) in boolean context.
+    [is\_success](https://metacpan.org/pod/Regru::API::Response#is_success) in boolean context.
 
 - **answer**
 
     The answer of API method call. May appear only when result of API request was successful. Can be accessed via attribute
-    [answer](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AResponse#answer). Default value is `{}` (empty HashRef). Gets assigned a default value if
+    [answer](https://metacpan.org/pod/Regru::API::Response#answer). Default value is `{}` (empty HashRef). Gets assigned a default value if
     result of API request was finished with error.
 
 - **error\_code**
 
     The error code of API method call. May appear only when result of API request finished with error. Can be accessed via
-    attribute [error\_code](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AResponse#error_code).
+    attribute [error\_code](https://metacpan.org/pod/Regru::API::Response#error_code).
     See details at [REG.API Common error codes](https://www.reg.com/support/help/api2#common_errors).
 
 - **error\_text**
 
     The short description of error. The language depends on option lang ["new"](#new) passed to constructor. May appear only when result
-    of API request finished with error. Can be accessed via attribute [error\_text](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AResponse#error_text).
+    of API request finished with error. Can be accessed via attribute [error\_text](https://metacpan.org/pod/Regru::API::Response#error_text).
     See details at [REG.API Common error codes](https://www.reg.com/support/help/api2#common_errors).
 
 - **error\_params**
 
     Additional parameters included to the error. May appear only when result of API request finished with error. Can be accessed
-    via attribute [error\_params](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AResponse#error_params).
+    via attribute [error\_params](https://metacpan.org/pod/Regru::API::Response#error_params).
 
 ## Access to REG.API in test mode
 
@@ -364,39 +364,39 @@ Available options:
 
 ## user
 
-Returns a handler to access to REG.API user account management methods. See [Regru::API::User](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AUser).
+Returns a handler to access to REG.API user account management methods. See [Regru::API::User](https://metacpan.org/pod/Regru::API::User).
 
 ## domain
 
-Returns a handler to access to REG.API domain name management methods. See [Regru::API::Domain](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3ADomain).
+Returns a handler to access to REG.API domain name management methods. See [Regru::API::Domain](https://metacpan.org/pod/Regru::API::Domain).
 
 ## zone
 
-Returns a handler to access to REG.API DNS resource records management methods. See [Regru::API::Zone](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AZone).
+Returns a handler to access to REG.API DNS resource records management methods. See [Regru::API::Zone](https://metacpan.org/pod/Regru::API::Zone).
 
 ## dnssec
 
-Returns a handler to access to REG.API DNSSEC management methods. See [Regru::API::DNSSEC](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3ADNSSEC).
+Returns a handler to access to REG.API DNSSEC management methods. See [Regru::API::DNSSEC](https://metacpan.org/pod/Regru::API::DNSSEC).
 
 ## service
 
-Returns a handler to access to REG.API service management methods. See [Regru::API::Service](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AService).
+Returns a handler to access to REG.API service management methods. See [Regru::API::Service](https://metacpan.org/pod/Regru::API::Service).
 
 ## folder
 
-Returns a handler to access to REG.API folder management methods. See [Regru::API::Folder](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AFolder).
+Returns a handler to access to REG.API folder management methods. See [Regru::API::Folder](https://metacpan.org/pod/Regru::API::Folder).
 
 ## bill
 
-Returns a handler to access to REG.API invoice management methods. See [Regru::API::Bill](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3ABill).
+Returns a handler to access to REG.API invoice management methods. See [Regru::API::Bill](https://metacpan.org/pod/Regru::API::Bill).
 
 ## hosting
 
-Returns a handler to access to REG.API hosting management methods. See [Regru::API::Hosting](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AHosting).
+Returns a handler to access to REG.API hosting management methods. See [Regru::API::Hosting](https://metacpan.org/pod/Regru::API::Hosting).
 
 ## shop
 
-Returns a handler to access to REG.API domain shop management methods. See [Regru::API::Shop](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AShop).
+Returns a handler to access to REG.API domain shop management methods. See [Regru::API::Shop](https://metacpan.org/pod/Regru::API::Shop).
 
 ## namespace\_handlers
 
@@ -448,23 +448,23 @@ More info at [Common functions: nop](https://www.reg.com/support/help/api2#commo
 
 # SEE ALSO
 
-[Regru::API::Bill](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3ABill)
+[Regru::API::Bill](https://metacpan.org/pod/Regru::API::Bill)
 
-[Regru::API::Domain](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3ADomain)
+[Regru::API::Domain](https://metacpan.org/pod/Regru::API::Domain)
 
-[Regru::API::Folder](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AFolder)
+[Regru::API::Folder](https://metacpan.org/pod/Regru::API::Folder)
 
-[Regru::API::Service](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AService)
+[Regru::API::Service](https://metacpan.org/pod/Regru::API::Service)
 
-[Regru::API::User](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AUser)
+[Regru::API::User](https://metacpan.org/pod/Regru::API::User)
 
-[Regru::API::Zone](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AZone)
+[Regru::API::Zone](https://metacpan.org/pod/Regru::API::Zone)
 
-[Regru::API::Hosting](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AHosting)
+[Regru::API::Hosting](https://metacpan.org/pod/Regru::API::Hosting)
 
-[Regru::API::Shop](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AShop)
+[Regru::API::Shop](https://metacpan.org/pod/Regru::API::Shop)
 
-[Regru::API::Response](https://metacpan.org/pod/Regru%3A%3AAPI%3A%3AResponse)
+[Regru::API::Response](https://metacpan.org/pod/Regru::API::Response)
 
 [REG.API Common functions](https://www.reg.com/support/help/api2#common_functions)
 

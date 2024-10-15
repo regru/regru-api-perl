@@ -2,6 +2,10 @@ Revision history for Perl distribution Regru-API.
 
 {{$NEXT}}
 
+0.053   Tue Oct 15 03:55:12 2024 +0000
+    [ FEATURES ]
+    - added support for HTTPS resource record in "zone" namespace
+
 0.052   Fri Jul 22 11:20:27 2022 +0000
 
     [ FIXES ]
